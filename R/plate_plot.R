@@ -1,30 +1,30 @@
 #' Plate Layout Plot
 #'
-#' Plots a culture plate or microplate in the desired format. Both continuous as well as discrete values can be displayed 
+#' Plots a culture plate or microplate in the desired format. Both continuous as well as discrete values can be displayed
 #' with colours and labels.
 #'
-#' @param data a data frame that contains at least a column with plate position information and a column with values or 
+#' @param data a data frame that contains at least a column with plate position information and a column with values or
 #' labels.
 #' @param position a character column in the `data` data frame that contains plate positions. These should be in the format:
-#' row = letter, column = number. So for example A1, D12 etc. 
-#' @param value a character or numeric column in the `data` data frame that contains values that should be plotted as colours 
+#' row = letter, column = number. So for example A1, D12 etc.
+#' @param value a character or numeric column in the `data` data frame that contains values that should be plotted as colours
 #' on the plate layout. Can be the same column as `label`.
-#' @param label a character or numeric column in the `data` data frame that contains values that should be plotted as labels 
+#' @param label a character or numeric column in the `data` data frame that contains values that should be plotted as labels
 #' on the plate layout. Can be the same column as `value`.
-#' @param plate_size a numeric value that specifies the plate size (number of wells) used for the plot. Possible values 
+#' @param plate_size a numeric value that specifies the plate size (number of wells) used for the plot. Possible values
 #' are: 6, 12, 24, 48, 96 and 384.
-#' @param plate_type a character value that specifies the well type. Possible values are "round" and "square". The default is 
+#' @param plate_type a character value that specifies the well type. Possible values are "round" and "square". The default is
 #' "square".
-#' @param colour optional, a character vector that contains colours used for the plot. If the `value` argument is discrete 
+#' @param colour optional, a character vector that contains colours used for the plot. If the `value` argument is discrete
 #' the colours are used as provided. If it is continuous a gradient is created using the colours.
-#' @param limits optional, a numeric vector of length two providing new limits for a colour gradient. Use NA to refer to 
-#' the existing minimum or maximum. If this argument is not supplied the existing minimum and maximum of the 
+#' @param limits optional, a numeric vector of length two providing new limits for a colour gradient. Use NA to refer to
+#' the existing minimum or maximum. If this argument is not supplied the existing minimum and maximum of the
 #' values provided to the `value` argument are used for the start and end point of the colour gradient.
 #' @param title optional, a character value that contains the plot title.
-#' @param title_size optional, a numeric value that determines the text size of the title. The size is also affected by the 
+#' @param title_size optional, a numeric value that determines the text size of the title. The size is also affected by the
 #' `scale` argument.
 #' @param show_legend a logical value that specifies if the plot legend is shown. Default is `TRUE`.
-#' @param label_size optional, a numeric value that determines the text size of the well labels. The size is also affected by the 
+#' @param label_size optional, a numeric value that determines the text size of the well labels. The size is also affected by the
 #' `scale` argument.
 #' @param scale a numeric value that scales point sizes and labels of the plot. Since these don't usually scale when a plot
 #' is resized, this argument can be used to keep the appearance of the plot consistent.
@@ -32,90 +32,129 @@
 #' @return A plate layout plot.
 #' @import dplyr
 #' @import ggplot2
-#' @importFrom rlang .data
+#' @import tidyr
+#' @importFrom rlang .data :=
 #' @importFrom stringr str_extract
 #' @importFrom purrr map_chr
+#' @importFrom forcats fct_inorder
 #' @export
 #'
 #' @examples
 #' library(dplyr)
 #' library(tidyr)
-#' 
+#' library(stringr)
+#'
 #' # Create example data for continuous value
-#' 
+#'
 #' # 96-well plate
 #' data_continuous_96 <- data.frame(matrix(round(abs(rnorm(96)), 2), nrow = 8, ncol = 12)) |>
 #'   mutate(rows = LETTERS[1:8]) |>
 #'   pivot_longer(cols = -rows, names_to = "cols", values_to = "value") |>
-#'   mutate(cols = as.numeric(str_remove(cols, pattern = "V|X")),
-#'          well = paste0(rows, cols)) |>
+#'   mutate(
+#'     cols = as.numeric(str_remove(cols, pattern = "V|X")),
+#'     well = paste0(rows, cols)
+#'   ) |>
 #'   distinct(well, value)
-#'   
+#'
 #' # 384-well plate
 #' data_continuous_384 <- data.frame(matrix(round(abs(rnorm(384)), 2), nrow = 16, ncol = 24)) |>
 #'   mutate(rows = LETTERS[1:16]) |>
 #'   pivot_longer(cols = -rows, names_to = "cols", values_to = "value") |>
-#'   mutate(cols = as.numeric(str_remove(cols, pattern = "V|X")),
-#'          well = paste0(rows, cols)) |>
+#'   mutate(
+#'     cols = as.numeric(str_remove(cols, pattern = "V|X")),
+#'     well = paste0(rows, cols)
+#'   ) |>
 #'   distinct(well, value)
-#'   
+#'
 #' # Create a 96-well plot with round wells
-#' plate_plot(data = data_continuous_96, 
-#'   position = well, 
-#'   value = value, 
-#'   label = value, 
-#'   plate_size = 96, 
-#'   plate_type = "round")
-#'   
+#' plate_plot(
+#'   data = data_continuous_96,
+#'   position = well,
+#'   value = value,
+#'   label = value,
+#'   plate_size = 96,
+#'   plate_type = "round"
+#' )
+#'
 #' # Create a 384-well plot with square wells
 #' # Define a custom lower limit
 #' # Define a custom colour scheme
-#' plate_plot(data = data_continuous_384, 
-#'   position = well, 
-#'   value = value, 
-#'   label = value, 
-#'   plate_size = 384, 
+#' plate_plot(
+#'   data = data_continuous_384,
+#'   position = well,
+#'   value = value,
+#'   label = value,
+#'   plate_size = 384,
 #'   colour = c("#03001e", "#7303c0", "#ec38bc", "#fdeff9"),
-#'   limits = c(0, NA))
+#'   limits = c(0, NA)
+#' )
 #'
 #' # Create example data for discrete value
-#' 
+#'
 #' # 24-well plate
-#' data_discrete_24 <- data.frame(matrix(c(rep("Control", 8), rep("Drug 1", 8), rep("Drug 2", 8)), nrow = 4, ncol = 6)) |>
+#' data_discrete_24 <- data.frame(
+#'   matrix(
+#'     c(
+#'       rep("Control", 8),
+#'       rep("Drug 1", 8),
+#'       rep("Drug 2", 8)
+#'     ),
+#'     nrow = 4,
+#'     ncol = 6
+#'   )
+#' ) |>
 #'   mutate(rows = LETTERS[1:4]) |>
 #'   pivot_longer(cols = -rows, names_to = "cols", values_to = "Condition") |>
-#'   mutate(cols = as.numeric(str_remove(cols, pattern = "V|X")),
-#'          well = paste0(rows, cols)) |>
+#'   mutate(
+#'     cols = as.numeric(str_remove(cols, pattern = "V|X")),
+#'     well = paste0(rows, cols)
+#'   ) |>
 #'   distinct(well, Condition)
-#'   
+#'
 #' # 6-well plate
-#' data_discrete_6 <- data.frame(matrix(c(rep("DMSO", 2), rep("Rapamycin", 2), rep("Taxol", 2)), nrow = 2, ncol = 3)) |>
+#' data_discrete_6 <- data.frame(
+#'   matrix(
+#'     c(
+#'       rep("DMSO", 2),
+#'       rep("Rapamycin", 2),
+#'       rep("Taxol", 2)
+#'     ),
+#'     nrow = 2,
+#'     ncol = 3
+#'   )
+#' ) |>
 #'   mutate(rows = LETTERS[1:2]) |>
 #'   pivot_longer(cols = -rows, names_to = "cols", values_to = "Condition") |>
-#'   mutate(cols = as.numeric(str_remove(cols, pattern = "V|X")),
-#'          well = paste0(rows, cols)) |>
+#'   mutate(
+#'     cols = as.numeric(str_remove(cols, pattern = "V|X")),
+#'     well = paste0(rows, cols)
+#'   ) |>
 #'   distinct(well, Condition)
-#'   
-#' # Create a 24-well plot 
-#' plate_plot(data = data_discrete_24, 
-#'   position = well, 
-#'   value = Condition, 
-#'   plate_size = 24, 
+#'
+#' # Create a 24-well plot
+#' plate_plot(
+#'   data = data_discrete_24,
+#'   position = well,
+#'   value = Condition,
+#'   plate_size = 24,
 #'   plate_type = "round",
-#'   show_legend = FALSE)
-#'   
-#' # Create a 6-well plot 
+#'   show_legend = FALSE
+#' )
+#'
+#' # Create a 6-well plot
 #' # Define a custom colour scheme
 #' # Adjust label_size to fit text
-#' plate_plot(data = data_discrete_6, 
-#'   position = well, 
-#'   value = Condition, 
-#'   label = Condition, 
-#'   plate_size = 6, 
+#' plate_plot(
+#'   data = data_discrete_6,
+#'   position = well,
+#'   value = Condition,
+#'   label = Condition,
+#'   plate_size = 6,
 #'   plate_type = "round",
 #'   colour = c("#3a1c71", "#d76d77", "#ffaf7b"),
 #'   label_size = 4,
-#'   show_legend = FALSE)
+#'   show_legend = FALSE
+#' )
 #'
 plate_plot <- function(data,
                        position,
@@ -130,7 +169,6 @@ plate_plot <- function(data,
                        show_legend = TRUE,
                        label_size,
                        scale = 1) {
-  
   if (!plate_size %in% c(6, 12, 24, 48, 96, 384)) {
     stop("Selected plate_size not available!")
   }
@@ -138,6 +176,13 @@ plate_plot <- function(data,
   if (missing(limits)) {
     min_val <- min(dplyr::pull(data, {{ value }}))
     max_val <- max(dplyr::pull(data, {{ value }}))
+
+    # If there is only one numeric value in the data the colour function needs still two distinct values
+    n_distinct_values <- length(unique(dplyr::pull(data, {{ value }})))
+
+    if (n_distinct_values == 1) {
+      max_val <- min_val + abs(min_val)
+    }
   } else {
     min_val <- ifelse(is.na(limits[1]), min(dplyr::pull(data, {{ value }})), limits[1])
     max_val <- ifelse(is.na(limits[2]), max(dplyr::pull(data, {{ value }})), limits[2])
@@ -153,10 +198,12 @@ plate_plot <- function(data,
       viridis_colours <- "placeholder" # assign a placeholder to prevent a missing global variable warning
       utils::data("viridis_colours", envir = environment()) # then overwrite it with real data
       fill_colours <- viridis_colours
+
       colfunc <- scales::gradient_n_pal(viridis_colours, values = c(
         min_val,
         max_val
       ))
+
       data_colours <- colfunc(dplyr::pull(data, {{ value }}))
     } else {
       fill_colours <- colour
@@ -206,7 +253,16 @@ plate_plot <- function(data,
     label_col <- ""
   }
 
+  # Determine the max number of characters of values
+  max_label_length <- data %>%
+    dplyr::ungroup() %>%
+    dplyr::pull({{ value }}) %>%
+    unique() %>%
+    nchar() %>%
+    max()
+
   data_prep <- data %>%
+    dplyr::ungroup() %>%
     dplyr::mutate(
       row = stringr::str_extract({{ position }}, pattern = "[:upper:]+"),
       col = as.numeric(stringr::str_extract({{ position }}, pattern = "\\d+")),
@@ -215,16 +271,55 @@ plate_plot <- function(data,
       label_colours = label_col
     )
 
+  if (!is.numeric(dplyr::pull(data, {{ value }}))) {
+    # Convert character values to factors
+    data_prep <- data_prep %>%
+      dplyr::mutate({{ value }} := forcats::fct_inorder({{ value }}))
+  }
+
+  # determine if values are numeric
+  if (show_legend) {
+    label_is_numeric <- data_prep %>%
+      dplyr::pull({{ value }}) %>%
+      is.numeric()
+  } else {
+    label_is_numeric <- TRUE
+  }
+
   if (plate_size == 6) {
     n_cols <- 3
     n_rows <- 2
     size <- 33 * scale
     min_x_axis <- 0.6
     max_x_axis <- n_cols + 0.4
-    min_y_axis <- 0.5
-    max_y_axis <- n_rows + 0.43
+    min_y_axis <- 0.53
+    max_y_axis <- n_rows + 0.46
     text_size <- 18 * scale
+    legend_text_size <- text_size
+    legend_title_size <- text_size
     title_size_preset <- 18 * scale
+    legend_size <- 10 * scale
+    if (show_legend) {
+      # change point/text/tile/legend_point size if legend is shown
+
+      # Point size is scaled in a complex way.
+      # Between 4-13 characters the scaling factor is 0.7 for each character
+      # Between 14-19 characters the scaling is decreasing down to about 0.55 for each character
+      # From 20 the scaling is 0.55 for each character
+      size <- (33 - max(c(((max_label_length - 3) * ifelse(max_label_length < 20,
+        ifelse(max_label_length < 13, 0.7, (1.03 - max_label_length / 40)),
+        0.55
+      )), 0))) * scale
+
+      # Up to 3 characters no scaling is done (therefore -3 in calculations)
+      # text is scaled by 0.5 and points by 0.3 for each character
+      # scale legend text with number of character down to size of min 10
+      legend_text_size <- max((18 - max(c(((max_label_length - 3) * 0.5), 0))), 10) * scale
+      # scale legend title with number of character down to size of min 10
+      legend_title_size <- max((18 - max(c(((max_label_length - 3) * 0.5), 0))), 10) * scale
+      # scale legend point size with number of character down to size of min 5
+      legend_size <- max((10 - max(c(((max_label_length - 3) * 0.3), 0))), 5) * scale
+    }
   }
 
   if (plate_size == 12) {
@@ -233,22 +328,65 @@ plate_plot <- function(data,
     size <- 22 * scale
     min_x_axis <- 0.6
     max_x_axis <- n_cols + 0.37
-    min_y_axis <- 0.5
-    max_y_axis <- n_rows + 0.37
+    min_y_axis <- 0.6
+    max_y_axis <- n_rows + 0.4
     text_size <- 16 * scale
+    legend_text_size <- text_size
+    legend_title_size <- text_size
     title_size_preset <- 16 * scale
+    legend_size <- size
+    if (show_legend) {
+      # change point/text/tile/legend_point size if legend is shown
+
+      # Point size is scaled in a complex way.
+      # Between until 12 characters the scaling factor is 0.25 for each character
+      # Between 15-19 characters the scaling is decreasing down to about 0.15 for each character
+      # From 20 the scaling is 0.15 for each character
+      size <- (22 - max((max_label_length - 11) * ifelse(max_label_length < 16,
+        (0.65 - max_label_length / 30),
+        (0.15 * ((max_label_length / 16 * 2) - 0.8))
+      ), 0)) * scale
+
+      # Up to 3 characters no scaling is done (therefore -3 in calculations)
+      # text is scaled by 0.5 and points by 0.3 for each character
+      # scale legend text with number of character down to size of min 10
+      legend_text_size <- max((16 - max(c(((max_label_length - 3) * 0.5), 0))), 10) * scale
+      # scale legend title with number of character down to size of min 10
+      legend_title_size <- max((16 - max(c(((max_label_length - 3) * 0.5), 0))), 10) * scale
+      # scale legend point size with number of character down to size of min 5
+      legend_size <- max((10 - max(c(((max_label_length - 3) * 0.3), 0))), 5) * scale
+    }
   }
 
   if (plate_size == 24) {
     n_cols <- 6
     n_rows <- 4
-    size <- 15 * scale
+    size <- 17 * scale
     min_x_axis <- 0.7
     max_x_axis <- n_cols + 0.27
-    min_y_axis <- 0.6
+    min_y_axis <- 0.65
     max_y_axis <- n_rows + 0.34
     text_size <- 12 * scale
+    legend_text_size <- text_size
+    legend_title_size <- text_size
     title_size_preset <- 16 * scale
+    legend_size <- size
+    if (show_legend) {
+      # change point/text/tile/legend_point size if legend is shown
+
+      # Point size is scaled in a complex way.
+      # From 9 characters the scaling factor is 0.3 for each character
+      size <- (15 - max((max_label_length - 8) * 0.3, 0)) * scale
+
+      # Up to 3 characters no scaling is done (therefore -3 in calculations)
+      # text is scaled by 0.5 and points by 0.3 for each character
+      # scale legend text with number of character down to size of min 10
+      legend_text_size <- max((12 - max(c(((max_label_length - 3) * 0.5), 0))), 10) * scale
+      # scale legend title with number of character down to size of min 10
+      legend_title_size <- max((12 - max(c(((max_label_length - 3) * 0.5), 0))), 10) * scale
+      # scale legend point size with number of character down to size of min 5
+      legend_size <- max((8 - max(c(((max_label_length - 3) * 0.3), 0))), 5) * scale
+    }
   }
 
   if (plate_size == 48) {
@@ -260,7 +398,14 @@ plate_plot <- function(data,
     min_y_axis <- 0.68
     max_y_axis <- n_rows + 0.26
     text_size <- 10 * scale
+    legend_text_size <- text_size
+    legend_title_size <- text_size
     title_size_preset <- 14 * scale
+    legend_size <- size
+    if (show_legend) {
+      size <- (11.4 - max((max_label_length - 14) * 0.3, 0)) * scale
+      legend_size <- 5 * scale
+    }
   }
 
   if (plate_size == 96) {
@@ -272,7 +417,14 @@ plate_plot <- function(data,
     min_y_axis <- 0.75
     max_y_axis <- n_rows + 0.25
     text_size <- 8 * scale
+    legend_text_size <- text_size
+    legend_title_size <- text_size
     title_size_preset <- 12 * scale
+    legend_size <- size
+    if (show_legend) {
+      size <- (8.5 - max((max_label_length - 9) * 0.15, 0)) * scale
+      legend_size <- 5 * scale
+    }
   }
 
   if (plate_size == 384) {
@@ -284,14 +436,24 @@ plate_plot <- function(data,
     min_y_axis <- 0.9
     max_y_axis <- n_rows
     text_size <- 6 * scale
+    legend_text_size <- text_size
+    legend_title_size <- text_size
     title_size_preset <- 10 * scale
+    legend_size <- size
+    if (show_legend) {
+      size <- (4.4 - max((max_label_length - 13) * 0.07, 0)) * scale
+    }
   }
-  
-  if (missing(label_size)){
-    label_size <- size / 3
+
+  if (missing(label_size)) {
+    label_size_scaled <- size / 3
+    # size is already scaled so here label size does not need to be rescaled
+  } else {
+    # Scale label size if provided by the user
+    label_size_scaled <- label_size * scale
   }
-  
-  if(missing(title_size)){
+
+  if (missing(title_size)) {
     title_size <- title_size_preset
   } else {
     title_size <- title_size * scale
@@ -313,10 +475,10 @@ plate_plot <- function(data,
     plot_title <- paste0(plate_size, "-well Plate Layout")
   }
 
-  plot <- ggplot2::ggplot(data_prep, ggplot2::aes(x = col, y = row_num)) +
+  plot <- ggplot2::ggplot(data_prep, ggplot2::aes(x = col, y = .data$row_num)) +
     ggplot2::geom_point(
       data = plate_layout,
-      aes(x = columns, y = rows),
+      aes(x = .data$columns, y = .data$rows),
       color = "grey90",
       size = size,
       shape = shape
@@ -325,9 +487,9 @@ plate_plot <- function(data,
     ggplot2::coord_fixed(
       ratio = ((n_cols + 1) / n_cols) / ((n_rows + 1) / n_rows),
       xlim = c(min_x_axis, max_x_axis),
-      ylim = c(min_y_axis, max_y_axis)
+      ylim = c(max_y_axis, min_y_axis)
     ) +
-    ggplot2::scale_y_continuous(breaks = seq(1, n_rows), labels = rev(LETTERS[1:n_rows])) +
+    ggplot2::scale_y_continuous(breaks = seq(1, n_rows), labels = LETTERS[1:n_rows]) +
     ggplot2::scale_x_continuous(breaks = seq(1, n_cols)) +
     {
       if (is.numeric(dplyr::pull(data, {{ value }}))) {
@@ -346,7 +508,7 @@ plate_plot <- function(data,
       y = ""
     ) +
     {
-      if (!missing(label)) ggplot2::geom_text(aes(x = col, y = row_num, label = paste0({{ label }})), colour = data_prep$label_colours, size = label_size * scale)
+      if (!missing(label)) ggplot2::geom_text(aes(x = col, y = .data$row_num, label = paste0({{ label }})), colour = data_prep$label_colours, size = label_size_scaled)
     } +
     ggplot2::theme_bw() +
     {
@@ -356,16 +518,19 @@ plate_plot <- function(data,
         )
       }
     } +
+    {
+      if (!label_is_numeric) {
+        ggplot2::guides(fill = ggplot2::guide_legend(override.aes = list(size = legend_size)))
+      }
+    } +
     ggplot2::theme(
       panel.grid.major = ggplot2::element_blank(),
       panel.grid.minor = ggplot2::element_blank(),
       axis.text = ggplot2::element_text(size = text_size),
-      legend.text = ggplot2::element_text(size = text_size),
-      legend.title = ggplot2::element_text(size = text_size),
+      legend.text = ggplot2::element_text(size = legend_text_size),
+      legend.title = ggplot2::element_text(size = legend_title_size),
       plot.title = ggplot2::element_text(size = title_size)
     )
-
-
 
   plot
 }

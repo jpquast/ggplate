@@ -10,6 +10,7 @@ Authors@R:
 Description: What the package does (one paragraph).
 License: MIT + file LICENSE
 Encoding: UTF-8
+LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
 Imports: 
@@ -19,7 +20,8 @@ Imports:
     rlang,
     stringr,
     tidyr,
-    utils
+    utils,
+    forcats
 Suggests: 
     farver,
     scales,

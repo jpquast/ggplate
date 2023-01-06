@@ -1,3 +1,4 @@
 ^ggplate\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
+^data-raw
