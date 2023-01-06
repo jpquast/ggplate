@@ -490,7 +490,7 @@ plate_plot <- function(data,
       ylim = c(max_y_axis, min_y_axis)
     ) +
     ggplot2::scale_y_continuous(breaks = seq(1, n_rows), labels = LETTERS[1:n_rows]) +
-    ggplot2::scale_x_continuous(breaks = seq(1, n_cols)) +
+    ggplot2::scale_x_continuous(breaks = seq(1, n_cols), position = "top") +
     {
       if (is.numeric(dplyr::pull(data, {{ value }}))) {
         ggplot2::scale_fill_gradientn(
@@ -527,9 +527,12 @@ plate_plot <- function(data,
       panel.grid.major = ggplot2::element_blank(),
       panel.grid.minor = ggplot2::element_blank(),
       axis.text = ggplot2::element_text(size = text_size),
+      axis.ticks.x = ggplot2::element_blank(),
+      axis.ticks.y = ggplot2::element_blank(),
       legend.text = ggplot2::element_text(size = legend_text_size),
       legend.title = ggplot2::element_text(size = legend_title_size),
-      plot.title = ggplot2::element_text(size = title_size)
+      plot.title = ggplot2::element_text(size = title_size),
+      axis.title.x = element_blank()
     )
 
   plot

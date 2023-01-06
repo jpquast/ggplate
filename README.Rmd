@@ -1,5 +1,17 @@
+---
+output: github_document
+---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
 
 # ggplate <img src='man/figures/logo.png' align="right" width="12.5%" />
 
@@ -10,8 +22,7 @@ Create Layout Plots of Biological Culture Plates and Microplates.
 
 ## Installation
 
-You can install the development version of ggplate from
-[GitHub](https://github.com/) with:
+You can install the development version of ggplate from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
@@ -22,10 +33,9 @@ devtools::install_github("jpquast/ggplate")
 
 This is a basic example which shows you how to solve a common problem:
 
-``` r
+```{r example}
 library(ggplate)
-#> 📊 Welcome to ggplate version 0.0.1! 📈
-#>                             
-#> 🖍 Have fun plotting your data! 💻
 ## basic example code
 ```
+
+
