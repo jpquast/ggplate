@@ -28,6 +28,7 @@ Suggests:
     testthat (>= 3.0.0)
 Depends: 
     R (>= 4.0)
-URL: https://github.com/jpquast/ggplate
+URL: https://github.com/jpquast/ggplate,
+    https://jpquast.github.io/ggplate/
 BugReports: https://github.com/jpquast/ggplate/issues
 Config/testthat/edition: 3
