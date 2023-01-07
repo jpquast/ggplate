@@ -23,6 +23,7 @@ Imports:
     utils,
     forcats
 Suggests: 
+    covr,
     farver,
     scales,
     testthat (>= 3.0.0)

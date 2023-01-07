@@ -4,6 +4,9 @@
 # ggplate <img src='man/figures/logo.png' align="right" width="12.5%" />
 
 <!-- badges: start -->
+
+[![Codecov test
+coverage](https://codecov.io/gh/jpquast/ggplate/branch/main/graph/badge.svg)](https://app.codecov.io/gh/jpquast/ggplate?branch=main)
 <!-- badges: end -->
 
 Create Layout Plots of Biological Culture Plates and Microplates.
