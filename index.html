@@ -104,6 +104,28 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load ggplate package</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jpquast/ggplate" class="external-link">ggplate</a></span><span class="op">)</span></span></code></pre></div>
+<p>There are multiple example datasets provided that can be used to create plots of each plate type. You can access these datasets using the <code><a href="https://rdrr.io/r/utils/data.html" class="external-link">data()</a></code> function.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Load a dataset of contious values for a 96-well plate</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">data_continuous_96</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Check the structure of the dataset</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">data_continuous_96</span><span class="op">)</span></span>
+<span><span class="co">#&gt; tibble [96 × 2] (S3: tbl_df/tbl/data.frame)</span></span>
+<span><span class="co">#&gt;  $ Value: num [1:96] 0.05 0.97 0.9 0.02 2.06 1.01 0.92 1.66 0.12 0.41 ...</span></span>
+<span><span class="co">#&gt;  $ well : chr [1:96] "A1" "A2" "A3" "A4" ...</span></span></code></pre></div>
+<p>When calling the <code><a href="https://rdrr.io/r/utils/str.html" class="external-link">str()</a></code> function you can see that the data frame of a continuous 96-well plate dataset only contains two columns. The <code>Value</code> column contains values that have been for example measured for each of the plate wells, while the <code>well</code> column contains the corresponding well positions in the plate using a combination of <strong>alphabetic row names</strong> and <strong>numeric column names</strong>.</p>
+<p>You can use this example data frame to create a 96-well plate layout plot using the <code><a href="reference/plate_plot.html">plate_plot()</a></code> function and setting the <code>plate_size</code> argument to <code>96</code>. There are currently two options for the plate well type. These can be either <code>"round"</code> or <code>"square"</code>. In the plot below the specify <code>"round"</code>, while <code>"square"</code> is the default value when the <code>plate_type</code> argument is not provided.</p>
+<p>The data frame is provided to the <code>data</code> argument and the column name of the column containing the well positions is provided to the <code>position</code> argument. The column name of the column containing the values is provided to the <code>value</code> argument.</p>
+<p><em>Note: The default size of the plot is optimized to look good for the “Plots” tab in Rstudio. For an Rmarkdown file the <code>fig.width</code> argument should be set to 2.4.</em></p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Create a 96-well plot with round wells</span></span>
+<span><span class="fu"><a href="reference/plate_plot.html">plate_plot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_continuous_96</span>, </span>
+<span>           position <span class="op">=</span> <span class="va">well</span>, </span>
+<span>           value <span class="op">=</span> <span class="va">Value</span>, </span>
+<span>           plate_size <span class="op">=</span> <span class="fl">96</span>, </span>
+<span>           plate_type <span class="op">=</span> <span class="st">"round"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-standard_plot-1.png" width="100%"></p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
