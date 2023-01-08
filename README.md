@@ -93,8 +93,8 @@ argument. The column name of the column containing the values is
 provided to the `value` argument.
 
 *Note: The default size of the plot is optimized to look good for the
-“Plots” tab in Rstudio. For an Rmarkdown file the `fig.width` argument
-should be set to 2.4.*
+“Plots” tab in Rstudio. For an Rmarkdown file set the chunk options to
+`fig.width=3, fig.height=3, dpi=300`.*
 
 ``` r
 # Create a 96-well plot with round wells
