@@ -14,6 +14,6 @@ viridis R package
 viridis_colours
 }
 \description{
-A colour scheme by the viridis colour scheme from the viridis R package.
+A colour scheme by the viridis colour scheme from the \code{viridis} R package.
 }
 \keyword{datasets}

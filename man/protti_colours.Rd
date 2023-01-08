@@ -8,12 +8,12 @@
 A vector containing 100 colours
 }
 \source{
-Dina Schuster's imagination.
+protti R package.
 }
 \usage{
 protti_colours
 }
 \description{
-A colour scheme for protti that contains 100 colours.
+A colour scheme from the \code{protti} package that contains 100 colours.
 }
 \keyword{datasets}
