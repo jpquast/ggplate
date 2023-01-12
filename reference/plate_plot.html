@@ -67,7 +67,8 @@ with colours and labels.</p>
 <span>  <span class="va">title_size</span>,</span>
 <span>  show_legend <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">label_size</span>,</span>
-<span>  scale <span class="op">=</span> <span class="fl">1</span></span>
+<span>  silent <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">scale</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -132,9 +133,17 @@ values provided to the <code>value</code> argument are used for the start and en
 <code>scale</code> argument.</p></dd>
 
 
+<dt>silent</dt>
+<dd><p>a logical value that specifies if the function should report the size of the plotting area and the adjusted
+scale parameter. Default is <code>TRUE</code> meaning it will not return any message. The plot was optimized for a device size of:
+width = 5.572917 in and height = 3.177083 in, which was determined using the function <code>par("fin")</code>. This means if the device
+has these dimensions the scaling factor is 1.</p></dd>
+
+
 <dt>scale</dt>
-<dd><p>a numeric value that scales point sizes and labels of the plot. Since these don't usually scale when a plot
-is resized, this argument can be used to keep the appearance of the plot consistent.</p></dd>
+<dd><p>a numeric value that scales point sizes and labels of the plot. If not provided, the plot uses the device size
+to find the optimal scaling factor for the output, however, this might be slightly off (e.g. due to number of labels) and
+can be manually adjusted with this argument.</p></dd>
 
 </dl></div>
     <div class="section level2">
