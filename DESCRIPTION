@@ -21,7 +21,8 @@ Imports:
     stringr,
     tidyr,
     utils,
-    forcats
+    forcats,
+    graphics
 Suggests: 
     covr,
     farver,

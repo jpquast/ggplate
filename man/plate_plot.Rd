@@ -17,7 +17,8 @@ plate_plot(
   title_size,
   show_legend = TRUE,
   label_size,
-  scale = 1
+  silent = TRUE,
+  scale
 )
 }
 \arguments{
@@ -56,8 +57,14 @@ values provided to the \code{value} argument are used for the start and end poin
 \item{label_size}{optional, a numeric value that determines the text size of the well labels. The size is also affected by the
 \code{scale} argument.}
 
-\item{scale}{a numeric value that scales point sizes and labels of the plot. Since these don't usually scale when a plot
-is resized, this argument can be used to keep the appearance of the plot consistent.}
+\item{silent}{a logical value that specifies if the function should report the size of the plotting area and the adjusted
+scale parameter. Default is \code{TRUE} meaning it will not return any message. The plot was optimized for a device size of:
+width = 5.572917 in and height = 3.177083 in, which was determined using the function \code{par("fin")}. This means if the device
+has these dimensions the scaling factor is 1.}
+
+\item{scale}{a numeric value that scales point sizes and labels of the plot. If not provided, the plot uses the device size
+to find the optimal scaling factor for the output, however, this might be slightly off (e.g. due to number of labels) and
+can be manually adjusted with this argument.}
 }
 \value{
 A plate layout plot.

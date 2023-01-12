@@ -26,7 +26,7 @@
 #' @param show_legend a logical value that specifies if the plot legend is shown. Default is `TRUE`.
 #' @param label_size optional, a numeric value that determines the text size of the well labels. The size is also affected by the
 #' `scale` argument.
-#' @param siltent a logical value that specifies if the function should report the size of the plotting area and the adjusted
+#' @param silent a logical value that specifies if the function should report the size of the plotting area and the adjusted
 #' scale parameter. Default is `TRUE` meaning it will not return any message. The plot was optimized for a device size of:
 #' width = 5.572917 in and height = 3.177083 in, which was determined using the function `par("fin")`. This means if the device
 #' has these dimensions the scaling factor is 1.
@@ -38,6 +38,7 @@
 #' @import dplyr
 #' @import ggplot2
 #' @import tidyr
+#' @importFrom graphics par
 #' @importFrom rlang .data :=
 #' @importFrom stringr str_extract
 #' @importFrom purrr map_chr
@@ -180,9 +181,9 @@ plate_plot <- function(data,
   }
 
   if(missing(scale)){
-    scale <- min((par("fin")[1]/5.572917), (par("fin")[2]/3.177083))
+    scale <- min((graphics::par("fin")[1]/5.572917), (graphics::par("fin")[2]/3.177083))
     if(!silent){
-      message(paste0("width: ", round(par("fin")[1], digits = 3), " height: ", round(par("fin")[2], digits = 3)))
+      message(paste0("width: ", round(graphics::par("fin")[1], digits = 3), " height: ", round(graphics::par("fin")[2], digits = 3)))
       message(paste0("scaling factor: ", round(scale, digits = 3)))
     }
   }
