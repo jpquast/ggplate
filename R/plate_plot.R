@@ -26,8 +26,13 @@
 #' @param show_legend a logical value that specifies if the plot legend is shown. Default is `TRUE`.
 #' @param label_size optional, a numeric value that determines the text size of the well labels. The size is also affected by the
 #' `scale` argument.
-#' @param scale a numeric value that scales point sizes and labels of the plot. Since these don't usually scale when a plot
-#' is resized, this argument can be used to keep the appearance of the plot consistent.
+#' @param siltent a logical value that specifies if the function should report the size of the plotting area and the adjusted
+#' scale parameter. Default is `TRUE` meaning it will not return any message. The plot was optimized for a device size of:
+#' width = 5.572917 in and height = 3.177083 in, which was determined using the function `par("fin")`. This means if the device
+#' has these dimensions the scaling factor is 1.
+#' @param scale a numeric value that scales point sizes and labels of the plot. If not provided, the plot uses the device size
+#' to find the optimal scaling factor for the output, however, this might be slightly off (e.g. due to number of labels) and
+#' can be manually adjusted with this argument.
 #'
 #' @return A plate layout plot.
 #' @import dplyr
@@ -168,9 +173,18 @@ plate_plot <- function(data,
                        title_size,
                        show_legend = TRUE,
                        label_size,
-                       scale = 1) {
+                       silent = TRUE,
+                       scale) {
   if (!plate_size %in% c(6, 12, 24, 48, 96, 384)) {
     stop("Selected plate_size not available!")
+  }
+
+  if(missing(scale)){
+    scale <- min((par("fin")[1]/5.572917), (par("fin")[2]/3.177083))
+    if(!silent){
+      message(paste0("width: ", round(par("fin")[1], digits = 3), " height: ", round(par("fin")[2], digits = 3)))
+      message(paste0("scaling factor: ", round(scale, digits = 3)))
+    }
   }
 
   if (missing(limits)) {
@@ -285,6 +299,8 @@ plate_plot <- function(data,
   } else {
     label_is_numeric <- TRUE
   }
+
+  stroke_width <- 0.8 * scale
 
   if (plate_size == 6) {
     n_cols <- 3
@@ -483,7 +499,7 @@ plate_plot <- function(data,
       size = size,
       shape = shape
     ) +
-    ggplot2::geom_point(aes(fill = {{ value }}), size = size, shape = shape) +
+    ggplot2::geom_point(aes(fill = {{ value }}), size = size, shape = shape, stroke = stroke_width) +
     ggplot2::coord_fixed(
       ratio = ((n_cols + 1) / n_cols) / ((n_rows + 1) / n_rows),
       xlim = c(min_x_axis, max_x_axis),
@@ -495,7 +511,8 @@ plate_plot <- function(data,
       if (is.numeric(dplyr::pull(data, {{ value }}))) {
         ggplot2::scale_fill_gradientn(
           colors = fill_colours,
-          limits = c(min_val, max_val)
+          limits = c(min_val, max_val),
+          guide = guide_colorbar(ticks.linewidth = max(0.5 * scale, 0.2))
         )
       }
     } +
@@ -523,16 +540,22 @@ plate_plot <- function(data,
         ggplot2::guides(fill = ggplot2::guide_legend(override.aes = list(size = legend_size)))
       }
     } +
+    {
+      if(label_is_numeric){
+        ggplot2::theme(legend.key.size = unit(max(0.25 * scale, 0.2), "in"))
+      }
+    } +
     ggplot2::theme(
       panel.grid.major = ggplot2::element_blank(),
       panel.grid.minor = ggplot2::element_blank(),
-      axis.text = ggplot2::element_text(size = text_size),
+      axis.text = ggplot2::element_text(size = text_size, face = "bold"),
       axis.ticks.x = ggplot2::element_blank(),
       axis.ticks.y = ggplot2::element_blank(),
       legend.text = ggplot2::element_text(size = legend_text_size),
       legend.title = ggplot2::element_text(size = legend_title_size),
       plot.title = ggplot2::element_text(size = title_size),
-      axis.title.x = element_blank()
+      axis.title.x = element_blank(),
+      panel.border = element_rect(size = stroke_width)
     )
 
   plot

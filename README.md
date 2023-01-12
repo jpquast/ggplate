@@ -16,12 +16,12 @@ continuous and discrete values can be plotted onto the plate layout.
 
 Currently the package supports the following plate sizes:
 
--   6-well plate
--   12-well plate
--   24-well plate
--   48-well plate
--   96-well plate
--   384-well plate
+- 6-well plate
+- 12-well plate
+- 24-well plate
+- 48-well plate
+- 96-well plate
+- 384-well plate
 
 ## Installation
 
@@ -92,9 +92,8 @@ the column containing the well positions is provided to the `position`
 argument. The column name of the column containing the values is
 provided to the `value` argument.
 
-*Note: The default size of the plot is optimized to look good for the
-“Plots” tab in Rstudio. For an Rmarkdown file set the chunk options to
-`fig.width=3, fig.height=3, dpi=300`.*
+*Note: For an Rmarkdown file set the chunk options to `dpi=300` for an
+optimal result.*
 
 ``` r
 # Create a 96-well plot with round wells

@@ -76,9 +76,9 @@ You can use this example data frame to create a 96-well plate layout plot using 
 
 The data frame is provided to the `data` argument and the column name of the column containing the well positions is provided to the `position` argument. The column name of the column containing the values is provided to the `value` argument.
 
-_Note: The default size of the plot is optimized to look good for the "Plots" tab in Rstudio. For an Rmarkdown file set the chunk options to `fig.width=3, fig.height=3, dpi=300`._
+_Note: For an Rmarkdown file set the chunk options to `dpi=300` for an optimal result._
 
-```{r standard_plot, dpi=300, fig.width=5, fig.height=3}
+```{r standard_plot, dpi=300}
 # Create a 96-well plot with round wells
 plate_plot(data = data_continuous_96, 
            position = well, 
