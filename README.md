@@ -91,7 +91,7 @@ the column containing the well positions is provided to the `position`
 argument. The column name of the column containing the values is
 provided to the `value` argument.
 
-*Note: For an Rmarkdown file set the chunk options to `dpi=300` for an
+*Note: For an R markdown file set the chunk options to `dpi=300` for an
 optimal result.*
 
 ``` r
@@ -240,6 +240,10 @@ You can change the title of the plot using the `title` argument. In
 addition the size of the title can be adjusted using the `title_size`
 argument.
 
+*Note: Using the R markdown chunk options `out.width` and `fig.align`
+you can reduce the size of the figure in the R markdown document and
+align it for example to the center.*
+
 ``` r
 # Load a dataset of discrete values for a 6-well plate
 data(data_discrete_6)
@@ -260,7 +264,7 @@ plate_plot(data = data_discrete_6,
            title_size = 23)
 ```
 
-<img src="man/figures/README-standard_plot_6_well-1.png" width="100%" />
+<img src="man/figures/README-standard_plot_6_well-1.png" width="80%" style="display: block; margin: auto;" />
 
 In addition it is possible to change the colours of the plot by
 providing new colours to the `colour` argument. As mentioned earlier
@@ -279,7 +283,7 @@ plate_plot(data = data_discrete_6,
            colour = c("#3a1c71", "#d76d77", "#ffaf7b"))
 ```
 
-<img src="man/figures/README-6_well_plot_new_colours-1.png" width="100%" />
+<img src="man/figures/README-6_well_plot_new_colours-1.png" width="80%" style="display: block; margin: auto;" />
 
 Also for this plot we can provide a column name to the `label` argument
 to directly label the wells in the plot. At the same time we can disable
@@ -303,7 +307,7 @@ plate_plot(data = data_discrete_6,
            label_size = 4)
 ```
 
-<img src="man/figures/README-6_well_plot_new_colours_no_legend-1.png" width="100%" />
+<img src="man/figures/README-6_well_plot_new_colours_no_legend-1.png" width="80%" style="display: block; margin: auto;" />
 
 ## Potential Issues
 
@@ -333,7 +337,7 @@ plate_plot(data = data_discrete_24,
            plate_size = 24, 
            plate_type = "round",
            silent = FALSE)
-#> width: 7 height: 5
+#> width: 7 height: 4
 #> scaling factor: 1.256
 ```
 
@@ -353,9 +357,9 @@ plate_plot(data = data_discrete_24,
            plate_size = 24, 
            plate_type = "round",
            silent = FALSE,
-           scale = 1.5)
-#> width: 7 height: 5
-#> scaling factor: 1.5
+           scale = 1.45)
+#> width: 7 height: 4
+#> scaling factor: 1.45
 ```
 
 <img src="man/figures/README-resize_plot-1.png" width="100%" /> As you
@@ -376,7 +380,7 @@ plate_plot(data = data_discrete_24,
            silent = FALSE,
            scale = 1.2,
            legend_n_row = 6)
-#> width: 7 height: 5
+#> width: 7 height: 4
 #> scaling factor: 1.2
 ```
 
@@ -401,7 +405,7 @@ plate_plot(data = data_discrete_96,
            position = well, 
            value = Compound, 
            plate_size = 96, 
-           scale = 1,
+           scale = 0.95,
            plate_type = "round")
 ```
 

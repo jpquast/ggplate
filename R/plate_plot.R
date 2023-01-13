@@ -312,7 +312,7 @@ plate_plot <- function(data,
   if (plate_size == 6) {
     n_cols <- 3
     n_rows <- 2
-    size <- 38 * scale
+    size <- 33 * scale
     min_x_axis <- 0.6
     max_x_axis <- n_cols + 0.4
     min_y_axis <- 0.53
