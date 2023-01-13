@@ -9,7 +9,7 @@ data("data_continuous_24")
 data("data_discrete_24")
 data("data_continuous_48")
 data("data_continuous_96")
-data("data_discrete_96")
+#data("data_discrete_96")
 data("data_continuous_384")
 
 # 6 continuous, limits (lower), label, round
