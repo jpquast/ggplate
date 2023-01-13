@@ -233,7 +233,7 @@ plate_plot(data = data_discrete_6,
 
 In order to have the same proportions independent on the output screen and size, each plate plot is scaled according to the specific graphics device size. In order to see the currently used graphics device size and scaling factor the `silent` argument of the function can be set to `FALSE`. 
 
-As you can see for the bellow example the graphics device size is `width: 7.292 height: 4.507` and the scaling factor is `1.308`. 
+As you can see for the bellow example the graphics device size is `width: 7 height: 4` and the scaling factor is `1.256`. 
 
 ```{r return_device_size, dpi=300, fig.width=7, fig.height=4}
 # Load a dataset of discrete values for a 24-well plate
@@ -308,7 +308,7 @@ plate_plot(data = data_discrete_96,
            plate_type = "round")
 ```
 
-## Figure export
+## Figure Export
 
 Since the plot function checks the size of the graphics device in order to apply the appropriate scaling to the plot, it is important to first generate an output graphics device with the correct size. There are several functions that can accomplish this. These include e.g. `png()`, `pdf()`, `svg()` and many more.
 

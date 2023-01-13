@@ -318,7 +318,7 @@ scaling factor the `silent` argument of the function can be set to
 `FALSE`.
 
 As you can see for the bellow example the graphics device size is
-`width: 7.292 height: 4.507` and the scaling factor is `1.308`.
+`width: 7 height: 4` and the scaling factor is `1.256`.
 
 ``` r
 # Load a dataset of discrete values for a 24-well plate
@@ -428,7 +428,7 @@ plate_plot(data = data_discrete_96,
 
 <img src="man/figures/README-discrete_96_well_plate_label-1.png" width="100%" />
 
-## Figure export
+## Figure Export
 
 Since the plot function checks the size of the graphics device in order
 to apply the appropriate scaling to the plot, it is important to first
