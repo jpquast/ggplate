@@ -26,6 +26,8 @@
 #' @param show_legend a logical value that specifies if the plot legend is shown. Default is `TRUE`.
 #' @param label_size optional, a numeric value that determines the text size of the well labels. The size is also affected by the
 #' `scale` argument.
+#' @param legend_n_row optional, a numeric value that specifies the number of rows of legends. If no value is provided,
+#' the automatic ggplot default is used.
 #' @param silent a logical value that specifies if the function should report the size of the plotting area and the adjusted
 #' scale parameter. Default is `TRUE` meaning it will not return any message. The plot was optimized for a device size of:
 #' width = 5.572917 in and height = 3.177083 in, which was determined using the function `par("fin")`. This means if the device
@@ -173,6 +175,7 @@ plate_plot <- function(data,
                        title,
                        title_size,
                        show_legend = TRUE,
+                       legend_n_row,
                        label_size,
                        silent = TRUE,
                        scale) {
@@ -182,11 +185,15 @@ plate_plot <- function(data,
 
   if(missing(scale)){
     scale <- min((graphics::par("fin")[1]/5.572917), (graphics::par("fin")[2]/3.177083))
-    if(!silent){
-      message(paste0("width: ", round(graphics::par("fin")[1], digits = 3), " height: ", round(graphics::par("fin")[2], digits = 3)))
-      message(paste0("scaling factor: ", round(scale, digits = 3)))
-    }
   }
+
+  if(!silent){
+    message(paste0("width: ", round(graphics::par("fin")[1], digits = 3), " height: ", round(graphics::par("fin")[2], digits = 3)))
+    message(paste0("scaling factor: ", round(scale, digits = 3)))
+  }
+
+  # Remove missing values
+  data <- tidyr::drop_na(data, {{ value }})
 
   if (missing(limits)) {
     min_val <- min(dplyr::pull(data, {{ value }}))
@@ -301,12 +308,11 @@ plate_plot <- function(data,
     label_is_numeric <- TRUE
   }
 
-  stroke_width <- 0.8 * scale
 
   if (plate_size == 6) {
     n_cols <- 3
     n_rows <- 2
-    size <- 33 * scale
+    size <- 38 * scale
     min_x_axis <- 0.6
     max_x_axis <- n_cols + 0.4
     min_y_axis <- 0.53
@@ -316,6 +322,7 @@ plate_plot <- function(data,
     legend_title_size <- text_size
     title_size_preset <- 18 * scale
     legend_size <- 10 * scale
+    stroke_width <- 0.8 * scale
     if (show_legend) {
       # change point/text/tile/legend_point size if legend is shown
 
@@ -352,6 +359,7 @@ plate_plot <- function(data,
     legend_title_size <- text_size
     title_size_preset <- 16 * scale
     legend_size <- size
+    stroke_width <- 0.8 * scale
     if (show_legend) {
       # change point/text/tile/legend_point size if legend is shown
 
@@ -388,6 +396,7 @@ plate_plot <- function(data,
     legend_title_size <- text_size
     title_size_preset <- 16 * scale
     legend_size <- size
+    stroke_width <- 0.8 * scale
     if (show_legend) {
       # change point/text/tile/legend_point size if legend is shown
 
@@ -419,6 +428,7 @@ plate_plot <- function(data,
     legend_title_size <- text_size
     title_size_preset <- 14 * scale
     legend_size <- size
+    stroke_width <- 0.8 * scale
     if (show_legend) {
       size <- (11.4 - max((max_label_length - 14) * 0.3, 0)) * scale
       legend_size <- 5 * scale
@@ -428,7 +438,7 @@ plate_plot <- function(data,
   if (plate_size == 96) {
     n_cols <- 12
     n_rows <- 8
-    size <- 8.5 * scale
+    size <- 9.5 * scale
     min_x_axis <- 0.75
     max_x_axis <- n_cols + 0.25
     min_y_axis <- 0.75
@@ -438,8 +448,9 @@ plate_plot <- function(data,
     legend_title_size <- text_size
     title_size_preset <- 12 * scale
     legend_size <- size
+    stroke_width <- 0.6 * scale
     if (show_legend) {
-      size <- (8.5 - max((max_label_length - 9) * 0.15, 0)) * scale
+      size <- (9.5 - max((max_label_length - 9) * 0.15, 0)) * scale
       legend_size <- 5 * scale
     }
   }
@@ -447,7 +458,7 @@ plate_plot <- function(data,
   if (plate_size == 384) {
     n_cols <- 24
     n_rows <- 16
-    size <- 4.4 * scale
+    size <- 4.6 * scale
     min_x_axis <- 0.95
     max_x_axis <- n_cols
     min_y_axis <- 0.9
@@ -457,6 +468,7 @@ plate_plot <- function(data,
     legend_title_size <- text_size
     title_size_preset <- 10 * scale
     legend_size <- size
+    stroke_width <- 0.6 * scale
     if (show_legend) {
       size <- (4.4 - max((max_label_length - 13) * 0.07, 0)) * scale
     }
@@ -538,7 +550,11 @@ plate_plot <- function(data,
     } +
     {
       if (!label_is_numeric) {
-        ggplot2::guides(fill = ggplot2::guide_legend(override.aes = list(size = legend_size)))
+        if (!missing(legend_n_row)){
+          ggplot2::guides(fill = ggplot2::guide_legend(override.aes = list(size = legend_size), nrow = legend_n_row))
+        } else {
+          ggplot2::guides(fill = ggplot2::guide_legend(override.aes = list(size = legend_size)))
+        }
       }
     } +
     {

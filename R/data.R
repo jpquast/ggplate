@@ -50,6 +50,16 @@
 #' @source Randomly generated.
 "data_continuous_48"
 
+#' Continuous incomplete 48-well plate dataset
+#'
+#' A dataset containing 23 positive numeric values randomly generated using a normal distribution (`rnorm()`).
+#' Each value is assigned to a position in a 48-well plate. Therefore, not every well in the plate contains a
+#' value. The position 1D and the second half of the plate are `NA`.
+#'
+#' @format A data frame with a `Value` and a `well` column.
+#' @source Randomly generated.
+"data_continuous_48_incomplete"
+
 #' Continuous 96-well plate dataset
 #'
 #' A dataset containing 96 positive numeric values randomly generated using a normal distribution (`rnorm()`).
@@ -88,3 +98,13 @@
 #' @format A data frame with a `Value` and a `well` column.
 #' @source Theoretically possible siRNA treatment for cells.
 "data_discrete_24"
+
+#' Discrete 96-well plate dataset
+#'
+#' A dataset containing 22 conditions for a hypothetical drug treatment in a 96-well plate.
+#' The first column contains the negative control while the last column contains the positive control.
+#' Each treatment is assigned to four wells in a 96-well plate.
+#'
+#' @format A data frame with a `Value` and a `well` column.
+#' @source Drugs were chosen from a standard FDA approved drug library.
+"data_discrete_96"

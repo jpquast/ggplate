@@ -16,6 +16,7 @@ plate_plot(
   title,
   title_size,
   show_legend = TRUE,
+  legend_n_row,
   label_size,
   silent = TRUE,
   scale
@@ -53,6 +54,9 @@ values provided to the \code{value} argument are used for the start and end poin
 \code{scale} argument.}
 
 \item{show_legend}{a logical value that specifies if the plot legend is shown. Default is \code{TRUE}.}
+
+\item{legend_n_row}{optional, a numeric value that specifies the number of rows of legends. If no value is provided,
+the automatic ggplot default is used.}
 
 \item{label_size}{optional, a numeric value that determines the text size of the well labels. The size is also affected by the
 \code{scale} argument.}
