@@ -110,6 +110,7 @@ plate_plot(data = data_continuous_96,
            plate_size = 96, 
            plate_type = "round")
 ```
+
 ### Legend Limit Adjustment
 
 The legend for continuous values will only cover a range from the minimal measured to the maximal measured value. If the theoretically expected range of values is however bigger than the measured range you can adjust the legend limits. This can be done using the `limits` arguments. You provide a vector with the new minimum and maximum to the argument. Use NA to refer to the existing minimum or maximum if you only want to adjust one. Below we show this for an example dataset of a 384-well plate. 
@@ -139,6 +140,7 @@ plate_plot(data = data_continuous_384,
            plate_size = 384,
            limits = c(0, 3))
 ```
+
 ### Gradient Colour Adjustment
 
 When plotting continuous variables it is possible to to change the gradient colours by providing new colours to the `colour` argument. The colours will be used to create a new colour gradient for the plot. 

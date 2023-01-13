@@ -139,7 +139,8 @@ plate_plot(data = data_continuous_96,
 ```
 
 <img src="man/figures/README-standard_plot_labels_wells-1.png" width="100%" />
-\### Legend Limit Adjustment
+
+### Legend Limit Adjustment
 
 The legend for continuous values will only cover a range from the
 minimal measured to the maximal measured value. If the theoretically
@@ -183,7 +184,8 @@ plate_plot(data = data_continuous_384,
 ```
 
 <img src="man/figures/README-standard_plot_384_well_new_limits_outlier-1.png" width="100%" />
-\### Gradient Colour Adjustment
+
+### Gradient Colour Adjustment
 
 When plotting continuous variables it is possible to to change the
 gradient colours by providing new colours to the `colour` argument. The
