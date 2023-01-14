@@ -173,34 +173,18 @@ can be manually adjusted with this argument.</p></dd>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://stringr.tidyverse.org" class="external-link">stringr</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Create example data for continuous value</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># 96-well plate</span></span></span>
-<span class="r-in"><span><span class="va">data_continuous_96</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">96</span><span class="op">)</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">8</span>, ncol <span class="op">=</span> <span class="fl">12</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">8</span><span class="op">]</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="op">-</span><span class="va">rows</span>, names_to <span class="op">=</span> <span class="st">"cols"</span>, values_to <span class="op">=</span> <span class="st">"value"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_remove.html" class="external-link">str_remove</a></span><span class="op">(</span><span class="va">cols</span>, pattern <span class="op">=</span> <span class="st">"V|X"</span><span class="op">)</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    well <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">rows</span>, <span class="va">cols</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="va">well</span>, <span class="va">value</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># 384-well plate</span></span></span>
-<span class="r-in"><span><span class="va">data_continuous_384</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">384</span><span class="op">)</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">16</span>, ncol <span class="op">=</span> <span class="fl">24</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">16</span><span class="op">]</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="op">-</span><span class="va">rows</span>, names_to <span class="op">=</span> <span class="st">"cols"</span>, values_to <span class="op">=</span> <span class="st">"value"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_remove.html" class="external-link">str_remove</a></span><span class="op">(</span><span class="va">cols</span>, pattern <span class="op">=</span> <span class="st">"V|X"</span><span class="op">)</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    well <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">rows</span>, <span class="va">cols</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="va">well</span>, <span class="va">value</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Load example data</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"data_continuous_96"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"data_continuous_384"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"data_discrete_6"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"data_discrete_24"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Create a 96-well plot with round wells</span></span></span>
 <span class="r-in"><span><span class="fu">plate_plot</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  data <span class="op">=</span> <span class="va">data_continuous_96</span>,</span></span>
 <span class="r-in"><span>  position <span class="op">=</span> <span class="va">well</span>,</span></span>
-<span class="r-in"><span>  value <span class="op">=</span> <span class="va">value</span>,</span></span>
-<span class="r-in"><span>  label <span class="op">=</span> <span class="va">value</span>,</span></span>
+<span class="r-in"><span>  value <span class="op">=</span> <span class="va">Value</span>,</span></span>
+<span class="r-in"><span>  label <span class="op">=</span> <span class="va">Value</span>,</span></span>
 <span class="r-in"><span>  plate_size <span class="op">=</span> <span class="fl">96</span>,</span></span>
 <span class="r-in"><span>  plate_type <span class="op">=</span> <span class="st">"round"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
@@ -209,73 +193,36 @@ can be manually adjusted with this argument.</p></dd>
 <span class="r-in"><span><span class="co"># Create a 384-well plot with square wells</span></span></span>
 <span class="r-in"><span><span class="co"># Define a custom lower limit</span></span></span>
 <span class="r-in"><span><span class="co"># Define a custom colour scheme</span></span></span>
+<span class="r-in"><span><span class="co"># Define a custom title with a custom size</span></span></span>
 <span class="r-in"><span><span class="fu">plate_plot</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  data <span class="op">=</span> <span class="va">data_continuous_384</span>,</span></span>
 <span class="r-in"><span>  position <span class="op">=</span> <span class="va">well</span>,</span></span>
-<span class="r-in"><span>  value <span class="op">=</span> <span class="va">value</span>,</span></span>
-<span class="r-in"><span>  label <span class="op">=</span> <span class="va">value</span>,</span></span>
+<span class="r-in"><span>  value <span class="op">=</span> <span class="va">Value</span>,</span></span>
+<span class="r-in"><span>  label <span class="op">=</span> <span class="va">Value</span>,</span></span>
 <span class="r-in"><span>  plate_size <span class="op">=</span> <span class="fl">384</span>,</span></span>
-<span class="r-in"><span>  colour <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#03001e"</span>, <span class="st">"#7303c0"</span>, <span class="st">"#ec38bc"</span>, <span class="st">"#fdeff9"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="cn">NA</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  colour <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#000004FF"</span>, <span class="st">"#51127CFF"</span>, <span class="st">"#B63679FF"</span>, <span class="st">"#FB8861FF"</span>, <span class="st">"#FCFDBFFF"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="cn">NA</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  title <span class="op">=</span> <span class="st">"Custom Title"</span>,</span></span>
+<span class="r-in"><span>  title_size <span class="op">=</span> <span class="fl">20</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plate_plot-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Create example data for discrete value</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># 24-well plate</span></span></span>
-<span class="r-in"><span><span class="va">data_discrete_24</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>      <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"Control"</span>, <span class="fl">8</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>      <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"Drug 1"</span>, <span class="fl">8</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>      <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"Drug 2"</span>, <span class="fl">8</span><span class="op">)</span></span></span>
-<span class="r-in"><span>    <span class="op">)</span>,</span></span>
-<span class="r-in"><span>    nrow <span class="op">=</span> <span class="fl">4</span>,</span></span>
-<span class="r-in"><span>    ncol <span class="op">=</span> <span class="fl">6</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="op">-</span><span class="va">rows</span>, names_to <span class="op">=</span> <span class="st">"cols"</span>, values_to <span class="op">=</span> <span class="st">"Condition"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_remove.html" class="external-link">str_remove</a></span><span class="op">(</span><span class="va">cols</span>, pattern <span class="op">=</span> <span class="st">"V|X"</span><span class="op">)</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    well <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">rows</span>, <span class="va">cols</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="va">well</span>, <span class="va">Condition</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># 6-well plate</span></span></span>
-<span class="r-in"><span><span class="va">data_discrete_6</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>      <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"DMSO"</span>, <span class="fl">2</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>      <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"Rapamycin"</span>, <span class="fl">2</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>      <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"Taxol"</span>, <span class="fl">2</span><span class="op">)</span></span></span>
-<span class="r-in"><span>    <span class="op">)</span>,</span></span>
-<span class="r-in"><span>    nrow <span class="op">=</span> <span class="fl">2</span>,</span></span>
-<span class="r-in"><span>    ncol <span class="op">=</span> <span class="fl">3</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>rows <span class="op">=</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="op">-</span><span class="va">rows</span>, names_to <span class="op">=</span> <span class="st">"cols"</span>, values_to <span class="op">=</span> <span class="st">"Condition"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_remove.html" class="external-link">str_remove</a></span><span class="op">(</span><span class="va">cols</span>, pattern <span class="op">=</span> <span class="st">"V|X"</span><span class="op">)</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    well <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">rows</span>, <span class="va">cols</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="va">well</span>, <span class="va">Condition</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Create a 24-well plot</span></span></span>
-<span class="r-in"><span><span class="fu">plate_plot</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  data <span class="op">=</span> <span class="va">data_discrete_24</span>,</span></span>
-<span class="r-in"><span>  position <span class="op">=</span> <span class="va">well</span>,</span></span>
-<span class="r-in"><span>  value <span class="op">=</span> <span class="va">Condition</span>,</span></span>
-<span class="r-in"><span>  plate_size <span class="op">=</span> <span class="fl">24</span>,</span></span>
-<span class="r-in"><span>  plate_type <span class="op">=</span> <span class="st">"round"</span>,</span></span>
-<span class="r-in"><span>  show_legend <span class="op">=</span> <span class="cn">FALSE</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Show a 6 row legend</span></span></span>
+<span class="r-in"><span><span class="co"># Scale the plot to 1.2</span></span></span>
+<span class="r-in"><span><span class="fu">plate_plot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_discrete_24</span>,</span></span>
+<span class="r-in"><span>           position <span class="op">=</span> <span class="va">well</span>,</span></span>
+<span class="r-in"><span>           value <span class="op">=</span> <span class="va">Condition</span>,</span></span>
+<span class="r-in"><span>           plate_size <span class="op">=</span> <span class="fl">24</span>,</span></span>
+<span class="r-in"><span>           plate_type <span class="op">=</span> <span class="st">"round"</span>,</span></span>
+<span class="r-in"><span>           scale <span class="op">=</span> <span class="fl">1.2</span>,</span></span>
+<span class="r-in"><span>           legend_n_row <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plate_plot-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Create a 6-well plot</span></span></span>
 <span class="r-in"><span><span class="co"># Define a custom colour scheme</span></span></span>
 <span class="r-in"><span><span class="co"># Adjust label_size to fit text</span></span></span>
+<span class="r-in"><span><span class="co"># Let the plot return width, height and scale</span></span></span>
 <span class="r-in"><span><span class="fu">plate_plot</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  data <span class="op">=</span> <span class="va">data_discrete_6</span>,</span></span>
 <span class="r-in"><span>  position <span class="op">=</span> <span class="va">well</span>,</span></span>
@@ -285,8 +232,11 @@ can be manually adjusted with this argument.</p></dd>
 <span class="r-in"><span>  plate_type <span class="op">=</span> <span class="st">"round"</span>,</span></span>
 <span class="r-in"><span>  colour <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#3a1c71"</span>, <span class="st">"#d76d77"</span>, <span class="st">"#ffaf7b"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  label_size <span class="op">=</span> <span class="fl">4</span>,</span></span>
-<span class="r-in"><span>  show_legend <span class="op">=</span> <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span>  show_legend <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>  silent <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> width: 6.667 height: 6.667</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> scaling factor: 1.196</span>
 <span class="r-plt img"><img src="plate_plot-4.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
