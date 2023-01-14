@@ -82,34 +82,18 @@ library(dplyr)
 library(tidyr)
 library(stringr)
 
-# Create example data for continuous value
-
-# 96-well plate
-data_continuous_96 <- data.frame(matrix(round(abs(rnorm(96)), 2), nrow = 8, ncol = 12)) |>
-  mutate(rows = LETTERS[1:8]) |>
-  pivot_longer(cols = -rows, names_to = "cols", values_to = "value") |>
-  mutate(
-    cols = as.numeric(str_remove(cols, pattern = "V|X")),
-    well = paste0(rows, cols)
-  ) |>
-  distinct(well, value)
-
-# 384-well plate
-data_continuous_384 <- data.frame(matrix(round(abs(rnorm(384)), 2), nrow = 16, ncol = 24)) |>
-  mutate(rows = LETTERS[1:16]) |>
-  pivot_longer(cols = -rows, names_to = "cols", values_to = "value") |>
-  mutate(
-    cols = as.numeric(str_remove(cols, pattern = "V|X")),
-    well = paste0(rows, cols)
-  ) |>
-  distinct(well, value)
+# Load example data
+data("data_continuous_96")
+data("data_continuous_384")
+data("data_discrete_6")
+data("data_discrete_24")
 
 # Create a 96-well plot with round wells
 plate_plot(
   data = data_continuous_96,
   position = well,
-  value = value,
-  label = value,
+  value = Value,
+  label = Value,
   plate_size = 96,
   plate_type = "round"
 )
@@ -117,71 +101,34 @@ plate_plot(
 # Create a 384-well plot with square wells
 # Define a custom lower limit
 # Define a custom colour scheme
+# Define a custom title with a custom size
 plate_plot(
   data = data_continuous_384,
   position = well,
-  value = value,
-  label = value,
+  value = Value,
+  label = Value,
   plate_size = 384,
-  colour = c("#03001e", "#7303c0", "#ec38bc", "#fdeff9"),
-  limits = c(0, NA)
+  colour = c("#000004FF", "#51127CFF", "#B63679FF", "#FB8861FF", "#FCFDBFFF"),
+  limits = c(0, NA),
+  title = "Custom Title",
+  title_size = 20
 )
-
-# Create example data for discrete value
-
-# 24-well plate
-data_discrete_24 <- data.frame(
-  matrix(
-    c(
-      rep("Control", 8),
-      rep("Drug 1", 8),
-      rep("Drug 2", 8)
-    ),
-    nrow = 4,
-    ncol = 6
-  )
-) |>
-  mutate(rows = LETTERS[1:4]) |>
-  pivot_longer(cols = -rows, names_to = "cols", values_to = "Condition") |>
-  mutate(
-    cols = as.numeric(str_remove(cols, pattern = "V|X")),
-    well = paste0(rows, cols)
-  ) |>
-  distinct(well, Condition)
-
-# 6-well plate
-data_discrete_6 <- data.frame(
-  matrix(
-    c(
-      rep("DMSO", 2),
-      rep("Rapamycin", 2),
-      rep("Taxol", 2)
-    ),
-    nrow = 2,
-    ncol = 3
-  )
-) |>
-  mutate(rows = LETTERS[1:2]) |>
-  pivot_longer(cols = -rows, names_to = "cols", values_to = "Condition") |>
-  mutate(
-    cols = as.numeric(str_remove(cols, pattern = "V|X")),
-    well = paste0(rows, cols)
-  ) |>
-  distinct(well, Condition)
 
 # Create a 24-well plot
-plate_plot(
-  data = data_discrete_24,
-  position = well,
-  value = Condition,
-  plate_size = 24,
-  plate_type = "round",
-  show_legend = FALSE
-)
+# Show a 6 row legend
+# Scale the plot to 1.2
+plate_plot(data = data_discrete_24,
+           position = well,
+           value = Condition,
+           plate_size = 24,
+           plate_type = "round",
+           scale = 1.2,
+           legend_n_row = 6)
 
 # Create a 6-well plot
 # Define a custom colour scheme
 # Adjust label_size to fit text
+# Let the plot return width, height and scale
 plate_plot(
   data = data_discrete_6,
   position = well,
@@ -191,7 +138,8 @@ plate_plot(
   plate_type = "round",
   colour = c("#3a1c71", "#d76d77", "#ffaf7b"),
   label_size = 4,
-  show_legend = FALSE
+  show_legend = FALSE,
+  silent = FALSE
 )
 
 }

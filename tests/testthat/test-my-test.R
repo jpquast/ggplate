@@ -9,8 +9,18 @@ data("data_continuous_24")
 data("data_discrete_24")
 data("data_continuous_48")
 data("data_continuous_96")
-#data("data_discrete_96")
+data("data_discrete_96")
 data("data_continuous_384")
+
+# plate size error
+test_that("plate_plot works", {
+  expect_error(plate_plot(
+    data = data_continuous_6,
+    position = well,
+    value = Value,
+    plate_size = 7)
+  )
+})
 
 # 6 continuous, limits (lower), label, round
 test_that("plate_plot works", {
@@ -46,6 +56,19 @@ test_that("plate_plot works", {
   expect_error(print(plot_2), NA)
 })
 
+# colour error
+test_that("plate_plot works", {
+  expect_error(
+    plate_plot(
+      data = data_discrete_6,
+      position = well,
+      value = Condition,
+      plate_size = 6,
+      colour = c("#3a1c71")
+    )
+  )
+})
+
 # 12 continuous title, title size
 test_that("plate_plot works", {
   plot_3 <- plate_plot(
@@ -54,7 +77,6 @@ test_that("plate_plot works", {
     value = Value,
     label = Value,
     plate_size = 12,
-    show_legend = FALSE,
     title = "New Title",
     title_size = 23
   )
@@ -129,16 +151,31 @@ test_that("plate_plot works", {
   expect_error(print(plot_7), NA)
 })
 
+# 96 discrete, legend_n_row missing
+test_that("plate_plot works", {
+  plot_8 <- plate_plot(data = data_discrete_96,
+                       position = well,
+                       value = Compound,
+                       label = Compound_multiline, # using a column that contains line brakes for labeling
+                       plate_size = 96,
+                       show_legend = FALSE, # hiding legend
+                       label_size = 1.1, # setting label size
+                       plate_type = "round")
+
+  expect_s3_class(plot_8, "ggplot")
+  expect_error(print(plot_8), NA)
+})
+
 # 384 continuous
 test_that("plate_plot works", {
-  plot_8 <- plate_plot(
+  plot_9 <- plate_plot(
     data = data_continuous_384,
     position = well,
     value = Value,
     plate_size = 384
   )
 
-  expect_s3_class(plot_8, "ggplot")
-  expect_error(print(plot_8), NA)
+  expect_s3_class(plot_9, "ggplot")
+  expect_error(print(plot_9), NA)
 })
 
