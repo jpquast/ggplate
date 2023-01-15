@@ -120,31 +120,37 @@
 <p><em>Note: For an R markdown file set the chunk options to <code>dpi=300</code> for an optimal result.</em></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create a 96-well plot with round wells</span></span>
-<span><span class="fu"><a href="reference/plate_plot.html">plate_plot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_continuous_96</span>, </span>
-<span>           position <span class="op">=</span> <span class="va">well</span>, </span>
-<span>           value <span class="op">=</span> <span class="va">Value</span>, </span>
-<span>           plate_size <span class="op">=</span> <span class="fl">96</span>, </span>
-<span>           plate_type <span class="op">=</span> <span class="st">"round"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/plate_plot.html">plate_plot</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">data_continuous_96</span>,</span>
+<span>  position <span class="op">=</span> <span class="va">well</span>,</span>
+<span>  value <span class="op">=</span> <span class="va">Value</span>,</span>
+<span>  plate_size <span class="op">=</span> <span class="fl">96</span>,</span>
+<span>  plate_type <span class="op">=</span> <span class="st">"round"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-standard_plot-1.png" width="100%"></p>
 <p>It is also possible to label each well in the plate with a corresponding label. For the plate above it would be interesting to display the exact value on each of the wells in addition to the colouring. For that we use the <code>label</code> argument which takes the name of the column containing the label as an input. In this example case this column is the same that is also provided to the <code>value</code> argument.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create a 96-well plot with labels</span></span>
-<span><span class="fu"><a href="reference/plate_plot.html">plate_plot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_continuous_96</span>, </span>
-<span>           position <span class="op">=</span> <span class="va">well</span>, </span>
-<span>           value <span class="op">=</span> <span class="va">Value</span>, </span>
-<span>           label <span class="op">=</span> <span class="va">Value</span>,</span>
-<span>           plate_size <span class="op">=</span> <span class="fl">96</span>, </span>
-<span>           plate_type <span class="op">=</span> <span class="st">"round"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/plate_plot.html">plate_plot</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">data_continuous_96</span>,</span>
+<span>  position <span class="op">=</span> <span class="va">well</span>,</span>
+<span>  value <span class="op">=</span> <span class="va">Value</span>,</span>
+<span>  label <span class="op">=</span> <span class="va">Value</span>,</span>
+<span>  plate_size <span class="op">=</span> <span class="fl">96</span>,</span>
+<span>  plate_type <span class="op">=</span> <span class="st">"round"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-standard_plot_labels-1.png" width="100%"></p>
 <p>Try providing the <code>well</code> column to the <code>label</code> argument instead of the <code>Value</code> column. This will label each will with its position, which might make it easier to find specific positions.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create a 96-well plot with labels</span></span>
-<span><span class="fu"><a href="reference/plate_plot.html">plate_plot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_continuous_96</span>, </span>
-<span>           position <span class="op">=</span> <span class="va">well</span>, </span>
-<span>           value <span class="op">=</span> <span class="va">Value</span>, </span>
-<span>           label <span class="op">=</span> <span class="va">well</span>,</span>
-<span>           plate_size <span class="op">=</span> <span class="fl">96</span>, </span>
-<span>           plate_type <span class="op">=</span> <span class="st">"round"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/plate_plot.html">plate_plot</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">data_continuous_96</span>,</span>
+<span>  position <span class="op">=</span> <span class="va">well</span>,</span>
+<span>  value <span class="op">=</span> <span class="va">Value</span>,</span>
+<span>  label <span class="op">=</span> <span class="va">well</span>,</span>
+<span>  plate_size <span class="op">=</span> <span class="fl">96</span>,</span>
+<span>  plate_type <span class="op">=</span> <span class="st">"round"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-standard_plot_labels_wells-1.png" width="100%"></p>
 <div class="section level3">
 <h3 id="legend-limit-adjustment">Legend Limit Adjustment<a class="anchor" aria-label="anchor" href="#legend-limit-adjustment"></a>
@@ -161,20 +167,24 @@
 <span><span class="co">#&gt;  $ well : chr [1:384] "A1" "A2" "A3" "A4" ...</span></span>
 <span></span>
 <span><span class="co"># Create a 384-well plot with adjusted legend limits</span></span>
-<span><span class="fu"><a href="reference/plate_plot.html">plate_plot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_continuous_384</span>, </span>
-<span>           position <span class="op">=</span> <span class="va">well</span>, </span>
-<span>           value <span class="op">=</span> <span class="va">Value</span>, </span>
-<span>           plate_size <span class="op">=</span> <span class="fl">384</span>,</span>
-<span>           limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/plate_plot.html">plate_plot</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">data_continuous_384</span>,</span>
+<span>  position <span class="op">=</span> <span class="va">well</span>,</span>
+<span>  value <span class="op">=</span> <span class="va">Value</span>,</span>
+<span>  plate_size <span class="op">=</span> <span class="fl">384</span>,</span>
+<span>  limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">4</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-standard_plot_384_well_new_limits-1.png" width="100%"></p>
 <p>If your new range will be smaller than the measured range, values outside of the range are coloured gray.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create a 384-well plot with adjusted legend limits and outliers</span></span>
-<span><span class="fu"><a href="reference/plate_plot.html">plate_plot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_continuous_384</span>, </span>
-<span>           position <span class="op">=</span> <span class="va">well</span>, </span>
-<span>           value <span class="op">=</span> <span class="va">Value</span>, </span>
-<span>           plate_size <span class="op">=</span> <span class="fl">384</span>,</span>
-<span>           limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/plate_plot.html">plate_plot</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">data_continuous_384</span>,</span>
+<span>  position <span class="op">=</span> <span class="va">well</span>,</span>
+<span>  value <span class="op">=</span> <span class="va">Value</span>,</span>
+<span>  plate_size <span class="op">=</span> <span class="fl">384</span>,</span>
+<span>  limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-standard_plot_384_well_new_limits_outlier-1.png" width="100%"></p>
 </div>
 <div class="section level3">
@@ -183,11 +193,19 @@
 <p>When plotting continuous variables it is possible to to change the gradient colours by providing new colours to the <code>colour</code> argument. The colours will be used to create a new colour gradient for the plot.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create a 384-well plot with a new colour gradient</span></span>
-<span><span class="fu"><a href="reference/plate_plot.html">plate_plot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_continuous_384</span>, </span>
-<span>           position <span class="op">=</span> <span class="va">well</span>, </span>
-<span>           value <span class="op">=</span> <span class="va">Value</span>, </span>
-<span>           plate_size <span class="op">=</span> <span class="fl">384</span>,</span>
-<span>           colour <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#000004FF"</span>, <span class="st">"#51127CFF"</span>, <span class="st">"#B63679FF"</span>, <span class="st">"#FB8861FF"</span>, <span class="st">"#FCFDBFFF"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/plate_plot.html">plate_plot</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">data_continuous_384</span>,</span>
+<span>  position <span class="op">=</span> <span class="va">well</span>,</span>
+<span>  value <span class="op">=</span> <span class="va">Value</span>,</span>
+<span>  plate_size <span class="op">=</span> <span class="fl">384</span>,</span>
+<span>  colour <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>    <span class="st">"#000004FF"</span>,</span>
+<span>    <span class="st">"#51127CFF"</span>,</span>
+<span>    <span class="st">"#B63679FF"</span>,</span>
+<span>    <span class="st">"#FB8861FF"</span>,</span>
+<span>    <span class="st">"#FCFDBFFF"</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-standard_plot_384_well_new_gradient-1.png" width="100%"></p>
 </div>
 <div class="section level3">
@@ -205,11 +223,13 @@
 <span><span class="co">#&gt;  $ well : chr [1:48] "A1" "A2" "A3" "A4" ...</span></span>
 <span></span>
 <span><span class="co"># Create a 48-well plot with adjusted legend limits</span></span>
-<span><span class="fu"><a href="reference/plate_plot.html">plate_plot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_continuous_48_incomplete</span>, </span>
-<span>           position <span class="op">=</span> <span class="va">well</span>, </span>
-<span>           value <span class="op">=</span> <span class="va">Value</span>, </span>
-<span>           plate_type <span class="op">=</span> <span class="st">"round"</span>,</span>
-<span>           plate_size <span class="op">=</span> <span class="fl">48</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/plate_plot.html">plate_plot</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">data_continuous_48_incomplete</span>,</span>
+<span>  position <span class="op">=</span> <span class="va">well</span>,</span>
+<span>  value <span class="op">=</span> <span class="va">Value</span>,</span>
+<span>  plate_type <span class="op">=</span> <span class="st">"round"</span>,</span>
+<span>  plate_size <span class="op">=</span> <span class="fl">48</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-standard_plot_48_empty_wells-1.png" width="100%"></p>
 </div>
 </div>
@@ -230,40 +250,46 @@
 <span><span class="co">#&gt;  $ well     : chr [1:6] "A1" "A2" "A3" "B1" ...</span></span>
 <span></span>
 <span><span class="co"># Create a 6-well plot with new title</span></span>
-<span><span class="fu"><a href="reference/plate_plot.html">plate_plot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_discrete_6</span>, </span>
-<span>           position <span class="op">=</span> <span class="va">well</span>, </span>
-<span>           value <span class="op">=</span> <span class="va">Condition</span>, </span>
-<span>           plate_size <span class="op">=</span> <span class="fl">6</span>, </span>
-<span>           plate_type <span class="op">=</span> <span class="st">"round"</span>,</span>
-<span>           title <span class="op">=</span> <span class="st">"Drug Treatment"</span>,</span>
-<span>           title_size <span class="op">=</span> <span class="fl">23</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/plate_plot.html">plate_plot</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">data_discrete_6</span>,</span>
+<span>  position <span class="op">=</span> <span class="va">well</span>,</span>
+<span>  value <span class="op">=</span> <span class="va">Condition</span>,</span>
+<span>  plate_size <span class="op">=</span> <span class="fl">6</span>,</span>
+<span>  plate_type <span class="op">=</span> <span class="st">"round"</span>,</span>
+<span>  title <span class="op">=</span> <span class="st">"Drug Treatment"</span>,</span>
+<span>  title_size <span class="op">=</span> <span class="fl">23</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-standard_plot_6_well-1.png" width="80%" style="display: block; margin: auto;"></p>
 <p>In addition it is possible to change the colours of the plot by providing new colours to the <code>colour</code> argument. As mentioned earlier this does not only work for discrete values but also for gradients that will be created based on the provided colours.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Create a 6-well plot </span></span>
-<span><span class="fu"><a href="reference/plate_plot.html">plate_plot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_discrete_6</span>, </span>
-<span>           position <span class="op">=</span> <span class="va">well</span>, </span>
-<span>           value <span class="op">=</span> <span class="va">Condition</span>, </span>
-<span>           plate_size <span class="op">=</span> <span class="fl">6</span>, </span>
-<span>           plate_type <span class="op">=</span> <span class="st">"round"</span>,</span>
-<span>           title <span class="op">=</span> <span class="st">"Drug Treatment"</span>,</span>
-<span>           title_size <span class="op">=</span> <span class="fl">23</span>,</span>
-<span>           colour <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#3a1c71"</span>, <span class="st">"#d76d77"</span>, <span class="st">"#ffaf7b"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Create a 6-well plot</span></span>
+<span><span class="fu"><a href="reference/plate_plot.html">plate_plot</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">data_discrete_6</span>,</span>
+<span>  position <span class="op">=</span> <span class="va">well</span>,</span>
+<span>  value <span class="op">=</span> <span class="va">Condition</span>,</span>
+<span>  plate_size <span class="op">=</span> <span class="fl">6</span>,</span>
+<span>  plate_type <span class="op">=</span> <span class="st">"round"</span>,</span>
+<span>  title <span class="op">=</span> <span class="st">"Drug Treatment"</span>,</span>
+<span>  title_size <span class="op">=</span> <span class="fl">23</span>,</span>
+<span>  colour <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#3a1c71"</span>, <span class="st">"#d76d77"</span>, <span class="st">"#ffaf7b"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-6_well_plot_new_colours-1.png" width="80%" style="display: block; margin: auto;"></p>
 <p>Also for this plot we can provide a column name to the <code>label</code> argument to directly label the wells in the plot. At the same time we can disable the legend setting the <code>show_legend</code> argument to <code>FALSE</code>. In this case the labels for each well are too large and we should also resize the label so that it fits perfectly into each well using the <code>label_size</code> argument.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Create a 6-well plot </span></span>
-<span><span class="fu"><a href="reference/plate_plot.html">plate_plot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_discrete_6</span>, </span>
-<span>           position <span class="op">=</span> <span class="va">well</span>, </span>
-<span>           value <span class="op">=</span> <span class="va">Condition</span>, </span>
-<span>           label <span class="op">=</span> <span class="va">Condition</span>,</span>
-<span>           plate_size <span class="op">=</span> <span class="fl">6</span>, </span>
-<span>           plate_type <span class="op">=</span> <span class="st">"round"</span>,</span>
-<span>           title <span class="op">=</span> <span class="st">"Drug Treatment"</span>,</span>
-<span>           title_size <span class="op">=</span> <span class="fl">23</span>,</span>
-<span>           colour <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#3a1c71"</span>, <span class="st">"#d76d77"</span>, <span class="st">"#ffaf7b"</span><span class="op">)</span>,</span>
-<span>           show_legend <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>           label_size <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Create a 6-well plot</span></span>
+<span><span class="fu"><a href="reference/plate_plot.html">plate_plot</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">data_discrete_6</span>,</span>
+<span>  position <span class="op">=</span> <span class="va">well</span>,</span>
+<span>  value <span class="op">=</span> <span class="va">Condition</span>,</span>
+<span>  label <span class="op">=</span> <span class="va">Condition</span>,</span>
+<span>  plate_size <span class="op">=</span> <span class="fl">6</span>,</span>
+<span>  plate_type <span class="op">=</span> <span class="st">"round"</span>,</span>
+<span>  title <span class="op">=</span> <span class="st">"Drug Treatment"</span>,</span>
+<span>  title_size <span class="op">=</span> <span class="fl">23</span>,</span>
+<span>  colour <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#3a1c71"</span>, <span class="st">"#d76d77"</span>, <span class="st">"#ffaf7b"</span><span class="op">)</span>,</span>
+<span>  show_legend <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  label_size <span class="op">=</span> <span class="fl">4</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-6_well_plot_new_colours_no_legend-1.png" width="80%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">
@@ -281,39 +307,45 @@
 <span><span class="co">#&gt;  $ Condition: chr [1:24] "siControl" "siRaptor" "siRagB" "siRagD" ...</span></span>
 <span><span class="co">#&gt;  $ well     : chr [1:24] "A1" "A2" "A3" "A4" ...</span></span>
 <span></span>
-<span><span class="co"># Create a 24-well plot </span></span>
-<span><span class="fu"><a href="reference/plate_plot.html">plate_plot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_discrete_24</span>, </span>
-<span>           position <span class="op">=</span> <span class="va">well</span>, </span>
-<span>           value <span class="op">=</span> <span class="va">Condition</span>, </span>
-<span>           plate_size <span class="op">=</span> <span class="fl">24</span>, </span>
-<span>           plate_type <span class="op">=</span> <span class="st">"round"</span>,</span>
-<span>           silent <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="co"># Create a 24-well plot</span></span>
+<span><span class="fu"><a href="reference/plate_plot.html">plate_plot</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">data_discrete_24</span>,</span>
+<span>  position <span class="op">=</span> <span class="va">well</span>,</span>
+<span>  value <span class="op">=</span> <span class="va">Condition</span>,</span>
+<span>  plate_size <span class="op">=</span> <span class="fl">24</span>,</span>
+<span>  plate_type <span class="op">=</span> <span class="st">"round"</span>,</span>
+<span>  silent <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
 <span><span class="co">#&gt; width: 7 height: 4</span></span>
 <span><span class="co">#&gt; scaling factor: 1.256</span></span></code></pre></div>
 <p><img src="reference/figures/README-return_device_size-1.png" width="100%"></p>
 <p>It is possible that the generated plot has overlapping or too spaced out wells. This can be corrected by resizing the output graphics device size until the plot has the desired proportions. If a specific output size is required and the plot does not have the desired proportions you can use the <code>scale</code> argument to adjust it as shown below.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Create a 24-well plot </span></span>
-<span><span class="fu"><a href="reference/plate_plot.html">plate_plot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_discrete_24</span>, </span>
-<span>           position <span class="op">=</span> <span class="va">well</span>, </span>
-<span>           value <span class="op">=</span> <span class="va">Condition</span>, </span>
-<span>           plate_size <span class="op">=</span> <span class="fl">24</span>, </span>
-<span>           plate_type <span class="op">=</span> <span class="st">"round"</span>,</span>
-<span>           silent <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>           scale <span class="op">=</span> <span class="fl">1.45</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># Create a 24-well plot</span></span>
+<span><span class="fu"><a href="reference/plate_plot.html">plate_plot</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">data_discrete_24</span>,</span>
+<span>  position <span class="op">=</span> <span class="va">well</span>,</span>
+<span>  value <span class="op">=</span> <span class="va">Condition</span>,</span>
+<span>  plate_size <span class="op">=</span> <span class="fl">24</span>,</span>
+<span>  plate_type <span class="op">=</span> <span class="st">"round"</span>,</span>
+<span>  silent <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  scale <span class="op">=</span> <span class="fl">1.45</span></span>
+<span><span class="op">)</span></span>
 <span><span class="co">#&gt; width: 7 height: 4</span></span>
 <span><span class="co">#&gt; scaling factor: 1.45</span></span></code></pre></div>
 <p><img src="reference/figures/README-resize_plot-1.png" width="100%"> As you can see, however, now we are running into the problem that the legend is larger than the screen size. With the <code>legend_n_row</code> argument you can manually determine the number of rows that should be used for the legend. In this case it is ideal to split the legend into 2 columns by setting <code>legend_n_row</code> to 6 rows. In addition we should adjust the <code>scale</code> parameter to <code>1.2</code> in order to space out wells properly.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create a 24-well plot with 2 row legend</span></span>
-<span><span class="fu"><a href="reference/plate_plot.html">plate_plot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_discrete_24</span>, </span>
-<span>           position <span class="op">=</span> <span class="va">well</span>, </span>
-<span>           value <span class="op">=</span> <span class="va">Condition</span>, </span>
-<span>           plate_size <span class="op">=</span> <span class="fl">24</span>, </span>
-<span>           plate_type <span class="op">=</span> <span class="st">"round"</span>,</span>
-<span>           silent <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>           scale <span class="op">=</span> <span class="fl">1.2</span>,</span>
-<span>           legend_n_row <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/plate_plot.html">plate_plot</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">data_discrete_24</span>,</span>
+<span>  position <span class="op">=</span> <span class="va">well</span>,</span>
+<span>  value <span class="op">=</span> <span class="va">Condition</span>,</span>
+<span>  plate_size <span class="op">=</span> <span class="fl">24</span>,</span>
+<span>  plate_type <span class="op">=</span> <span class="st">"round"</span>,</span>
+<span>  silent <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  scale <span class="op">=</span> <span class="fl">1.2</span>,</span>
+<span>  legend_n_row <span class="op">=</span> <span class="fl">6</span></span>
+<span><span class="op">)</span></span>
 <span><span class="co">#&gt; width: 7 height: 4</span></span>
 <span><span class="co">#&gt; scaling factor: 1.2</span></span></code></pre></div>
 <p><img src="reference/figures/README-24_well_plate_legend_n_row-1.png" width="100%"> If your dataset has a lot of labels it can become difficult to impossible to distinguish them just by colour as you can see for the dataset below.</p>
@@ -328,25 +360,29 @@
 <span><span class="co">#&gt;  $ well              : chr [1:96] "A1" "A2" "A3" "A4" ...</span></span>
 <span><span class="co">#&gt;  $ Compound_multiline: chr [1:96] "Positive\nControl" "Axitinib" "Gefitinib\n(ZD1839)" "Rapamycin\n(Sirolimus)" ...</span></span>
 <span></span>
-<span><span class="co"># Create a 96-well plot </span></span>
-<span><span class="fu"><a href="reference/plate_plot.html">plate_plot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_discrete_96</span>, </span>
-<span>           position <span class="op">=</span> <span class="va">well</span>, </span>
-<span>           value <span class="op">=</span> <span class="va">Compound</span>, </span>
-<span>           plate_size <span class="op">=</span> <span class="fl">96</span>, </span>
-<span>           scale <span class="op">=</span> <span class="fl">0.95</span>,</span>
-<span>           plate_type <span class="op">=</span> <span class="st">"round"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="co"># Create a 96-well plot</span></span>
+<span><span class="fu"><a href="reference/plate_plot.html">plate_plot</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">data_discrete_96</span>,</span>
+<span>  position <span class="op">=</span> <span class="va">well</span>,</span>
+<span>  value <span class="op">=</span> <span class="va">Compound</span>,</span>
+<span>  plate_size <span class="op">=</span> <span class="fl">96</span>,</span>
+<span>  scale <span class="op">=</span> <span class="fl">0.95</span>,</span>
+<span>  plate_type <span class="op">=</span> <span class="st">"round"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-discrete_96_well_plate-1.png" width="100%"></p>
 <p>This is an example where it is likely better to directly label wells instead of displaying a legend.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create a 96-well plot with labels</span></span>
-<span><span class="fu"><a href="reference/plate_plot.html">plate_plot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_discrete_96</span>, </span>
-<span>           position <span class="op">=</span> <span class="va">well</span>, </span>
-<span>           value <span class="op">=</span> <span class="va">Compound</span>, </span>
-<span>           label <span class="op">=</span> <span class="va">Compound_multiline</span>, <span class="co"># using a column that contains line brakes for labeling</span></span>
-<span>           plate_size <span class="op">=</span> <span class="fl">96</span>, </span>
-<span>           show_legend <span class="op">=</span> <span class="cn">FALSE</span>, <span class="co"># hiding legend</span></span>
-<span>           label_size <span class="op">=</span> <span class="fl">1.1</span>, <span class="co"># setting label size</span></span>
-<span>           plate_type <span class="op">=</span> <span class="st">"round"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/plate_plot.html">plate_plot</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">data_discrete_96</span>,</span>
+<span>  position <span class="op">=</span> <span class="va">well</span>,</span>
+<span>  value <span class="op">=</span> <span class="va">Compound</span>,</span>
+<span>  label <span class="op">=</span> <span class="va">Compound_multiline</span>, <span class="co"># using a column that contains line brakes for labeling</span></span>
+<span>  plate_size <span class="op">=</span> <span class="fl">96</span>,</span>
+<span>  show_legend <span class="op">=</span> <span class="cn">FALSE</span>, <span class="co"># hiding legend</span></span>
+<span>  label_size <span class="op">=</span> <span class="fl">1.1</span>, <span class="co"># setting label size</span></span>
+<span>  plate_type <span class="op">=</span> <span class="st">"round"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-discrete_96_well_plate_label-1.png" width="100%"></p>
 </div>
 <div class="section level2">
@@ -355,15 +391,23 @@
 <p>Since the plot function checks the size of the graphics device in order to apply the appropriate scaling to the plot, it is important to first generate an output graphics device with the correct size. There are several functions that can accomplish this. These include e.g. <code><a href="https://rdrr.io/r/grDevices/png.html" class="external-link">png()</a></code>, <code><a href="https://rdrr.io/r/grDevices/pdf.html" class="external-link">pdf()</a></code>, <code><a href="https://rdrr.io/r/grDevices/cairo.html" class="external-link">svg()</a></code> and many more.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Generate a new graphics device with a defined size</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/grDevices/png.html" class="external-link">png</a></span><span class="op">(</span><span class="st">"plate_plot_384_well_plate.png"</span>, width <span class="op">=</span> <span class="fl">10</span>, height <span class="op">=</span> <span class="fl">6</span>, unit <span class="op">=</span> <span class="st">"in"</span>, res <span class="op">=</span> <span class="fl">300</span><span class="op">)</span> </span>
+<span><span class="fu"><a href="https://rdrr.io/r/grDevices/png.html" class="external-link">png</a></span><span class="op">(</span><span class="st">"plate_plot_384_well_plate.png"</span>, width <span class="op">=</span> <span class="fl">10</span>, height <span class="op">=</span> <span class="fl">6</span>, unit <span class="op">=</span> <span class="st">"in"</span>, res <span class="op">=</span> <span class="fl">300</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Create a plot</span></span>
-<span><span class="fu"><a href="reference/plate_plot.html">plate_plot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_continuous_384</span>, </span>
-<span>           position <span class="op">=</span> <span class="va">well</span>, </span>
-<span>           value <span class="op">=</span> <span class="va">Value</span>, </span>
-<span>           label <span class="op">=</span> <span class="va">Value</span>,</span>
-<span>           plate_size <span class="op">=</span> <span class="fl">384</span>,</span>
-<span>           colour <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#000004FF"</span>, <span class="st">"#51127CFF"</span>, <span class="st">"#B63679FF"</span>, <span class="st">"#FB8861FF"</span>, <span class="st">"#FCFDBFFF"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/plate_plot.html">plate_plot</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">data_continuous_384</span>,</span>
+<span>  position <span class="op">=</span> <span class="va">well</span>,</span>
+<span>  value <span class="op">=</span> <span class="va">Value</span>,</span>
+<span>  label <span class="op">=</span> <span class="va">Value</span>,</span>
+<span>  plate_size <span class="op">=</span> <span class="fl">384</span>,</span>
+<span>  colour <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>    <span class="st">"#000004FF"</span>,</span>
+<span>    <span class="st">"#51127CFF"</span>,</span>
+<span>    <span class="st">"#B63679FF"</span>,</span>
+<span>    <span class="st">"#FB8861FF"</span>,</span>
+<span>    <span class="st">"#FCFDBFFF"</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Close graphics device</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html" class="external-link">dev.off</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
