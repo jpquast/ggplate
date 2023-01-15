@@ -117,13 +117,15 @@ plate_plot(
 # Create a 24-well plot
 # Show a 6 row legend
 # Scale the plot to 1.2
-plate_plot(data = data_discrete_24,
-           position = well,
-           value = Condition,
-           plate_size = 24,
-           plate_type = "round",
-           scale = 1.2,
-           legend_n_row = 6)
+plate_plot(
+  data = data_discrete_24,
+  position = well,
+  value = Condition,
+  plate_size = 24,
+  plate_type = "round",
+  scale = 1.2,
+  legend_n_row = 6
+)
 
 # Create a 6-well plot
 # Define a custom colour scheme

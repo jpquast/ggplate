@@ -18,8 +18,8 @@ test_that("plate_plot works", {
     data = data_continuous_6,
     position = well,
     value = Value,
-    plate_size = 7)
-  )
+    plate_size = 7
+  ))
 })
 
 # 6 continuous, limits (lower), label, round
@@ -128,8 +128,7 @@ test_that("plate_plot works", {
     plate_size = 48,
     limits = c(NA, 3),
     silent = FALSE
-  )
-  )
+  ))
 
   expect_s3_class(plot_6, "ggplot")
   expect_error(print(plot_6), NA)
@@ -153,14 +152,16 @@ test_that("plate_plot works", {
 
 # 96 discrete, legend_n_row missing
 test_that("plate_plot works", {
-  plot_8 <- plate_plot(data = data_discrete_96,
-                       position = well,
-                       value = Compound,
-                       label = Compound_multiline, # using a column that contains line brakes for labeling
-                       plate_size = 96,
-                       show_legend = FALSE, # hiding legend
-                       label_size = 1.1, # setting label size
-                       plate_type = "round")
+  plot_8 <- plate_plot(
+    data = data_discrete_96,
+    position = well,
+    value = Compound,
+    label = Compound_multiline, # using a column that contains line brakes for labeling
+    plate_size = 96,
+    show_legend = FALSE, # hiding legend
+    label_size = 1.1, # setting label size
+    plate_type = "round"
+  )
 
   expect_s3_class(plot_8, "ggplot")
   expect_error(print(plot_8), NA)
@@ -178,4 +179,3 @@ test_that("plate_plot works", {
   expect_s3_class(plot_9, "ggplot")
   expect_error(print(plot_9), NA)
 })
-

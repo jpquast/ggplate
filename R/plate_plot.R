@@ -87,13 +87,15 @@
 #' # Create a 24-well plot
 #' # Show a 6 row legend
 #' # Scale the plot to 1.2
-#' plate_plot(data = data_discrete_24,
-#'            position = well,
-#'            value = Condition,
-#'            plate_size = 24,
-#'            plate_type = "round",
-#'            scale = 1.2,
-#'            legend_n_row = 6)
+#' plate_plot(
+#'   data = data_discrete_24,
+#'   position = well,
+#'   value = Condition,
+#'   plate_size = 24,
+#'   plate_type = "round",
+#'   scale = 1.2,
+#'   legend_n_row = 6
+#' )
 #'
 #' # Create a 6-well plot
 #' # Define a custom colour scheme
@@ -131,11 +133,11 @@ plate_plot <- function(data,
     stop("Selected plate_size not available!")
   }
 
-  if(missing(scale)){
-    scale <- min((graphics::par("fin")[1]/5.572917), (graphics::par("fin")[2]/3.177083))
+  if (missing(scale)) {
+    scale <- min((graphics::par("fin")[1] / 5.572917), (graphics::par("fin")[2] / 3.177083))
   }
 
-  if(!silent){
+  if (!silent) {
     message(paste0("width: ", round(graphics::par("fin")[1], digits = 3), " height: ", round(graphics::par("fin")[2], digits = 3)))
     message(paste0("scaling factor: ", round(scale, digits = 3)))
   }
@@ -498,7 +500,7 @@ plate_plot <- function(data,
     } +
     {
       if (!label_is_numeric) {
-        if (!missing(legend_n_row)){
+        if (!missing(legend_n_row)) {
           ggplot2::guides(fill = ggplot2::guide_legend(override.aes = list(size = legend_size), nrow = legend_n_row))
         } else {
           ggplot2::guides(fill = ggplot2::guide_legend(override.aes = list(size = legend_size)))
@@ -506,7 +508,7 @@ plate_plot <- function(data,
       }
     } +
     {
-      if(label_is_numeric){
+      if (label_is_numeric) {
         ggplot2::theme(legend.key.size = unit(max(0.25 * scale, 0.2), "in"))
       }
     } +

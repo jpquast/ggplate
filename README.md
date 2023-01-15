@@ -96,11 +96,13 @@ optimal result.*
 
 ``` r
 # Create a 96-well plot with round wells
-plate_plot(data = data_continuous_96, 
-           position = well, 
-           value = Value, 
-           plate_size = 96, 
-           plate_type = "round")
+plate_plot(
+  data = data_continuous_96,
+  position = well,
+  value = Value,
+  plate_size = 96,
+  plate_type = "round"
+)
 ```
 
 <img src="man/figures/README-standard_plot-1.png" width="100%" />
@@ -114,12 +116,14 @@ also provided to the `value` argument.
 
 ``` r
 # Create a 96-well plot with labels
-plate_plot(data = data_continuous_96, 
-           position = well, 
-           value = Value, 
-           label = Value,
-           plate_size = 96, 
-           plate_type = "round")
+plate_plot(
+  data = data_continuous_96,
+  position = well,
+  value = Value,
+  label = Value,
+  plate_size = 96,
+  plate_type = "round"
+)
 ```
 
 <img src="man/figures/README-standard_plot_labels-1.png" width="100%" />
@@ -130,12 +134,14 @@ make it easier to find specific positions.
 
 ``` r
 # Create a 96-well plot with labels
-plate_plot(data = data_continuous_96, 
-           position = well, 
-           value = Value, 
-           label = well,
-           plate_size = 96, 
-           plate_type = "round")
+plate_plot(
+  data = data_continuous_96,
+  position = well,
+  value = Value,
+  label = well,
+  plate_size = 96,
+  plate_type = "round"
+)
 ```
 
 <img src="man/figures/README-standard_plot_labels_wells-1.png" width="100%" />
@@ -162,11 +168,13 @@ str(data_continuous_384)
 #>  $ well : chr [1:384] "A1" "A2" "A3" "A4" ...
 
 # Create a 384-well plot with adjusted legend limits
-plate_plot(data = data_continuous_384, 
-           position = well, 
-           value = Value, 
-           plate_size = 384,
-           limits = c(0, 4))
+plate_plot(
+  data = data_continuous_384,
+  position = well,
+  value = Value,
+  plate_size = 384,
+  limits = c(0, 4)
+)
 ```
 
 <img src="man/figures/README-standard_plot_384_well_new_limits-1.png" width="100%" />
@@ -176,11 +184,13 @@ outside of the range are coloured gray.
 
 ``` r
 # Create a 384-well plot with adjusted legend limits and outliers
-plate_plot(data = data_continuous_384, 
-           position = well, 
-           value = Value, 
-           plate_size = 384,
-           limits = c(0, 3))
+plate_plot(
+  data = data_continuous_384,
+  position = well,
+  value = Value,
+  plate_size = 384,
+  limits = c(0, 3)
+)
 ```
 
 <img src="man/figures/README-standard_plot_384_well_new_limits_outlier-1.png" width="100%" />
@@ -193,11 +203,19 @@ colours will be used to create a new colour gradient for the plot.
 
 ``` r
 # Create a 384-well plot with a new colour gradient
-plate_plot(data = data_continuous_384, 
-           position = well, 
-           value = Value, 
-           plate_size = 384,
-           colour = c("#000004FF", "#51127CFF", "#B63679FF", "#FB8861FF", "#FCFDBFFF"))
+plate_plot(
+  data = data_continuous_384,
+  position = well,
+  value = Value,
+  plate_size = 384,
+  colour = c(
+    "#000004FF",
+    "#51127CFF",
+    "#B63679FF",
+    "#FB8861FF",
+    "#FCFDBFFF"
+  )
+)
 ```
 
 <img src="man/figures/README-standard_plot_384_well_new_gradient-1.png" width="100%" />
@@ -220,11 +238,13 @@ str(data_continuous_48_incomplete)
 #>  $ well : chr [1:48] "A1" "A2" "A3" "A4" ...
 
 # Create a 48-well plot with adjusted legend limits
-plate_plot(data = data_continuous_48_incomplete, 
-           position = well, 
-           value = Value, 
-           plate_type = "round",
-           plate_size = 48)
+plate_plot(
+  data = data_continuous_48_incomplete,
+  position = well,
+  value = Value,
+  plate_type = "round",
+  plate_size = 48
+)
 ```
 
 <img src="man/figures/README-standard_plot_48_empty_wells-1.png" width="100%" />
@@ -255,13 +275,15 @@ str(data_discrete_6)
 #>  $ well     : chr [1:6] "A1" "A2" "A3" "B1" ...
 
 # Create a 6-well plot with new title
-plate_plot(data = data_discrete_6, 
-           position = well, 
-           value = Condition, 
-           plate_size = 6, 
-           plate_type = "round",
-           title = "Drug Treatment",
-           title_size = 23)
+plate_plot(
+  data = data_discrete_6,
+  position = well,
+  value = Condition,
+  plate_size = 6,
+  plate_type = "round",
+  title = "Drug Treatment",
+  title_size = 23
+)
 ```
 
 <img src="man/figures/README-standard_plot_6_well-1.png" width="80%" style="display: block; margin: auto;" />
@@ -272,15 +294,17 @@ this does not only work for discrete values but also for gradients that
 will be created based on the provided colours.
 
 ``` r
-# Create a 6-well plot 
-plate_plot(data = data_discrete_6, 
-           position = well, 
-           value = Condition, 
-           plate_size = 6, 
-           plate_type = "round",
-           title = "Drug Treatment",
-           title_size = 23,
-           colour = c("#3a1c71", "#d76d77", "#ffaf7b"))
+# Create a 6-well plot
+plate_plot(
+  data = data_discrete_6,
+  position = well,
+  value = Condition,
+  plate_size = 6,
+  plate_type = "round",
+  title = "Drug Treatment",
+  title_size = 23,
+  colour = c("#3a1c71", "#d76d77", "#ffaf7b")
+)
 ```
 
 <img src="man/figures/README-6_well_plot_new_colours-1.png" width="80%" style="display: block; margin: auto;" />
@@ -293,18 +317,20 @@ label so that it fits perfectly into each well using the `label_size`
 argument.
 
 ``` r
-# Create a 6-well plot 
-plate_plot(data = data_discrete_6, 
-           position = well, 
-           value = Condition, 
-           label = Condition,
-           plate_size = 6, 
-           plate_type = "round",
-           title = "Drug Treatment",
-           title_size = 23,
-           colour = c("#3a1c71", "#d76d77", "#ffaf7b"),
-           show_legend = FALSE,
-           label_size = 4)
+# Create a 6-well plot
+plate_plot(
+  data = data_discrete_6,
+  position = well,
+  value = Condition,
+  label = Condition,
+  plate_size = 6,
+  plate_type = "round",
+  title = "Drug Treatment",
+  title_size = 23,
+  colour = c("#3a1c71", "#d76d77", "#ffaf7b"),
+  show_legend = FALSE,
+  label_size = 4
+)
 ```
 
 <img src="man/figures/README-6_well_plot_new_colours_no_legend-1.png" width="80%" style="display: block; margin: auto;" />
@@ -330,13 +356,15 @@ str(data_discrete_24)
 #>  $ Condition: chr [1:24] "siControl" "siRaptor" "siRagB" "siRagD" ...
 #>  $ well     : chr [1:24] "A1" "A2" "A3" "A4" ...
 
-# Create a 24-well plot 
-plate_plot(data = data_discrete_24, 
-           position = well, 
-           value = Condition, 
-           plate_size = 24, 
-           plate_type = "round",
-           silent = FALSE)
+# Create a 24-well plot
+plate_plot(
+  data = data_discrete_24,
+  position = well,
+  value = Condition,
+  plate_size = 24,
+  plate_type = "round",
+  silent = FALSE
+)
 #> width: 7 height: 4
 #> scaling factor: 1.256
 ```
@@ -350,14 +378,16 @@ required and the plot does not have the desired proportions you can use
 the `scale` argument to adjust it as shown below.
 
 ``` r
-# Create a 24-well plot 
-plate_plot(data = data_discrete_24, 
-           position = well, 
-           value = Condition, 
-           plate_size = 24, 
-           plate_type = "round",
-           silent = FALSE,
-           scale = 1.45)
+# Create a 24-well plot
+plate_plot(
+  data = data_discrete_24,
+  position = well,
+  value = Condition,
+  plate_size = 24,
+  plate_type = "round",
+  silent = FALSE,
+  scale = 1.45
+)
 #> width: 7 height: 4
 #> scaling factor: 1.45
 ```
@@ -372,14 +402,16 @@ setting `legend_n_row` to 6 rows. In addition we should adjust the
 
 ``` r
 # Create a 24-well plot with 2 row legend
-plate_plot(data = data_discrete_24, 
-           position = well, 
-           value = Condition, 
-           plate_size = 24, 
-           plate_type = "round",
-           silent = FALSE,
-           scale = 1.2,
-           legend_n_row = 6)
+plate_plot(
+  data = data_discrete_24,
+  position = well,
+  value = Condition,
+  plate_size = 24,
+  plate_type = "round",
+  silent = FALSE,
+  scale = 1.2,
+  legend_n_row = 6
+)
 #> width: 7 height: 4
 #> scaling factor: 1.2
 ```
@@ -400,13 +432,15 @@ str(data_discrete_96)
 #>  $ well              : chr [1:96] "A1" "A2" "A3" "A4" ...
 #>  $ Compound_multiline: chr [1:96] "Positive\nControl" "Axitinib" "Gefitinib\n(ZD1839)" "Rapamycin\n(Sirolimus)" ...
 
-# Create a 96-well plot 
-plate_plot(data = data_discrete_96, 
-           position = well, 
-           value = Compound, 
-           plate_size = 96, 
-           scale = 0.95,
-           plate_type = "round")
+# Create a 96-well plot
+plate_plot(
+  data = data_discrete_96,
+  position = well,
+  value = Compound,
+  plate_size = 96,
+  scale = 0.95,
+  plate_type = "round"
+)
 ```
 
 <img src="man/figures/README-discrete_96_well_plate-1.png" width="100%" />
@@ -416,14 +450,16 @@ instead of displaying a legend.
 
 ``` r
 # Create a 96-well plot with labels
-plate_plot(data = data_discrete_96, 
-           position = well, 
-           value = Compound, 
-           label = Compound_multiline, # using a column that contains line brakes for labeling
-           plate_size = 96, 
-           show_legend = FALSE, # hiding legend
-           label_size = 1.1, # setting label size
-           plate_type = "round")
+plate_plot(
+  data = data_discrete_96,
+  position = well,
+  value = Compound,
+  label = Compound_multiline, # using a column that contains line brakes for labeling
+  plate_size = 96,
+  show_legend = FALSE, # hiding legend
+  label_size = 1.1, # setting label size
+  plate_type = "round"
+)
 ```
 
 <img src="man/figures/README-discrete_96_well_plate_label-1.png" width="100%" />
@@ -438,15 +474,23 @@ several functions that can accomplish this. These include e.g. `png()`,
 
 ``` r
 # Generate a new graphics device with a defined size
-png("plate_plot_384_well_plate.png", width = 10, height = 6, unit = "in", res = 300) 
+png("plate_plot_384_well_plate.png", width = 10, height = 6, unit = "in", res = 300)
 
 # Create a plot
-plate_plot(data = data_continuous_384, 
-           position = well, 
-           value = Value, 
-           label = Value,
-           plate_size = 384,
-           colour = c("#000004FF", "#51127CFF", "#B63679FF", "#FB8861FF", "#FCFDBFFF"))
+plate_plot(
+  data = data_continuous_384,
+  position = well,
+  value = Value,
+  label = Value,
+  plate_size = 384,
+  colour = c(
+    "#000004FF",
+    "#51127CFF",
+    "#B63679FF",
+    "#FB8861FF",
+    "#FCFDBFFF"
+  )
+)
 
 # Close graphics device
 dev.off()
