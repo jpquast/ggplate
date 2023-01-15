@@ -7,7 +7,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "quast@imsb.biol.ethz.ch",
            comment = c(ORCID = "0000-0003-2713-778X"))
-Description: What the package does (one paragraph).
+Description: Enables users to create simple plots of biological culture plates as well as microplates. Both continuous and discrete values can be plotted onto the plate layout. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
