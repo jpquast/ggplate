@@ -22,7 +22,8 @@ Imports:
     stringr,
     tidyr,
     utils,
-    forcats
+    forcats,
+    magrittr
 Suggests: 
     covr,
     farver,

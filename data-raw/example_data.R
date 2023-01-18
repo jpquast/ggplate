@@ -151,7 +151,7 @@ data_discrete_96 <- data.frame(matrix(c(
     cols = as.numeric(str_remove(cols, pattern = "V|X")),
     well = paste0(rows, cols)
   ) |>
-  mutate(Compound_multiline = str_replace(Compound, pattern = " ", replacement = "\n")) |>
+  mutate(Compound_multiline = str_replace(Compound, pattern = " ", replacement = "\n")) %>%
   distinct(well, Compound, Compound_multiline)
 
 usethis::use_data(data_discrete_96, overwrite = TRUE)
