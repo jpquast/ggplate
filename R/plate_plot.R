@@ -219,15 +219,15 @@ plate_plot <- function(data,
   }
 
   # Determine the max number of characters of values
-  max_label_length <- data %>%
-    dplyr::ungroup() %>%
-    dplyr::pull({{ value }}) %>%
-    unique() %>%
-    nchar() %>%
+  max_label_length <- data |>
+    dplyr::ungroup() |>
+    dplyr::pull({{ value }}) |>
+    unique() |>
+    nchar() |>
     max()
 
-  data_prep <- data %>%
-    dplyr::ungroup() %>%
+  data_prep <- data |>
+    dplyr::ungroup() |>
     dplyr::mutate(
       row = stringr::str_extract({{ position }}, pattern = "[:upper:]+"),
       col = as.numeric(stringr::str_extract({{ position }}, pattern = "\\d+")),
@@ -238,14 +238,14 @@ plate_plot <- function(data,
 
   if (!is.numeric(dplyr::pull(data, {{ value }}))) {
     # Convert character values to factors
-    data_prep <- data_prep %>%
+    data_prep <- data_prep |>
       dplyr::mutate({{ value }} := forcats::fct_inorder({{ value }}))
   }
 
   # determine if values are numeric
   if (show_legend) {
-    label_is_numeric <- data_prep %>%
-      dplyr::pull({{ value }}) %>%
+    label_is_numeric <- data_prep |>
+      dplyr::pull({{ value }}) |>
       is.numeric()
   } else {
     label_is_numeric <- TRUE
