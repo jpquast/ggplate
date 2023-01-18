@@ -16,17 +16,17 @@ RoxygenNote: 7.2.1
 Imports: 
     dplyr,
     ggplot2,
+    scales,
     purrr,
     rlang,
     stringr,
     tidyr,
     utils,
     forcats,
-    graphics
+    magrittr
 Suggests: 
     covr,
     farver,
-    scales,
     testthat (>= 3.0.0)
 Depends: 
     R (>= 4.0)
