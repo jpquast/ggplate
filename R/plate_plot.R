@@ -42,6 +42,7 @@
 #' @importFrom stringr str_extract
 #' @importFrom purrr map_chr
 #' @importFrom forcats fct_inorder
+#' @importFrom farver decode_colour
 #' @export
 #'
 #' @examples
@@ -206,10 +207,6 @@ plate_plot <- function(data,
   }
 
   if (!missing(label)) {
-    if (!requireNamespace("farver", quietly = TRUE)) {
-      message("Package \"farver\" is needed for this function to work. Please install it.", call. = FALSE)
-      return(invisible(NULL))
-    }
     # label color
     # code adapted from scales::show_col
     hcl <- farver::decode_colour(data_colours, "rgb", "hcl")
@@ -219,15 +216,15 @@ plate_plot <- function(data,
   }
 
   # Determine the max number of characters of values
-  max_label_length <- data %>%
-    dplyr::ungroup() %>%
-    dplyr::pull({{ value }}) %>%
-    unique() %>%
-    nchar() %>%
+  max_label_length <- data |>
+    dplyr::ungroup() |>
+    dplyr::pull({{ value }}) |>
+    unique() |>
+    nchar() |>
     max()
 
-  data_prep <- data %>%
-    dplyr::ungroup() %>%
+  data_prep <- data |>
+    dplyr::ungroup() |>
     dplyr::mutate(
       row = stringr::str_extract({{ position }}, pattern = "[:upper:]+"),
       col = as.numeric(stringr::str_extract({{ position }}, pattern = "\\d+")),
@@ -238,14 +235,14 @@ plate_plot <- function(data,
 
   if (!is.numeric(dplyr::pull(data, {{ value }}))) {
     # Convert character values to factors
-    data_prep <- data_prep %>%
+    data_prep <- data_prep |>
       dplyr::mutate({{ value }} := forcats::fct_inorder({{ value }}))
   }
 
   # determine if values are numeric
   if (show_legend) {
-    label_is_numeric <- data_prep %>%
-      dplyr::pull({{ value }}) %>%
+    label_is_numeric <- data_prep |>
+      dplyr::pull({{ value }}) |>
       is.numeric()
   } else {
     label_is_numeric <- TRUE
