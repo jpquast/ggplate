@@ -1,8 +1,7 @@
 Package: ggplate
 Title: Create Layout Plots of Biological Culture Plates and Microplates
 Version: 0.0.1
-Authors@R: 
-    person(given = "Jan-Philipp",
+Authors@R: person(given = "Jan-Philipp",
            family = "Quast",
            role = c("aut", "cre"),
            email = "quast@imsb.biol.ethz.ch",
@@ -12,7 +11,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 Imports: 
     dplyr,
     ggplot2,
@@ -23,10 +22,9 @@ Imports:
     tidyr,
     utils,
     forcats,
-    magrittr
+    farver
 Suggests: 
     covr,
-    farver,
     testthat (>= 3.0.0)
 Depends: 
     R (>= 4.0)
