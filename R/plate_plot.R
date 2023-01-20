@@ -37,9 +37,6 @@
 #' can be manually adjusted with this argument.
 #'
 #' @return A plate layout plot.
-#' @import dplyr
-#' @import ggplot2
-#' @import tidyr
 #' @importFrom graphics par
 #' @importFrom rlang .data :=
 #' @importFrom stringr str_extract
@@ -162,10 +159,6 @@ plate_plot <- function(data,
 
   # If value is numeric then create gradient of colours, default is viridis colours
   if (is.numeric(dplyr::pull(data, {{ value }}))) {
-    if (!requireNamespace("scales", quietly = TRUE)) {
-      message("Package \"scales\" is needed for this function to work. Please install it.", call. = FALSE)
-      return(invisible(NULL))
-    }
     if (missing(colour)) {
       viridis_colours <- "placeholder" # assign a placeholder to prevent a missing global variable warning
       utils::data("viridis_colours", envir = environment()) # then overwrite it with real data
@@ -457,12 +450,12 @@ plate_plot <- function(data,
   plot <- ggplot2::ggplot(data_prep, ggplot2::aes(x = col, y = .data$row_num)) +
     ggplot2::geom_point(
       data = plate_layout,
-      aes(x = .data$columns, y = .data$rows),
+      ggplot2::aes(x = .data$columns, y = .data$rows),
       color = "grey90",
       size = size,
       shape = shape
     ) +
-    ggplot2::geom_point(aes(fill = {{ value }}), size = size, shape = shape, stroke = stroke_width) +
+    ggplot2::geom_point(ggplot2::aes(fill = {{ value }}), size = size, shape = shape, stroke = stroke_width) +
     ggplot2::coord_fixed(
       ratio = ((n_cols + 1) / n_cols) / ((n_rows + 1) / n_rows),
       xlim = c(min_x_axis, max_x_axis),
@@ -475,7 +468,7 @@ plate_plot <- function(data,
         ggplot2::scale_fill_gradientn(
           colors = fill_colours,
           limits = c(min_val, max_val),
-          guide = guide_colorbar(ticks.linewidth = max(0.5 * scale, 0.2))
+          guide = ggplot2::guide_colorbar(ticks.linewidth = max(0.5 * scale, 0.2))
         )
       }
     } +
@@ -488,7 +481,7 @@ plate_plot <- function(data,
       y = ""
     ) +
     {
-      if (!missing(label)) ggplot2::geom_text(aes(x = col, y = .data$row_num, label = paste0({{ label }})), colour = data_prep$label_colours, size = label_size_scaled)
+      if (!missing(label)) ggplot2::geom_text(ggplot2::aes(x = col, y = .data$row_num, label = paste0({{ label }})), colour = data_prep$label_colours, size = label_size_scaled)
     } +
     ggplot2::theme_bw() +
     {
@@ -509,7 +502,7 @@ plate_plot <- function(data,
     } +
     {
       if (label_is_numeric) {
-        ggplot2::theme(legend.key.size = unit(max(0.25 * scale, 0.2), "in"))
+        ggplot2::theme(legend.key.size = ggplot2::unit(max(0.25 * scale, 0.2), "in"))
       }
     } +
     ggplot2::theme(
@@ -521,8 +514,8 @@ plate_plot <- function(data,
       legend.text = ggplot2::element_text(size = legend_text_size),
       legend.title = ggplot2::element_text(size = legend_title_size),
       plot.title = ggplot2::element_text(size = title_size),
-      axis.title.x = element_blank(),
-      panel.border = element_rect(size = stroke_width)
+      axis.title.x = ggplot2::element_blank(),
+      panel.border = ggplot2::element_rect(size = stroke_width)
     )
 
   plot
