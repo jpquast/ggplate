@@ -35,6 +35,8 @@
 #' @param scale a numeric value that scales point sizes and labels of the plot. If not provided, the plot uses the device size
 #' to find the optimal scaling factor for the output, however, this might be slightly off (e.g. due to number of labels) and
 #' can be manually adjusted with this argument.
+#' @param display_plot a logical value that specifies if the function should display the layout plot using a graphics device.
+#' Default is `TRUE` meaning that the plot will be displayed.
 #'
 #' @return A plate layout plot.
 #' @importFrom graphics par
@@ -126,7 +128,8 @@ plate_plot <- function(data,
                        legend_n_row,
                        label_size,
                        silent = TRUE,
-                       scale) {
+                       scale,
+                       display_plot = TRUE) {
   if (!plate_size %in% c(6, 12, 24, 48, 96, 384)) {
     stop("Selected plate_size not available!")
   }
@@ -522,5 +525,7 @@ plate_plot <- function(data,
       panel.border = ggplot2::element_rect(linewidth = stroke_width)
     )
 
-  plot
+  if (display_plot) {
+    plot
+  }
 }

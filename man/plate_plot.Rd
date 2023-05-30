@@ -19,7 +19,8 @@ plate_plot(
   legend_n_row,
   label_size,
   silent = TRUE,
-  scale
+  scale,
+  display_plot = TRUE
 )
 }
 \arguments{
@@ -69,6 +70,9 @@ has these dimensions the scaling factor is 1.}
 \item{scale}{a numeric value that scales point sizes and labels of the plot. If not provided, the plot uses the device size
 to find the optimal scaling factor for the output, however, this might be slightly off (e.g. due to number of labels) and
 can be manually adjusted with this argument.}
+
+\item{display_plot}{a logical value that specifies if the function should display the layout plot using a graphics device.
+Default is \code{TRUE} meaning that the plot will be displayed.}
 }
 \value{
 A plate layout plot.
