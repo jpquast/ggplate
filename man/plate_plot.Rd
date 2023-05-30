@@ -75,7 +75,7 @@ can be manually adjusted with this argument.}
 Default is \code{TRUE} meaning that the plot will be displayed.}
 }
 \value{
-A plate layout plot.
+A plate layout plot as a ggplot object.
 }
 \description{
 Plots a culture plate or microplate in the desired format. Both continuous as well as discrete values can be displayed

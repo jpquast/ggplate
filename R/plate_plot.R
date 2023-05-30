@@ -38,7 +38,7 @@
 #' @param display_plot a logical value that specifies if the function should display the layout plot using a graphics device.
 #' Default is `TRUE` meaning that the plot will be displayed.
 #'
-#' @return A plate layout plot.
+#' @return A plate layout plot as a ggplot object.
 #' @importFrom graphics par
 #' @importFrom rlang .data :=
 #' @importFrom stringr str_extract
@@ -528,4 +528,6 @@ plate_plot <- function(data,
   if (display_plot) {
     plot
   }
+
+  return(plot)
 }
