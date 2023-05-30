@@ -135,7 +135,11 @@ plate_plot <- function(data,
   }
 
   if (missing(scale)) {
-    scale <- min((graphics::par("fin")[1] / 5.572917), (graphics::par("fin")[2] / 3.177083))
+    if (display_plot) {
+      scale <- min((graphics::par("fin")[1] / 5.572917), (graphics::par("fin")[2] / 3.177083))
+    } else {
+      scale <- 7 / 5.572917
+    }
   }
 
   if (!silent) {
@@ -525,9 +529,9 @@ plate_plot <- function(data,
       panel.border = ggplot2::element_rect(linewidth = stroke_width)
     )
 
-  if (display_plot) {
-    plot
-  }
+  # if (display_plot) {
+  #   plot
+  # }
 
   return(plot)
 }
