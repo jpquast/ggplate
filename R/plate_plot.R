@@ -135,11 +135,7 @@ plate_plot <- function(data,
   }
 
   if (missing(scale)) {
-    if (display_plot) {
-      scale <- min((graphics::par("fin")[1] / 5.572917), (graphics::par("fin")[2] / 3.177083))
-    } else {
-      scale <- 7 / 5.572917
-    }
+    scale <- min((graphics::par("fin")[1] / 5.572917), (graphics::par("fin")[2] / 3.177083))
   }
 
   if (!silent) {
