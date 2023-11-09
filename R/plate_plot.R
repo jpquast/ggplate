@@ -519,7 +519,7 @@ plate_plot <- function(data,
       legend.title = ggplot2::element_text(size = legend_title_size),
       plot.title = ggplot2::element_text(size = title_size),
       axis.title.x = ggplot2::element_blank(),
-      panel.border = ggplot2::element_rect(size = stroke_width)
+      panel.border = ggplot2::element_rect(linewidth = stroke_width)
     )
 
   plot
