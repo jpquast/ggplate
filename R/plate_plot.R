@@ -485,13 +485,13 @@ plate_plot <- function(data,
       y = ""
     ) +
     {
-      if (!missing(label)) ggplot2::geom_text(ggplot2::aes(x = col, 
-                                                           y = .data$row_num, 
+      if (!missing(label)) ggplot2::geom_text(ggplot2::aes(x = col,
+                                                           y = .data$row_num,
                                                            label = paste0(format(
-                                                             {{ label }}, 
+                                                             {{ label }},
                                                              drop0Trailing = F)
-                                                             )), 
-                                              colour = data_prep$label_colours, 
+                                                             )),
+                                              colour = data_prep$label_colours,
                                               size = label_size_scaled)
     } +
     ggplot2::theme_bw() +
@@ -529,9 +529,9 @@ plate_plot <- function(data,
       panel.border = ggplot2::element_rect(linewidth = stroke_width)
     )
 
-  # if (display_plot) {
-  #   plot
-  # }
+  if (display_plot) {
+    plot
+  }
 
   return(plot)
 }
