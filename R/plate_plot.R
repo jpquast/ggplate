@@ -150,7 +150,7 @@ plate_plot <- function(data,
     # If there is only one numeric value in the data the colour function needs still two distinct values
     n_distinct_values <- length(unique(dplyr::pull(data, {{ value }})))
 
-    if (n_distinct_values == 1) {
+    if (n_distinct_values == 1 & is.numeric(min_val)) {
       max_val <- min_val + abs(min_val)
     }
   } else {
@@ -478,7 +478,14 @@ plate_plot <- function(data,
       y = ""
     ) +
     {
-      if (!missing(label)) ggplot2::geom_text(ggplot2::aes(x = col, y = .data$row_num, label = paste0({{ label }})), colour = data_prep$label_colours, size = label_size_scaled)
+      if (!missing(label)) ggplot2::geom_text(ggplot2::aes(x = col, 
+                                                           y = .data$row_num, 
+                                                           label = paste0(format(
+                                                             {{ label }}, 
+                                                             drop0Trailing = F)
+                                                             )), 
+                                              colour = data_prep$label_colours, 
+                                              size = label_size_scaled)
     } +
     ggplot2::theme_bw() +
     {
@@ -512,7 +519,7 @@ plate_plot <- function(data,
       legend.title = ggplot2::element_text(size = legend_title_size),
       plot.title = ggplot2::element_text(size = title_size),
       axis.title.x = ggplot2::element_blank(),
-      panel.border = ggplot2::element_rect(size = stroke_width)
+      panel.border = ggplot2::element_rect(linewidth = stroke_width)
     )
 
   plot
