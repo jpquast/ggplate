@@ -480,10 +480,12 @@ plate_plot <- function(data,
     {
       if (!missing(label)) ggplot2::geom_text(ggplot2::aes(x = col, 
                                                            y = .data$row_num, 
-                                                           label = paste0(format(
+                                                           label = format(
                                                              {{ label }}, 
-                                                             drop0Trailing = F)
-                                                             )), 
+                                                             drop0Trailing = FALSE, # does not drop trailing 0
+                                                             justify = "none", # does not add white spaces for justification
+                                                             trim = TRUE) # removes leading white spaces
+                                                             ), 
                                               colour = data_prep$label_colours, 
                                               size = label_size_scaled)
     } +
