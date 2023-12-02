@@ -50,6 +50,12 @@ removing the comment sign (#).
 devtools::install_github("jpquast/ggplate")
 ```
 
+In addition, you can install it via the command line through `conda`
+since it is also implemented as a [conda-forge
+package](https://anaconda.org/conda-forge/r-ggplate).
+
+    conda install -c conda-forge r-ggplate
+
 ## Usage
 
 In order to use **ggplate** you have to load the package in your R
@@ -70,9 +76,9 @@ data(data_continuous_96)
 
 # Check the structure of the dataset
 str(data_continuous_96)
-#> tibble [96 × 2] (S3: tbl_df/tbl/data.frame)
-#>  $ Value: num [1:96] 1.19 0.88 0.17 0.85 0.78 0.23 1.95 0.4 0.88 0.26 ...
-#>  $ well : chr [1:96] "A1" "A2" "A3" "A4" ...
+#> Classes 'tbl_df', 'tbl' and 'data.frame':    96 obs. of  2 variables:
+#>  $ Value: num  1.19 0.88 0.17 0.85 0.78 0.23 1.95 0.4 0.88 0.26 ...
+#>  $ well : chr  "A1" "A2" "A3" "A4" ...
 ```
 
 When calling the `str()` function you can see that the data frame of a
@@ -379,6 +385,11 @@ until the plot has the desired proportions. If a specific output size is
 required and the plot does not have the desired proportions you can use
 the `scale` argument to adjust it as shown below.
 
+*Note: If you run the package directly in the command line, the function
+opens a new graphics device since it is not already opened like it would
+be the case in RStudio. If this is not desired you can avoid this by
+setting the `scale` argument.*
+
 ``` r
 # Create a 24-well plot
 plate_plot(
@@ -394,12 +405,13 @@ plate_plot(
 #> scaling factor: 1.45
 ```
 
-<img src="man/figures/README-resize_plot-1.png" width="100%" /> As you
-can see, however, now we are running into the problem that the legend is
-larger than the screen size. With the `legend_n_row` argument you can
-manually determine the number of rows that should be used for the
-legend. In this case it is ideal to split the legend into 2 columns by
-setting `legend_n_row` to 6 rows. In addition we should adjust the
+<img src="man/figures/README-resize_plot-1.png" width="100%" />
+
+As you can see, however, now we are running into the problem that the
+legend is larger than the screen size. With the `legend_n_row` argument
+you can manually determine the number of rows that should be used for
+the legend. In this case it is ideal to split the legend into 2 columns
+by setting `legend_n_row` to 6 rows. In addition we should adjust the
 `scale` parameter to `1.2` in order to space out wells properly.
 
 ``` r
@@ -419,6 +431,7 @@ plate_plot(
 ```
 
 <img src="man/figures/README-24_well_plate_legend_n_row-1.png" width="100%" />
+
 If your dataset has a lot of labels it can become difficult to
 impossible to distinguish them just by colour as you can see for the
 dataset below.

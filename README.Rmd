@@ -52,6 +52,12 @@ Note: If you do not have `devtools` installed make sure to do so by removing the
 devtools::install_github("jpquast/ggplate")
 ```
 
+In addition, you can install it via the command line through `conda` since it is also implemented as a [conda-forge package](https://anaconda.org/conda-forge/r-ggplate).
+
+```
+conda install -c conda-forge r-ggplate
+```
+
 ## Usage
 
 In order to use **ggplate** you have to load the package in your R environment by simply calling the `library()` function as shown bellow.
@@ -282,6 +288,8 @@ plate_plot(
 
 It is possible that the generated plot has overlapping or too spaced out wells. This can be corrected by resizing the output graphics device size until the plot has the desired proportions. If a specific output size is required and the plot does not have the desired proportions you can use the `scale` argument to adjust it as shown below. 
 
+_Note: If you run the package directly in the command line, the function opens a new graphics device since it is not already opened like it would be the case in RStudio. If this is not desired you can avoid this by setting the `scale` argument._
+
 ```{r resize_plot, dpi=260, fig.width=7, fig.height=4}
 # Create a 24-well plot
 plate_plot(
@@ -294,6 +302,7 @@ plate_plot(
   scale = 1.45
 )
 ```
+
 As you can see, however, now we are running into the problem that the legend is larger than the screen size. With the `legend_n_row` argument you can manually determine the number of rows that should be used for the legend. In this case it is ideal to split the legend into 2 columns by setting `legend_n_row` to 6 rows. In addition we should adjust the `scale` parameter to `1.2` in order to space out wells properly.
 
 ```{r 24_well_plate_legend_n_row, dpi=260, fig.width=7, fig.height=4}
@@ -309,6 +318,7 @@ plate_plot(
   legend_n_row = 6
 )
 ```
+
 If your dataset has a lot of labels it can become difficult to impossible to distinguish them just by colour as you can see for the dataset below.
 
 ```{r discrete_96_well_plate, dpi=260, fig.width=7, fig.height=4}
