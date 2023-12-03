@@ -11,7 +11,7 @@ assignees: jpquast
 A clear and concise description of what the bug is and what the expected behaviour is.
 
 **To Reproduce**
-Create a reproducible example with the `reprex` package. Exactly follow these [steps](https://reprex.tidyverse.org). Then post the reprex here as it is.
+Create a reproducible example with the `reprex` package if it is possible for the bug you encounter. Exactly follow these [steps](https://reprex.tidyverse.org). Then post the reprex here as it is.
 
 If you need to provide your own dataset, you can use the `dput()` function to turn your `data.frame` into code that you can use in the reprex. This is an example of how this would work:
 
@@ -34,3 +34,5 @@ Just use the output of `dput()` to create the input data in your reprex.
 
 **Additional context**
 Add any other context about the problem here.
+
+Please delete any text except for the headers for your issue.

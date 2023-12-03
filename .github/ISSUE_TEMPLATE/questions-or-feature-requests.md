@@ -7,4 +7,4 @@ assignees: jpquast
 
 ---
 
-Please select the "question" or "enhancement" tag on the right depending on your issue.
+Please select the "question" or "enhancement" label on the right depending on your issue.
