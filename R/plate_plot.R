@@ -231,6 +231,9 @@ plate_plot <- function(data,
       row_num = as.numeric(match(.data$row, LETTERS)),
       colours = data_colours,
       label_colours = label_col
+    ) |>
+    dplyr::mutate(
+      row_num = abs(.data$row_num - (max(.data$row_num) + 1)) # invert row numbers to have them in the right order in the plot
     )
 
   if (!is.numeric(dplyr::pull(data, {{ value }}))) {
