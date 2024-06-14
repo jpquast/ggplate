@@ -1,3 +1,7 @@
+# ggplate 0.1.2
+
+* Fix issue #20. Row labels were not displayed with `ggplot2` update `3.5.1`. This was because `ylim` cannot be provided in reverse order anymore in `ggplot2::coord_fixed()`. Now letters for row labels are provided in reverse order instead.
+
 # ggplate 0.1.1
 
 * Fix R version requirement. Is now `4.1.0` and not `4.0.0` anymore. This fixes issue #15.
