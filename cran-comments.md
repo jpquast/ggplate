@@ -1,6 +1,6 @@
 ## Submission 
 
-* Fixed a bug in the `plate_plot()` function (see NEWS).
+* Fixed a bug in the `plate_plot()` function that was inadvertently introduced in the previous bug fix.
 
 ## Test environments
 * macOS-latest (on GitHub actions), R 4.4.0

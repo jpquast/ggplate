@@ -1,6 +1,6 @@
 Package: ggplate
 Title: Create Layout Plots of Biological Culture Plates and Microplates
-Version: 0.1.2
+Version: 0.1.3
 Authors@R: person(given = "Jan-Philipp",
            family = "Quast",
            role = c("aut", "cre"),
