@@ -456,9 +456,9 @@ plate_plot <- function(data,
     ggplot2::coord_fixed(
       ratio = ((n_cols + 1) / n_cols) / ((n_rows + 1) / n_rows),
       xlim = c(min_x_axis, max_x_axis),
-      ylim = c(max_y_axis, min_y_axis)
+      ylim = c(min_y_axis, max_y_axis)
     ) +
-    ggplot2::scale_y_continuous(breaks = seq(1, n_rows), labels = LETTERS[1:n_rows]) +
+    ggplot2::scale_y_continuous(breaks = seq(1, n_rows), labels = rev(LETTERS[1:n_rows])) +
     ggplot2::scale_x_continuous(breaks = seq(1, n_cols), position = "top") +
     {
       if (is.numeric(dplyr::pull(data, {{ value }}))) {
