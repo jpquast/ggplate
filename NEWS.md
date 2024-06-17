@@ -1,3 +1,7 @@
+# ggplate 0.1.4
+
+* Fix issue #23. If not all possible rows were part of the data, wells were shifted down to the bottom of the plate. This has been fixed and every well is in the correct position irrespective of the completeness of the data.
+
 # ggplate 0.1.3
 
 * Fix issue #20. The previous fix inadvertently introduced another bug, which flipped the row order. This has been fixed now.
