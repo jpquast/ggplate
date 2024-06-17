@@ -231,10 +231,7 @@ plate_plot <- function(data,
       row_num = as.numeric(match(.data$row, LETTERS)),
       colours = data_colours,
       label_colours = label_col
-    ) |>
-    dplyr::mutate(
-      row_num = abs(.data$row_num - (max(.data$row_num) + 1)) # invert row numbers to have them in the right order in the plot
-    )
+    ) 
 
   if (!is.numeric(dplyr::pull(data, {{ value }}))) {
     # Convert character values to factors
@@ -416,6 +413,13 @@ plate_plot <- function(data,
       size <- (4.4 - max((max_label_length - 13) * 0.07, 0)) * scale
     }
   }
+  
+  # Update row number to be reversed
+  # This depends on the n_rows variable, which depends on the plate size
+  data_prep <- data_prep |>
+    dplyr::mutate(
+      row_num = abs(.data$row_num - (n_rows + 1)) # invert row numbers to have them in the right order in the plot
+    )
 
   if (missing(label_size)) {
     label_size_scaled <- size / 3
