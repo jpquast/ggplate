@@ -108,3 +108,12 @@
 #' @format A data frame with a `Value` and a `well` column.
 #' @source Drugs were chosen from a standard FDA approved drug library.
 "data_discrete_96"
+
+#' Continuous 1536-well plate dataset
+#'
+#' A dataset containing 1536 positive numeric values randomly generated using a normal distribution (`rnorm()`).
+#' Each value is assigned to a position in a 1536-well plate.
+#'
+#' @format A data frame with a `Value` and a `well` column.
+#' @source Randomly generated.
+"data_continuous_1536"

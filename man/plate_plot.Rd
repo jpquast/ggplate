@@ -36,7 +36,7 @@ on the plate layout. Can be the same column as \code{label}.}
 on the plate layout. Can be the same column as \code{value}.}
 
 \item{plate_size}{a numeric value that specifies the plate size (number of wells) used for the plot. Possible values
-are: 6, 12, 24, 48, 96 and 384.}
+are: 6, 12, 24, 48, 96, 384 and 1536.}
 
 \item{plate_type}{a character value that specifies the well type. Possible values are "round" and "square". The default is
 "square".}

@@ -1,5 +1,6 @@
 library(dplyr)
 library(tidyr)
+library(stringr)
 
 set.seed(1234)
 
@@ -167,3 +168,18 @@ data_continuous_384 <- data.frame(matrix(round(abs(rnorm(384)), 2), nrow = 16, n
   distinct(well, Value)
 
 usethis::use_data(data_continuous_384, overwrite = TRUE)
+
+#1536-well plate
+
+MORELETTERS <- c(LETTERS, "AA", "AB", "AC", "AD", "AE", "AF")
+
+data_continuous_1536 <- data.frame(matrix(round(abs(rnorm(1536)), 2), nrow = 32, ncol = 48)) |>
+  mutate(rows = MORELETTERS[1:32]) |>
+  pivot_longer(cols = -rows, names_to = "cols", values_to = "Value") |>
+  mutate(
+    cols = as.numeric(str_remove(cols, pattern = "V|X")),
+    well = paste0(rows, cols)
+  ) |>
+  distinct(well, Value)
+
+usethis::use_data(data_continuous_1536, overwrite = TRUE)

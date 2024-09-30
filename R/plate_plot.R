@@ -12,7 +12,7 @@
 #' @param label a character or numeric column in the `data` data frame that contains values that should be plotted as labels
 #' on the plate layout. Can be the same column as `value`.
 #' @param plate_size a numeric value that specifies the plate size (number of wells) used for the plot. Possible values
-#' are: 6, 12, 24, 48, 96 and 384.
+#' are: 6, 12, 24, 48, 96, 384 and 1536.
 #' @param plate_type a character value that specifies the well type. Possible values are "round" and "square". The default is
 #' "square".
 #' @param colour optional, a character vector that contains colours used for the plot. If the `value` argument is discrete
@@ -127,7 +127,7 @@ plate_plot <- function(data,
                        label_size,
                        silent = TRUE,
                        scale) {
-  if (!plate_size %in% c(6, 12, 24, 48, 96, 384)) {
+  if (!plate_size %in% c(6, 12, 24, 48, 96, 384, 1536)) {
     stop("Selected plate_size not available!")
   }
 
@@ -223,15 +223,17 @@ plate_plot <- function(data,
     nchar() |>
     max()
 
+  MORELETTERS <- c(LETTERS, "AA", "AB", "AC", "AD", "AE", "AF")
+
   data_prep <- data |>
     dplyr::ungroup() |>
     dplyr::mutate(
       row = stringr::str_extract({{ position }}, pattern = "[:upper:]+"),
       col = as.numeric(stringr::str_extract({{ position }}, pattern = "\\d+")),
-      row_num = as.numeric(match(.data$row, LETTERS)),
+      row_num = as.numeric(match(.data$row, MORELETTERS)),
       colours = data_colours,
       label_colours = label_col
-    ) 
+    )
 
   if (!is.numeric(dplyr::pull(data, {{ value }}))) {
     # Convert character values to factors
@@ -413,7 +415,26 @@ plate_plot <- function(data,
       size <- (4.4 - max((max_label_length - 13) * 0.07, 0)) * scale
     }
   }
-  
+
+  if (plate_size == 1536) {
+    n_cols <- 48
+    n_rows <- 32
+    size <- 1.8 * scale
+    min_x_axis <- 0.95
+    max_x_axis <- n_cols
+    min_y_axis <- 0.9
+    max_y_axis <- n_rows
+    text_size <- 4 * scale
+    legend_text_size <- text_size
+    legend_title_size <- text_size
+    title_size_preset <- 10 * scale
+    legend_size <- size
+    stroke_width <- 0.3 * scale
+    if (show_legend) {
+      size <- (2.2 - max((max_label_length - 13) * 0.07, 0)) * scale
+    }
+  }
+
   # Update row number to be reversed
   # This depends on the n_rows variable, which depends on the plate size
   data_prep <- data_prep |>
@@ -465,7 +486,7 @@ plate_plot <- function(data,
       xlim = c(min_x_axis, max_x_axis),
       ylim = c(min_y_axis, max_y_axis)
     ) +
-    ggplot2::scale_y_continuous(breaks = seq(1, n_rows), labels = rev(LETTERS[1:n_rows])) +
+    ggplot2::scale_y_continuous(breaks = seq(1, n_rows), labels = rev(MORELETTERS[1:n_rows])) +
     ggplot2::scale_x_continuous(breaks = seq(1, n_cols), position = "top") +
     {
       if (is.numeric(dplyr::pull(data, {{ value }}))) {
@@ -485,15 +506,15 @@ plate_plot <- function(data,
       y = ""
     ) +
     {
-      if (!missing(label)) ggplot2::geom_text(ggplot2::aes(x = col, 
-                                                           y = .data$row_num, 
+      if (!missing(label)) ggplot2::geom_text(ggplot2::aes(x = col,
+                                                           y = .data$row_num,
                                                            label = format(
-                                                             {{ label }}, 
+                                                             {{ label }},
                                                              drop0Trailing = FALSE, # does not drop trailing 0
                                                              justify = "none", # does not add white spaces for justification
                                                              trim = TRUE) # removes leading white spaces
-                                                             ), 
-                                              colour = data_prep$label_colours, 
+                                                             ),
+                                              colour = data_prep$label_colours,
                                               size = label_size_scaled)
     } +
     ggplot2::theme_bw() +

@@ -31,6 +31,7 @@ Currently the package supports the following plate sizes:
 * 48-well plate
 * 96-well plate
 * 384-well plate
+* 1536-well plate
 
 
 ## Installation
