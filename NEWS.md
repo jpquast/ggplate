@@ -1,3 +1,10 @@
+# ggplate 0.2.0
+
+* Fix issue #27. If limits were used to exclude values, no labels could be displayed for those wells. Limits were never intended to exclude values, but even if not intended this works now as expected.
+* As part of the above fix, two new arguments were added to the function:
+  * `na_fill` is the colour used to fill `NA` wells. This is by default `"grey50"`.
+  * `remove_na` is a logical value that specifies if `NA` values should be removed from the `value` column of the input data. By default it is `TRUE` keeping the original behaviour, but it now allows users to keep NA values.
+
 # ggplate 0.1.5
 
 * The package received the 1536-well format. Thanks to @plinders!

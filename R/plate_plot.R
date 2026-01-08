@@ -17,6 +17,10 @@
 #' "square".
 #' @param colour optional, a character vector that contains colours used for the plot. If the `value` argument is discrete
 #' the colours are used as provided. If it is continuous a gradient is created using the colours.
+#' @param remove_na a logical value specifying whether rows with missing values (`NA`) in the `value` column are removed
+#' from the input data. This will not remove any `NA` values created due to values outside of the `limits`. Default is `TRUE`.
+#' @param na_fill optional, a character value specifying the fill colour used for wells with missing values (`NA`) and,
+#' for continuous data, for values outside the range defined by `limits`. The default is `"grey50"`.
 #' @param limits optional, a numeric vector of length two providing new limits for a colour gradient. Use NA to refer to
 #' the existing minimum or maximum. If this argument is not supplied the existing minimum and maximum of the
 #' values provided to the `value` argument are used for the start and end point of the colour gradient.
@@ -119,6 +123,8 @@ plate_plot <- function(data,
                        plate_size = 96,
                        plate_type = "square",
                        colour,
+                       remove_na = TRUE,
+                       na_fill = "grey50",
                        limits,
                        title,
                        title_size,
@@ -141,21 +147,23 @@ plate_plot <- function(data,
   }
 
   # Remove missing values
-  data <- tidyr::drop_na(data, {{ value }})
+  if (remove_na){
+    data <- tidyr::drop_na(data, {{ value }})
+  }
 
   if (missing(limits)) {
-    min_val <- min(dplyr::pull(data, {{ value }}))
-    max_val <- max(dplyr::pull(data, {{ value }}))
+    min_val <- min(dplyr::pull(data, {{ value }}), na.rm = TRUE)
+    max_val <- max(dplyr::pull(data, {{ value }}), na.rm = TRUE)
 
     # If there is only one numeric value in the data the colour function needs still two distinct values
-    n_distinct_values <- length(unique(dplyr::pull(data, {{ value }})))
+    n_distinct_values <- length(unique(stats::na.omit(dplyr::pull(data, {{ value }}))))
 
     if (n_distinct_values == 1 & is.numeric(min_val)) {
       max_val <- min_val + abs(min_val)
     }
   } else {
-    min_val <- ifelse(is.na(limits[1]), min(dplyr::pull(data, {{ value }})), limits[1])
-    max_val <- ifelse(is.na(limits[2]), max(dplyr::pull(data, {{ value }})), limits[2])
+    min_val <- ifelse(is.na(limits[1]), min(dplyr::pull(data, {{ value }}), na.rm = TRUE), limits[1])
+    max_val <- ifelse(is.na(limits[2]), max(dplyr::pull(data, {{ value }}), na.rm = TRUE), limits[2])
   }
 
   # If value is numeric then create gradient of colours, default is viridis colours
@@ -164,46 +172,49 @@ plate_plot <- function(data,
       viridis_colours <- "placeholder" # assign a placeholder to prevent a missing global variable warning
       utils::data("viridis_colours", envir = environment()) # then overwrite it with real data
       fill_colours <- viridis_colours
-
-      colfunc <- scales::gradient_n_pal(viridis_colours, values = c(
-        min_val,
-        max_val
-      ))
-
-      data_colours <- colfunc(dplyr::pull(data, {{ value }}))
     } else {
       fill_colours <- colour
-      colfunc <- scales::gradient_n_pal(colour, values = c(
-        min_val,
-        max_val
-      ))
-      data_colours <- colfunc(dplyr::pull(data, {{ value }}))
     }
+    colfunc <- scales::gradient_n_pal(fill_colours)
+    
+    data_scaled <- scales::rescale(
+      dplyr::pull(data, {{ value }}),
+      from = c(min_val, max_val),
+      to = c(0, 1)
+    )
+    
+    data_colours <- colfunc(data_scaled)
+    
+    # replace NA (true NA + out-of-bounds) with na_fill
+    data_colours[is.na(data_colours)] <- na_fill
   }
 
   # If value is not numeric then make it discrete colours, default is protti colours
   if (!is.numeric(dplyr::pull(data, {{ value }}))) {
+    all_values <- dplyr::pull(data, {{ value }})
+    # levels in first-appearance order, excluding NA
+    lev <- unique(all_values[!is.na(all_values)])
+    has_na <- any(is.na(all_values))
+    
     if (missing(colour)) {
       protti_colours <- "placeholder" # assign a placeholder to prevent a missing global variable warning
       utils::data("protti_colours", envir = environment()) # then overwrite it with real data
       # use default if no colours are provided
       fill_colours <- protti_colours
-      data_colours <- purrr::map_chr(dplyr::pull(data, {{ value }}),
-        .f = ~ {
-          fill_colours[which(.x == unique(dplyr::pull(data, {{ value }})))]
-        }
-      )
     } else {
-      if (length(colour) < length(unique(dplyr::pull(data, {{ value }})))) {
+      if (length(colour) < length(lev)) {
         stop('There are more categories in the "value" column than provided colours. Please add more colours to the "colour" argument!')
       }
       fill_colours <- colour
-      data_colours <- purrr::map_chr(dplyr::pull(data, {{ value }}),
-        .f = ~ {
-          fill_colours[which(.x == unique(dplyr::pull(data, {{ value }})))]
-        }
-      )
     }
+    # named mapping for non-NA levels
+    col_map <- stats::setNames(fill_colours[seq_along(lev)], lev)
+    
+    # map values: NA gets na_fill
+    data_colours <- ifelse(is.na(all_values), na_fill, unname(col_map[as.character(all_values)]))
+    
+    # only keep colours which are assigned to the data.
+    fill_colours <- unname(col_map)
   }
 
   if (!missing(label)) {
@@ -221,7 +232,7 @@ plate_plot <- function(data,
     dplyr::pull({{ value }}) |>
     unique() |>
     nchar() |>
-    max()
+    max(na.rm = TRUE)
 
   MORELETTERS <- c(LETTERS, "AA", "AB", "AC", "AD", "AE", "AF")
 
@@ -493,12 +504,13 @@ plate_plot <- function(data,
         ggplot2::scale_fill_gradientn(
           colors = fill_colours,
           limits = c(min_val, max_val),
+          na.value = na_fill,
           guide = ggplot2::guide_colorbar(ticks.linewidth = max(0.5 * scale, 0.2))
         )
       }
     } +
     {
-      if (!is.numeric(dplyr::pull(data, {{ value }}))) ggplot2::scale_fill_manual(values = fill_colours)
+      if (!is.numeric(dplyr::pull(data, {{ value }}))) ggplot2::scale_fill_manual(values = fill_colours, na.value = na_fill)
     } +
     ggplot2::labs(
       title = plot_title,

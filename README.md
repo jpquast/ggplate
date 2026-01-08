@@ -114,7 +114,7 @@ plate_plot(
 )
 ```
 
-<img src="man/figures/README-standard_plot-1.png" width="100%" />
+<img src="man/figures/README-standard_plot-1.png" alt="" width="100%" />
 
 It is also possible to label each well in the plate with a corresponding
 label. For the plate above it would be interesting to display the exact
@@ -135,7 +135,7 @@ plate_plot(
 )
 ```
 
-<img src="man/figures/README-standard_plot_labels-1.png" width="100%" />
+<img src="man/figures/README-standard_plot_labels-1.png" alt="" width="100%" />
 
 Try providing the `well` column to the `label` argument instead of the
 `Value` column. This will label each will with its position, which might
@@ -153,7 +153,7 @@ plate_plot(
 )
 ```
 
-<img src="man/figures/README-standard_plot_labels_wells-1.png" width="100%" />
+<img src="man/figures/README-standard_plot_labels_wells-1.png" alt="" width="100%" />
 
 ### Legend Limit Adjustment
 
@@ -186,7 +186,7 @@ plate_plot(
 )
 ```
 
-<img src="man/figures/README-standard_plot_384_well_new_limits-1.png" width="100%" />
+<img src="man/figures/README-standard_plot_384_well_new_limits-1.png" alt="" width="100%" />
 
 If your new range will be smaller than the measured range, values
 outside of the range are coloured gray.
@@ -202,7 +202,7 @@ plate_plot(
 )
 ```
 
-<img src="man/figures/README-standard_plot_384_well_new_limits_outlier-1.png" width="100%" />
+<img src="man/figures/README-standard_plot_384_well_new_limits_outlier-1.png" alt="" width="100%" />
 
 ### Gradient Colour Adjustment
 
@@ -227,7 +227,7 @@ plate_plot(
 )
 ```
 
-<img src="man/figures/README-standard_plot_384_well_new_gradient-1.png" width="100%" />
+<img src="man/figures/README-standard_plot_384_well_new_gradient-1.png" alt="" width="100%" />
 
 ### Incomplete datasets
 
@@ -256,7 +256,7 @@ plate_plot(
 )
 ```
 
-<img src="man/figures/README-standard_plot_48_empty_wells-1.png" width="100%" />
+<img src="man/figures/README-standard_plot_48_empty_wells-1.png" alt="" width="100%" />
 
 ## Plot Customisation
 
@@ -295,7 +295,7 @@ plate_plot(
 )
 ```
 
-<img src="man/figures/README-standard_plot_6_well-1.png" width="80%" style="display: block; margin: auto;" />
+<img src="man/figures/README-standard_plot_6_well-1.png" alt="" width="80%" style="display: block; margin: auto;" />
 
 In addition it is possible to change the colours of the plot by
 providing new colours to the `colour` argument. As mentioned earlier
@@ -316,7 +316,7 @@ plate_plot(
 )
 ```
 
-<img src="man/figures/README-6_well_plot_new_colours-1.png" width="80%" style="display: block; margin: auto;" />
+<img src="man/figures/README-6_well_plot_new_colours-1.png" alt="" width="80%" style="display: block; margin: auto;" />
 
 Also for this plot we can provide a column name to the `label` argument
 to directly label the wells in the plot. At the same time we can disable
@@ -342,7 +342,7 @@ plate_plot(
 )
 ```
 
-<img src="man/figures/README-6_well_plot_new_colours_no_legend-1.png" width="80%" style="display: block; margin: auto;" />
+<img src="man/figures/README-6_well_plot_new_colours_no_legend-1.png" alt="" width="80%" style="display: block; margin: auto;" />
 
 ## Potential Issues
 
@@ -378,7 +378,7 @@ plate_plot(
 #> scaling factor: 1.256
 ```
 
-<img src="man/figures/README-return_device_size-1.png" width="100%" />
+<img src="man/figures/README-return_device_size-1.png" alt="" width="100%" />
 
 It is possible that the generated plot has overlapping or too spaced out
 wells. This can be corrected by resizing the output graphics device size
@@ -406,7 +406,7 @@ plate_plot(
 #> scaling factor: 1.45
 ```
 
-<img src="man/figures/README-resize_plot-1.png" width="100%" />
+<img src="man/figures/README-resize_plot-1.png" alt="" width="100%" />
 
 As you can see, however, now we are running into the problem that the
 legend is larger than the screen size. With the `legend_n_row` argument
@@ -431,7 +431,7 @@ plate_plot(
 #> scaling factor: 1.2
 ```
 
-<img src="man/figures/README-24_well_plate_legend_n_row-1.png" width="100%" />
+<img src="man/figures/README-24_well_plate_legend_n_row-1.png" alt="" width="100%" />
 
 If your dataset has a lot of labels it can become difficult to
 impossible to distinguish them just by colour as you can see for the
@@ -459,7 +459,7 @@ plate_plot(
 )
 ```
 
-<img src="man/figures/README-discrete_96_well_plate-1.png" width="100%" />
+<img src="man/figures/README-discrete_96_well_plate-1.png" alt="" width="100%" />
 
 This is an example where it is likely better to directly label wells
 instead of displaying a legend.
@@ -478,7 +478,7 @@ plate_plot(
 )
 ```
 
-<img src="man/figures/README-discrete_96_well_plate_label-1.png" width="100%" />
+<img src="man/figures/README-discrete_96_well_plate_label-1.png" alt="" width="100%" />
 
 ## Figure Export
 

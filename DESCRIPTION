@@ -1,17 +1,17 @@
 Package: ggplate
 Title: Create Layout Plots of Biological Culture Plates and Microplates
-Version: 0.1.5
+Version: 0.2.0
 Authors@R: person(given = "Jan-Philipp",
            family = "Quast",
            role = c("aut", "cre"),
-           email = "quast@imsb.biol.ethz.ch",
+           email = "jpquast.software@gmail.com",
            comment = c(ORCID = "0000-0003-2713-778X"))
 Description: Enables users to create simple plots of biological culture plates as well as microplates. Both continuous and discrete values can be plotted onto the plate layout. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Imports: 
     dplyr,
     ggplot2,

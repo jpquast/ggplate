@@ -12,6 +12,8 @@ plate_plot(
   plate_size = 96,
   plate_type = "square",
   colour,
+  remove_na = TRUE,
+  na_fill = "grey50",
   limits,
   title,
   title_size,
@@ -43,6 +45,12 @@ are: 6, 12, 24, 48, 96, 384 and 1536.}
 
 \item{colour}{optional, a character vector that contains colours used for the plot. If the \code{value} argument is discrete
 the colours are used as provided. If it is continuous a gradient is created using the colours.}
+
+\item{remove_na}{a logical value specifying whether rows with missing values (\code{NA}) in the \code{value} column are removed
+from the input data. This will not remove any \code{NA} values created due to values outside of the \code{limits}. Default is \code{TRUE}.}
+
+\item{na_fill}{optional, a character value specifying the fill colour used for wells with missing values (\code{NA}) and,
+for continuous data, for values outside the range defined by \code{limits}. The default is \code{"grey50"}.}
 
 \item{limits}{optional, a numeric vector of length two providing new limits for a colour gradient. Use NA to refer to
 the existing minimum or maximum. If this argument is not supplied the existing minimum and maximum of the
