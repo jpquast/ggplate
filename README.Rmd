@@ -192,7 +192,7 @@ data(data_continuous_48_incomplete)
 # Check the structure of the dataset
 str(data_continuous_48_incomplete)
 
-# Create a 48-well plot with adjusted legend limits
+# Create a 48-well plot with only the partial plate filled
 plate_plot(
   data = data_continuous_48_incomplete,
   position = well,
@@ -202,7 +202,20 @@ plate_plot(
 )
 ```
 
-If you specifically want to keep `NA` values in your data you can set the `remove_na` argument to `FALSE`. You can also specifically control the fill colour of `NA` values with the `na_fill` argument.
+If you specifically want to keep `NA` values in the plot, you can set the `remove_na` argument to `FALSE`. You can also specifically control the fill colour of `NA` values with the `na_fill` argument.
+
+```{r standard_plot_48_empty_wells_keep_na, dpi=260, fig.width=7, fig.height=4}
+# Create a 48-well plot while keeping NA values
+plate_plot(
+  data = data_continuous_48_incomplete,
+  position = well,
+  value = Value,
+  remove_na = FALSE,
+  na_fill = "black",
+  plate_type = "round",
+  plate_size = 48
+)
+```
 
 ## Plot Customisation
 

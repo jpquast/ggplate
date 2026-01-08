@@ -248,7 +248,7 @@ str(data_continuous_48_incomplete)
 #>  $ Value: num [1:48] 1.14 0.46 0.72 0.17 NA NA NA NA 1.37 0.37 ...
 #>  $ well : chr [1:48] "A1" "A2" "A3" "A4" ...
 
-# Create a 48-well plot with adjusted legend limits
+# Create a 48-well plot with only the partial plate filled
 plate_plot(
   data = data_continuous_48_incomplete,
   position = well,
@@ -260,9 +260,24 @@ plate_plot(
 
 <img src="man/figures/README-standard_plot_48_empty_wells-1.png" alt="" width="100%" />
 
-If you specifically want to keep `NA` values in your data you can set
+If you specifically want to keep `NA` values in the plot, you can set
 the `remove_na` argument to `FALSE`. You can also specifically control
 the fill colour of `NA` values with the `na_fill` argument.
+
+``` r
+# Create a 48-well plot while keeping NA values
+plate_plot(
+  data = data_continuous_48_incomplete,
+  position = well,
+  value = Value,
+  remove_na = FALSE,
+  na_fill = "black",
+  plate_type = "round",
+  plate_size = 48
+)
+```
+
+<img src="man/figures/README-standard_plot_48_empty_wells_keep_na-1.png" alt="" width="100%" />
 
 ## Plot Customisation
 
