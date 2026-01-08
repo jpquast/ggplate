@@ -10,6 +10,8 @@ status](https://www.r-pkg.org/badges/version/ggplate)](https://CRAN.R-project.or
 [![R-CMD-check](https://github.com/jpquast/ggplate/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jpquast/ggplate/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/jpquast/ggplate/branch/main/graph/badge.svg)](https://app.codecov.io/gh/jpquast/ggplate?branch=main)
+[![Codecov test
+coverage](https://codecov.io/gh/jpquast/ggplate/graph/badge.svg)](https://app.codecov.io/gh/jpquast/ggplate)
 <!-- badges: end -->
 
 The goal of the **ggplate** package is to enable users to create simple
@@ -257,6 +259,10 @@ plate_plot(
 ```
 
 <img src="man/figures/README-standard_plot_48_empty_wells-1.png" alt="" width="100%" />
+
+If you specifically want to keep `NA` values in your data you can set
+the `remove_na` argument to `FALSE`. You can also specifically control
+the fill colour of `NA` values with the `na_fill` argument.
 
 ## Plot Customisation
 
