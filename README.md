@@ -9,8 +9,6 @@
 status](https://www.r-pkg.org/badges/version/ggplate)](https://CRAN.R-project.org/package=ggplate)
 [![R-CMD-check](https://github.com/jpquast/ggplate/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jpquast/ggplate/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
-coverage](https://codecov.io/gh/jpquast/ggplate/branch/main/graph/badge.svg)](https://app.codecov.io/gh/jpquast/ggplate?branch=main)
-[![Codecov test
 coverage](https://codecov.io/gh/jpquast/ggplate/graph/badge.svg)](https://app.codecov.io/gh/jpquast/ggplate)
 <!-- badges: end -->
 
