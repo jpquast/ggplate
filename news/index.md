@@ -2,6 +2,8 @@
 
 ## ggplate 0.2.0
 
+CRAN release: 2026-01-09
+
 - Fix issue [\#27](https://github.com/jpquast/ggplate/issues/27). If
   limits were used to exclude values, no labels could be displayed for
   those wells. Limits were never intended to exclude values, but even if

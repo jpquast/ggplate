@@ -8,7 +8,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/jpquast/ggplate/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/jpquast/ggplate/blob/v0.2.0/DESCRIPTION)
 
 Quast J (2026). *ggplate: Create Layout Plots of Biological Culture
 Plates and Microplates*. R package version 0.2.0,
