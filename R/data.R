@@ -109,11 +109,20 @@
 #' @source Drugs were chosen from a standard FDA approved drug library.
 "data_discrete_96"
 
-#' Continuous 1536-well plate dataset
+#' Continuous 1536-well plate dataset (A-AF)
 #'
 #' A dataset containing 1536 positive numeric values randomly generated using a normal distribution (`rnorm()`).
-#' Each value is assigned to a position in a 1536-well plate.
+#' Each value is assigned to a position in a 1536-well plate. The row format uses the A-AF labeling.
 #'
 #' @format A data frame with a `Value` and a `well` column.
 #' @source Randomly generated.
 "data_continuous_1536"
+
+#' Continuous 1536-well plate dataset (Aa-Hd)
+#'
+#' A dataset containing 1536 positive numeric values randomly generated using a normal distribution (`rnorm()`).
+#' Each value is assigned to a position in a 1536-well plate. The row format uses the Ab-Hd labeling.
+#'
+#' @format A data frame with a `Value` and a `well` column.
+#' @source Randomly generated.
+"data_continuous_1536_Aa"

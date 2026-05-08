@@ -1,3 +1,7 @@
+# ggplate 0.3.0
+
+* The `plate_plot()` function now supports 1536-well plates with the "Aa-Hd" row label format in addition to the "A-AF" format.
+  
 # ggplate 0.2.0
 
 * Fix issue #27. If limits were used to exclude values, no labels could be displayed for those wells. Limits were never intended to exclude values, but even if not intended this works now as expected.
