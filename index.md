@@ -13,6 +13,8 @@ Currently the package supports the following plate sizes:
 - 96-well plate
 - 384-well plate
 - 1536-well plate
+  - A-AF row labels
+  - Aa-Hd row labels
 
 ## Installation
 
@@ -24,6 +26,7 @@ You can install the release version from
 function.
 
 ``` r
+
 install.packages("ggplate")
 ```
 
@@ -36,6 +39,7 @@ Note: If you do not have `devtools` installed make sure to do so by
 removing the comment sign (#).
 
 ``` r
+
 # install.packages("devtools")
 devtools::install_github("jpquast/ggplate")
 ```
@@ -56,6 +60,7 @@ environment by simply calling the
 bellow.
 
 ``` r
+
 # Load ggplate package
 library(ggplate)
 ```
@@ -65,6 +70,7 @@ plots of each plate type. You can access these datasets using the
 [`data()`](https://rdrr.io/r/utils/data.html) function.
 
 ``` r
+
 # Load a dataset of continuous values for a 96-well plate
 data(data_continuous_96)
 
@@ -100,6 +106,7 @@ provided to the `value` argument.
 optimal result.*
 
 ``` r
+
 # Create a 96-well plot with round wells
 plate_plot(
   data = data_continuous_96,
@@ -120,6 +127,7 @@ label as an input. In this example case this column is the same that is
 also provided to the `value` argument.
 
 ``` r
+
 # Create a 96-well plot with labels
 plate_plot(
   data = data_continuous_96,
@@ -138,6 +146,7 @@ Try providing the `well` column to the `label` argument instead of the
 make it easier to find specific positions.
 
 ``` r
+
 # Create a 96-well plot with labels
 plate_plot(
   data = data_continuous_96,
@@ -163,6 +172,7 @@ want to adjust one. Below we show this for an example dataset of a
 384-well plate.
 
 ``` r
+
 # Load a dataset of continuous values for a 384-well plate
 data(data_continuous_384)
 
@@ -188,6 +198,7 @@ If your new range will be smaller than the measured range, values
 outside of the range are coloured gray.
 
 ``` r
+
 # Create a 384-well plot with adjusted legend limits and outliers
 plate_plot(
   data = data_continuous_384,
@@ -207,6 +218,7 @@ gradient colours by providing new colours to the `colour` argument. The
 colours will be used to create a new colour gradient for the plot.
 
 ``` r
+
 # Create a 384-well plot with a new colour gradient
 plate_plot(
   data = data_continuous_384,
@@ -233,6 +245,7 @@ wells will be uncoloured. Empty wells can either contain `NA` as their
 frame.
 
 ``` r
+
 # Load a continuous of discrete values for a 48-well plate
 data(data_continuous_48_incomplete)
 
@@ -259,6 +272,7 @@ the `remove_na` argument to `FALSE`. You can also specifically control
 the fill colour of `NA` values with the `na_fill` argument.
 
 ``` r
+
 # Create a 48-well plot while keeping NA values
 plate_plot(
   data = data_continuous_48_incomplete,
@@ -289,6 +303,7 @@ you can reduce the size of the figure in the R markdown document and
 align it for example to the center.*
 
 ``` r
+
 # Load a dataset of discrete values for a 6-well plate
 data(data_discrete_6)
 
@@ -318,6 +333,7 @@ this does not only work for discrete values but also for gradients that
 will be created based on the provided colours.
 
 ``` r
+
 # Create a 6-well plot
 plate_plot(
   data = data_discrete_6,
@@ -341,6 +357,7 @@ label so that it fits perfectly into each well using the `label_size`
 argument.
 
 ``` r
+
 # Create a 6-well plot
 plate_plot(
   data = data_discrete_6,
@@ -371,6 +388,7 @@ As you can see for the bellow example the graphics device size is
 `width: 7 height: 4` and the scaling factor is `1.256`.
 
 ``` r
+
 # Load a dataset of discrete values for a 24-well plate
 data(data_discrete_24)
 
@@ -407,6 +425,7 @@ be the case in RStudio. If this is not desired you can avoid this by
 setting the `scale` argument.*
 
 ``` r
+
 # Create a 24-well plot
 plate_plot(
   data = data_discrete_24,
@@ -431,6 +450,7 @@ by setting `legend_n_row` to 6 rows. In addition we should adjust the
 `scale` parameter to `1.2` in order to space out wells properly.
 
 ``` r
+
 # Create a 24-well plot with 2 row legend
 plate_plot(
   data = data_discrete_24,
@@ -453,6 +473,7 @@ impossible to distinguish them just by colour as you can see for the
 dataset below.
 
 ``` r
+
 # Load a dataset of discrete values for a 96-well plate
 data(data_discrete_96)
 
@@ -480,6 +501,7 @@ This is an example where it is likely better to directly label wells
 instead of displaying a legend.
 
 ``` r
+
 # Create a 96-well plot with labels
 plate_plot(
   data = data_discrete_96,
@@ -506,6 +528,7 @@ e.g. [`png()`](https://rdrr.io/r/grDevices/png.html),
 [`svg()`](https://rdrr.io/r/grDevices/cairo.html) and many more.
 
 ``` r
+
 # Generate a new graphics device with a defined size
 png("plate_plot_384_well_plate.png", width = 10, height = 6, unit = "in", res = 300)
 

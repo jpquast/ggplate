@@ -1,5 +1,14 @@
 # Changelog
 
+## ggplate 0.3.0
+
+CRAN release: 2026-05-08
+
+- The
+  [`plate_plot()`](https://jpquast.github.io/ggplate/reference/plate_plot.md)
+  function now supports 1536-well plates with the “Aa-Hd” row label
+  format in addition to the “A-AF” format.
+
 ## ggplate 0.2.0
 
 CRAN release: 2026-01-09

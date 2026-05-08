@@ -5,7 +5,9 @@
 - [`data_continuous_12`](https://jpquast.github.io/ggplate/reference/data_continuous_12.md)
   : Continuous 12-well plate dataset
 - [`data_continuous_1536`](https://jpquast.github.io/ggplate/reference/data_continuous_1536.md)
-  : Continuous 1536-well plate dataset
+  : Continuous 1536-well plate dataset (A-AF)
+- [`data_continuous_1536_Aa`](https://jpquast.github.io/ggplate/reference/data_continuous_1536_Aa.md)
+  : Continuous 1536-well plate dataset (Aa-Hd)
 - [`data_continuous_24`](https://jpquast.github.io/ggplate/reference/data_continuous_24.md)
   : Continuous 24-well plate dataset
 - [`data_continuous_384`](https://jpquast.github.io/ggplate/reference/data_continuous_384.md)

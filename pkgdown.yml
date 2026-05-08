@@ -1,8 +1,8 @@
-pandoc: 3.1.11
+pandoc: 3.8.3
 pkgdown: 2.2.0
 pkgdown_sha: ~
 articles: {}
-last_built: 2026-01-09T17:02Z
+last_built: 2026-05-08T12:23Z
 urls:
   reference: https://jpquast.github.io/ggplate/reference
   article: https://jpquast.github.io/ggplate/articles

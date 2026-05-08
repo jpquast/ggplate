@@ -217,4 +217,14 @@ plate_plot(
 #> width: 6.667 height: 6.667
 #> scaling factor: 1.196
 
+
+# Create a 1536-well plot with square wells
+# Aa-Hd row labels
+plate_plot(
+  data = data_continuous_1536_Aa,
+  position = well,
+  value = Value,
+  plate_size = 1536,
+)
+
 ```
