@@ -115,6 +115,15 @@
 #'   show_legend = FALSE,
 #'   silent = FALSE
 #' )
+#' 
+#' # Create a 1536-well plot with square wells
+#' # Aa-Hd row labels
+#' plate_plot(
+#'   data = data_continuous_1536_Aa,
+#'   position = well,
+#'   value = Value,
+#'   plate_size = 1536,
+#' )
 #'
 plate_plot <- function(data,
                        position,
@@ -235,16 +244,28 @@ plate_plot <- function(data,
     max(na.rm = TRUE)
 
   MORELETTERS <- c(LETTERS, "AA", "AB", "AC", "AD", "AE", "AF")
+  letters_Aa <- paste0(rep(LETTERS[1:8], each = 4), letters[1:4])
+  
+  order_lookup <- c(
+    stats::setNames(seq_along(MORELETTERS), MORELETTERS),
+    stats::setNames(seq_along(letters_Aa), letters_Aa)
+  )
 
   data_prep <- data |>
     dplyr::ungroup() |>
     dplyr::mutate(
-      row = stringr::str_extract({{ position }}, pattern = "[:upper:]+"),
+      row = stringr::str_extract({{ position }}, pattern = "[A-Za-z]+"),
       col = as.numeric(stringr::str_extract({{ position }}, pattern = "\\d+")),
-      row_num = as.numeric(match(.data$row, MORELETTERS)),
+      row_num = unname(order_lookup[.data$row]),
       colours = data_colours,
       label_colours = label_col
     )
+  
+  # generate row labels for plot
+  row_labels <- data_prep |>
+    dplyr::distinct(.data$row, .data$row_num) |>
+    dplyr::arrange(.data$row_num) |>
+    dplyr::pull(.data$row)
 
   if (!is.numeric(dplyr::pull(data, {{ value }}))) {
     # Convert character values to factors
@@ -497,7 +518,7 @@ plate_plot <- function(data,
       xlim = c(min_x_axis, max_x_axis),
       ylim = c(min_y_axis, max_y_axis)
     ) +
-    ggplot2::scale_y_continuous(breaks = seq(1, n_rows), labels = rev(MORELETTERS[1:n_rows])) +
+    ggplot2::scale_y_continuous(breaks = seq(1, n_rows), labels = rev(row_labels[1:n_rows])) +
     ggplot2::scale_x_continuous(breaks = seq(1, n_cols), position = "top") +
     {
       if (is.numeric(dplyr::pull(data, {{ value }}))) {

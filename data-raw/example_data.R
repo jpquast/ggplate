@@ -169,8 +169,7 @@ data_continuous_384 <- data.frame(matrix(round(abs(rnorm(384)), 2), nrow = 16, n
 
 usethis::use_data(data_continuous_384, overwrite = TRUE)
 
-#1536-well plate
-
+#1536-well plate with A-AF row labeling
 MORELETTERS <- c(LETTERS, "AA", "AB", "AC", "AD", "AE", "AF")
 
 data_continuous_1536 <- data.frame(matrix(round(abs(rnorm(1536)), 2), nrow = 32, ncol = 48)) |>
@@ -183,3 +182,17 @@ data_continuous_1536 <- data.frame(matrix(round(abs(rnorm(1536)), 2), nrow = 32,
   distinct(well, Value)
 
 usethis::use_data(data_continuous_1536, overwrite = TRUE)
+
+#1536-well plate with Aa–Hd row labeling
+letters_1536 <- paste0(sort(rep(LETTERS[1:8], 4)), letters[1:4])
+
+data_continuous_1536_Aa <- data.frame(matrix(round(abs(rnorm(1536)), 2), nrow = 32, ncol = 48)) |>
+  mutate(rows = letters_1536) |>
+  pivot_longer(cols = -rows, names_to = "cols", values_to = "Value") |>
+  mutate(
+    cols = as.numeric(str_remove(cols, pattern = "V|X")),
+    well = paste0(rows, cols)
+  ) |>
+  distinct(well, Value)
+
+usethis::use_data(data_continuous_1536_Aa, overwrite = TRUE)

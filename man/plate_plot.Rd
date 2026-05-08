@@ -152,4 +152,13 @@ plate_plot(
   silent = FALSE
 )
 
+# Create a 1536-well plot with square wells
+# Aa-Hd row labels
+plate_plot(
+  data = data_continuous_1536_Aa,
+  position = well,
+  value = Value,
+  plate_size = 1536,
+)
+
 }

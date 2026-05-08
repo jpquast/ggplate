@@ -25,6 +25,8 @@ Currently the package supports the following plate sizes:
 - 96-well plate
 - 384-well plate
 - 1536-well plate
+  - A-AF row labels
+  - Aa-Hd row labels
 
 ## Installation
 

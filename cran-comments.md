@@ -1,11 +1,11 @@
 ## Submission 
 
-* Fixed a bug in the `plate_plot()` function that was inadvertently introduced in the previous bug fix.
+* Implemented a new functionality in the `plate_plot()` function. 1536-well plates now can also have the "Aa-Hd" row label format.
 
 ## Test environments
-* macOS-latest (on GitHub actions), R 4.4.0
-* windows-latest (on GitHub actions), R 4.4.0
-* ubuntu-20.04 (on GitHub actions), R 4.4.0
+* macOS-latest (on GitHub actions), R 4.5.2
+* windows-latest (on GitHub actions), R 4.5.2
+* ubuntu-20.04 (on GitHub actions), R 4.5.2
 * ubuntu-20.04 (on GitHub actions), r-devel
 * windows-ix86+x86_64 (win-builder), r-devel
 * fedora-clang-devel (R-hub), r-devel
