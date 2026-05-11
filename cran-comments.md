@@ -1,6 +1,6 @@
 ## Submission 
 
-* Implemented a new functionality in the `plate_plot()` function. 1536-well plates now can also have the "Aa-Hd" row label format.
+* Fixed a bug that was introduced with the last version. Row labels were `NA` when no complete dataset was provided.
 
 ## Test environments
 * macOS-latest (on GitHub actions), R 4.5.2

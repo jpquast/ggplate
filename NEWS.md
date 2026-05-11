@@ -1,3 +1,7 @@
+# ggplate 0.3.1
+
+* Fixed a bug that was introduced with the last version. Row labels were `NA` when no complete dataset was provided.
+
 # ggplate 0.3.0
 
 * The `plate_plot()` function now supports 1536-well plates with the "Aa-Hd" row label format in addition to the "A-AF" format.

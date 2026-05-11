@@ -115,7 +115,7 @@
 #'   show_legend = FALSE,
 #'   silent = FALSE
 #' )
-#' 
+#'
 #' # Create a 1536-well plot with square wells
 #' # Aa-Hd row labels
 #' plate_plot(
@@ -156,7 +156,7 @@ plate_plot <- function(data,
   }
 
   # Remove missing values
-  if (remove_na){
+  if (remove_na) {
     data <- tidyr::drop_na(data, {{ value }})
   }
 
@@ -185,15 +185,15 @@ plate_plot <- function(data,
       fill_colours <- colour
     }
     colfunc <- scales::gradient_n_pal(fill_colours)
-    
+
     data_scaled <- scales::rescale(
       dplyr::pull(data, {{ value }}),
       from = c(min_val, max_val),
       to = c(0, 1)
     )
-    
+
     data_colours <- colfunc(data_scaled)
-    
+
     # replace NA (true NA + out-of-bounds) with na_fill
     data_colours[is.na(data_colours)] <- na_fill
   }
@@ -204,7 +204,7 @@ plate_plot <- function(data,
     # levels in first-appearance order, excluding NA
     lev <- unique(all_values[!is.na(all_values)])
     has_na <- any(is.na(all_values))
-    
+
     if (missing(colour)) {
       protti_colours <- "placeholder" # assign a placeholder to prevent a missing global variable warning
       utils::data("protti_colours", envir = environment()) # then overwrite it with real data
@@ -218,10 +218,10 @@ plate_plot <- function(data,
     }
     # named mapping for non-NA levels
     col_map <- stats::setNames(fill_colours[seq_along(lev)], lev)
-    
+
     # map values: NA gets na_fill
     data_colours <- ifelse(is.na(all_values), na_fill, unname(col_map[as.character(all_values)]))
-    
+
     # only keep colours which are assigned to the data.
     fill_colours <- unname(col_map)
   }
@@ -245,7 +245,7 @@ plate_plot <- function(data,
 
   MORELETTERS <- c(LETTERS, "AA", "AB", "AC", "AD", "AE", "AF")
   letters_Aa <- paste0(rep(LETTERS[1:8], each = 4), letters[1:4])
-  
+
   order_lookup <- c(
     stats::setNames(seq_along(MORELETTERS), MORELETTERS),
     stats::setNames(seq_along(letters_Aa), letters_Aa)
@@ -260,12 +260,13 @@ plate_plot <- function(data,
       colours = data_colours,
       label_colours = label_col
     )
-  
+
   # generate row labels for plot
-  row_labels <- data_prep |>
-    dplyr::distinct(.data$row, .data$row_num) |>
-    dplyr::arrange(.data$row_num) |>
-    dplyr::pull(.data$row)
+  row_labels <- if (any(data_prep$row %in% letters_Aa)) {
+    letters_Aa
+  } else {
+    MORELETTERS
+  }
 
   if (!is.numeric(dplyr::pull(data, {{ value }}))) {
     # Convert character values to factors
@@ -539,16 +540,22 @@ plate_plot <- function(data,
       y = ""
     ) +
     {
-      if (!missing(label)) ggplot2::geom_text(ggplot2::aes(x = col,
-                                                           y = .data$row_num,
-                                                           label = format(
-                                                             {{ label }},
-                                                             drop0Trailing = FALSE, # does not drop trailing 0
-                                                             justify = "none", # does not add white spaces for justification
-                                                             trim = TRUE) # removes leading white spaces
-                                                             ),
-                                              colour = data_prep$label_colours,
-                                              size = label_size_scaled)
+      if (!missing(label)) {
+        ggplot2::geom_text(
+          ggplot2::aes(
+            x = col,
+            y = .data$row_num,
+            label = format(
+              {{ label }},
+              drop0Trailing = FALSE, # does not drop trailing 0
+              justify = "none", # does not add white spaces for justification
+              trim = TRUE
+            ) # removes leading white spaces
+          ),
+          colour = data_prep$label_colours,
+          size = label_size_scaled
+        )
+      }
     } +
     ggplot2::theme_bw() +
     {
