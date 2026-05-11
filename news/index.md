@@ -1,5 +1,12 @@
 # Changelog
 
+## ggplate 0.3.1
+
+CRAN release: 2026-05-11
+
+- Fixed a bug that was introduced with the last version. Row labels were
+  `NA` when no complete dataset was provided.
+
 ## ggplate 0.3.0
 
 CRAN release: 2026-05-08
