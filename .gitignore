@@ -23,6 +23,9 @@ Rplots.pdf
 # RStudio files
 .Rproj.user/
 
+# Preview file produced when knitting the README
+README.html
+
 # produced vignettes
 vignettes/*.html
 vignettes/*.pdf

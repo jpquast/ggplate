@@ -80,7 +80,7 @@ data(data_continuous_96)
 str(data_continuous_96)
 ```
 
-When calling the `str()` function you can see that the data frame of a continuous 96-well plate dataset only contains two columns. The `Value` column contains values associated with each of the plate wells, while the `well` column contains the corresponding well positions using a combination of **alphabetic row names** and **numeric column names**.
+When calling the `str()` function you can see that the data frame of a continuous 96-well plate dataset contains three columns. The `Value` column contains values associated with each of the plate wells, while the `well` column contains the corresponding well positions using a combination of **alphabetic row names** and **numeric column names**. The `Status` column contains a category for some of the wells, which we will use later to colour the borders of these wells.
 
 You can use this example data frame to create a 96-well plate layout plot using the `plate_plot()` function and setting the `plate_size` argument to `96`. There are currently two options for the plate well type. These can be either `"round"` or `"square"`. In the plot below we specify `"round"`, while `"square"` is the default value when the `plate_type` argument is not provided.
 
@@ -215,6 +215,76 @@ plate_plot(
   na_fill = "black",
   plate_type = "round",
   plate_size = 48
+)
+```
+
+### Well Borders
+
+In addition to the fill colour of a well you can also colour its border. This makes it possible to highlight individual wells, for example those that did not pass a quality control. The `border` argument takes the name of a column that contains categories. Wells that contain `NA` in this column keep their default black border and are not shown in the legend.
+
+The `Status` column of the 96-well dataset marks wells with a low signal. Its categories are shown in a second legend below the legend of the `value` argument.
+
+```{r well_borders, dpi=260, fig.width=7, fig.height=4}
+# Create a 96-well plot with coloured well borders
+plate_plot(
+  data = data_continuous_96,
+  position = well,
+  value = Value,
+  border = Status,
+  plate_size = 96,
+  plate_type = "round"
+)
+```
+
+The border colours are taken from the `border_colours` scheme, which contains four colours that are not part of the colour schemes used for the fill of the wells. You can provide your own colours to the `border_colour` argument. This is also necessary if your column contains more categories than the four colours of the default scheme.
+
+The `Replicate` column of the discrete 96-well dataset contains the number of the replicate of each compound. Since the two controls have eight replicates, eight colours have to be provided to the `border_colour` argument.
+
+_Note: Both legends together need more vertical space than the plate itself. For this example the height of the graphics device was therefore increased._
+
+```{r well_borders_colour, dpi=260, fig.width=7, fig.height=6}
+# Load a dataset of discrete values for a 96-well plate
+data(data_discrete_96)
+
+# Create a 96-well plot with your own border colours
+plate_plot(
+  data = data_discrete_96,
+  position = well,
+  value = Compound,
+  border = Replicate,
+  border_colour = c(
+    "red",
+    "blue",
+    "green",
+    "orange",
+    "purple",
+    "brown",
+    "magenta",
+    "turquoise"
+  ),
+  plate_size = 96,
+  plate_type = "round"
+)
+```
+
+If you are only interested in the borders of the wells, you can provide a column that does not contain any values to the `value` argument. In this case no legend is shown for the `value` argument. Since every well contains `NA`, the `remove_na` argument has to be set to `FALSE` in order to not remove all of them. The `na_fill` argument determines the colour of the wells, which is white in the example below.
+
+```{r well_borders_only, dpi=260, fig.width=7, fig.height=4}
+# Create a copy of the dataset with a column that does not contain any values
+data_discrete_96_no_value <- data_discrete_96
+data_discrete_96_no_value$new_value <- NA
+
+# Create a 96-well plot that only shows the borders of the wells
+plate_plot(
+  data = data_discrete_96_no_value,
+  position = well,
+  value = new_value,
+  border = Compound,
+  border_colour = protti_colours,
+  plate_size = 96,
+  plate_type = "round",
+  remove_na = FALSE,
+  na_fill = "white"
 )
 ```
 

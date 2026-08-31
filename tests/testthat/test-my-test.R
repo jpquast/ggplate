@@ -458,14 +458,6 @@ test_that("plate_plot works", {
   expect_lte(layout_22[[1]]["rows"] + layout_22[[2]]["rows"], 10)
   # both legends use the same number of columns
   expect_equal(layout_22[[1]]["columns"], layout_22[[2]]["columns"])
-
-  # a legend with several columns reduces the size of the wells
-  expect_lt(
-    unique(ggplot2::ggplot_build(plot_21)$data[[2]]$size),
-    unique(ggplot2::ggplot_build(plate_plot(
-      data = data_discrete_24, position = well, value = Condition, plate_size = 96
-    ))$data[[2]]$size)
-  )
 })
 
 # 96 discrete, only the borders of the wells are shown

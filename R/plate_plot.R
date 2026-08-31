@@ -384,10 +384,6 @@ plate_plot <- function(data,
   value_n_row <- max(ceiling(n_value_keys / n_legend_col), 1)
   border_n_row <- max(ceiling(n_border_keys / n_legend_col), 1)
 
-  # A legend with several columns is wider, therefore the length of the labels is multiplied
-  # by the number of legend columns to scale the plot accordingly
-  max_label_length <- max_label_length * n_legend_col
-
 
   if (plate_size == 6) {
     n_cols <- 3
