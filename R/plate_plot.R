@@ -7,8 +7,9 @@
 #' labels.
 #' @param position a character column in the `data` data frame that contains plate positions. These should be in the format:
 #' row = letter, column = number. So for example A1, D12 etc.
-#' @param value a character or numeric column in the `data` data frame that contains values that should be plotted as colours
-#' on the plate layout. Can be the same column as `label`.
+#' @param value a character, factor or numeric column in the `data` data frame that contains values that should be plotted
+#' as colours on the plate layout. Can be the same column as `label`. If the column is a factor, the order of its levels
+#' determines the order of the legend and every level is assigned a colour, even if it is not present in the data.
 #' @param label a character or numeric column in the `data` data frame that contains values that should be plotted as labels
 #' on the plate layout. Can be the same column as `value`.
 #' @param plate_size a numeric value that specifies the plate size (number of wells) used for the plot. Possible values
@@ -160,19 +161,22 @@ plate_plot <- function(data,
     data <- tidyr::drop_na(data, {{ value }})
   }
 
-  if (missing(limits)) {
-    min_val <- min(dplyr::pull(data, {{ value }}), na.rm = TRUE)
-    max_val <- max(dplyr::pull(data, {{ value }}), na.rm = TRUE)
+  # Limits are only relevant for numeric values
+  if (is.numeric(dplyr::pull(data, {{ value }}))) {
+    if (missing(limits)) {
+      min_val <- min(dplyr::pull(data, {{ value }}), na.rm = TRUE)
+      max_val <- max(dplyr::pull(data, {{ value }}), na.rm = TRUE)
 
-    # If there is only one numeric value in the data the colour function needs still two distinct values
-    n_distinct_values <- length(unique(stats::na.omit(dplyr::pull(data, {{ value }}))))
+      # If there is only one numeric value in the data the colour function needs still two distinct values
+      n_distinct_values <- length(unique(stats::na.omit(dplyr::pull(data, {{ value }}))))
 
-    if (n_distinct_values == 1 & is.numeric(min_val)) {
-      max_val <- min_val + abs(min_val)
+      if (n_distinct_values == 1) {
+        max_val <- min_val + abs(min_val)
+      }
+    } else {
+      min_val <- ifelse(is.na(limits[1]), min(dplyr::pull(data, {{ value }}), na.rm = TRUE), limits[1])
+      max_val <- ifelse(is.na(limits[2]), max(dplyr::pull(data, {{ value }}), na.rm = TRUE), limits[2])
     }
-  } else {
-    min_val <- ifelse(is.na(limits[1]), min(dplyr::pull(data, {{ value }}), na.rm = TRUE), limits[1])
-    max_val <- ifelse(is.na(limits[2]), max(dplyr::pull(data, {{ value }}), na.rm = TRUE), limits[2])
   }
 
   # If value is numeric then create gradient of colours, default is viridis colours
@@ -201,8 +205,12 @@ plate_plot <- function(data,
   # If value is not numeric then make it discrete colours, default is protti colours
   if (!is.numeric(dplyr::pull(data, {{ value }}))) {
     all_values <- dplyr::pull(data, {{ value }})
-    # levels in first-appearance order, excluding NA
-    lev <- unique(all_values[!is.na(all_values)])
+    # levels of factors are used, otherwise first-appearance order, excluding NA
+    lev <- if (is.factor(all_values)) {
+      levels(all_values)
+    } else {
+      unique(all_values[!is.na(all_values)])
+    }
     has_na <- any(is.na(all_values))
 
     if (missing(colour)) {
@@ -222,8 +230,9 @@ plate_plot <- function(data,
     # map values: NA gets na_fill
     data_colours <- ifelse(is.na(all_values), na_fill, unname(col_map[as.character(all_values)]))
 
-    # only keep colours which are assigned to the data.
-    fill_colours <- unname(col_map)
+    # keep the names so that every level always gets the same colour,
+    # even if it is not present in the data
+    fill_colours <- col_map
   }
 
   if (!missing(label)) {
@@ -240,6 +249,7 @@ plate_plot <- function(data,
     dplyr::ungroup() |>
     dplyr::pull({{ value }}) |>
     unique() |>
+    as.character() |>
     nchar() |>
     max(na.rm = TRUE)
 
@@ -268,8 +278,8 @@ plate_plot <- function(data,
     MORELETTERS
   }
 
-  if (!is.numeric(dplyr::pull(data, {{ value }}))) {
-    # Convert character values to factors
+  if (!is.numeric(dplyr::pull(data, {{ value }})) && !is.factor(dplyr::pull(data, {{ value }}))) {
+    # Convert character values to factors, keeping their order of appearance
     data_prep <- data_prep |>
       dplyr::mutate({{ value }} := forcats::fct_inorder({{ value }}))
   }

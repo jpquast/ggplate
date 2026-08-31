@@ -179,3 +179,57 @@ test_that("plate_plot works", {
   expect_s3_class(plot_9, "ggplot")
   expect_error(print(plot_9), NA)
 })
+
+# 24 discrete factor, legend order follows factor levels
+test_that("plate_plot works", {
+  factor_levels <- rev(sort(unique(data_discrete_24$Condition)))
+
+  data_factor_24 <- data_discrete_24 |>
+    mutate(Condition = factor(Condition, levels = factor_levels))
+
+  plot_10 <- plate_plot(
+    data = data_factor_24,
+    position = well,
+    value = Condition,
+    label = Condition,
+    plate_size = 24,
+    limits = c(0, 1) # limits are ignored for discrete values
+  )
+
+  expect_s3_class(plot_10, "ggplot")
+  expect_error(print(plot_10), NA)
+  expect_equal(
+    ggplot2::ggplot_build(plot_10)$plot$scales$get_scales("fill")$get_limits(),
+    factor_levels
+  )
+})
+
+# 24 discrete factor, colours are the same for levels missing from the data
+test_that("plate_plot works", {
+  factor_levels <- sort(unique(data_discrete_24$Condition))
+
+  data_factor_24 <- data_discrete_24 |>
+    mutate(Condition = factor(Condition, levels = factor_levels)) |>
+    filter(Condition != factor_levels[1])
+
+  plot_11 <- plate_plot(
+    data = data_factor_24,
+    position = well,
+    value = Condition,
+    plate_size = 24
+  )
+
+  expect_s3_class(plot_11, "ggplot")
+  expect_error(print(plot_11), NA)
+  expect_equal(
+    ggplot2::ggplot_build(plot_11)$plot$scales$get_scales("fill")$get_limits(),
+    factor_levels[-1]
+  )
+  # the second level keeps the second colour even though the first level is missing
+  expect_equal(
+    unique(ggplot2::ggplot_build(plot_11)$data[[2]]$fill[
+      data_factor_24$Condition == factor_levels[2]
+    ]),
+    protti_colours[2]
+  )
+})

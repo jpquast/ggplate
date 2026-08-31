@@ -11,6 +11,9 @@
 # Example code in package build process
 *-Ex.R
 
+# Default graphics device output created when running examples or tests
+Rplots.pdf
+
 # Output files from R CMD build
 /*.tar.gz
 
@@ -40,4 +43,6 @@ vignettes/*.pdf
 .Rproj.user
 
 .DS_Store
+._*
+.smbdelete*
 docs

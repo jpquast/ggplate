@@ -1,3 +1,8 @@
+# ggplate 0.4.0
+
+* The `value` argument of `plate_plot()` now accepts factors, which previously caused an error. The order of the factor levels determines the order of the legend. This makes it possible to control the legend order, which for character columns is still the order of appearance in the data.
+* Every level of a factor is assigned a colour, even if it is not present in the data. This means that plates plotted from the same data always use the same colour for the same level.
+
 # ggplate 0.3.1
 
 * Fixed a bug that was introduced with the last version. Row labels were `NA` when no complete dataset was provided.

@@ -31,8 +31,9 @@ labels.}
 \item{position}{a character column in the \code{data} data frame that contains plate positions. These should be in the format:
 row = letter, column = number. So for example A1, D12 etc.}
 
-\item{value}{a character or numeric column in the \code{data} data frame that contains values that should be plotted as colours
-on the plate layout. Can be the same column as \code{label}.}
+\item{value}{a character, factor or numeric column in the \code{data} data frame that contains values that should be plotted
+as colours on the plate layout. Can be the same column as \code{label}. If the column is a factor, the order of its levels
+determines the order of the legend and every level is assigned a colour, even if it is not present in the data.}
 
 \item{label}{a character or numeric column in the \code{data} data frame that contains values that should be plotted as labels
 on the plate layout. Can be the same column as \code{value}.}
