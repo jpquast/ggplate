@@ -2,6 +2,15 @@
 
 * The `value` argument of `plate_plot()` now accepts factors, which previously caused an error. The order of the factor levels determines the order of the legend. This makes it possible to control the legend order, which for character columns is still the order of appearance in the data.
 * Every level of a factor is assigned a colour, even if it is not present in the data. This means that plates plotted from the same data always use the same colour for the same level.
+* `plate_plot()` received the new `border` argument. It takes a column that contains categories, which are plotted as colours of the well borders. This makes it possible to highlight individual wells. The categories are shown in a second legend and wells with a missing value (`NA`) keep the default black border.
+* As part of the above addition, two more things were added to the package:
+  * `border_colour` is a new argument that takes the colours used for the well borders. By default the new `border_colours` scheme is used.
+  * `border_colours` is a new colour scheme containing four colours that mark the status of a well. The colours are not part of the `protti_colours` and `viridis_colours` schemes, which ensures that borders are visible on every fill colour.
+* Every example dataset received a `Status`, a `Control` or a `Replicate` column, which can be used with the new `border` argument. For most datasets only some of the wells have a category, the rest of the wells contain `NA`.
+* The legends of the `value` and the `border` argument now share the space next to the plot. The number of legend columns is based on the total number of keys of both legends and the `legend_n_row` argument now specifies the total number of rows of both legends.
+* The size of the wells is now also reduced if a legend has several columns. Previously only the length of the legend labels was considered, which made wells overlap when a legend was wide.
+* The `value` column can now contain only missing values (`NA`), which makes it possible to show a plate that has colours only for the well borders. In this case no legend is shown for the `value` argument. This requires the `remove_na` argument to be set to `FALSE`, otherwise every well is removed and `plate_plot()` now returns an informative error.
+* The `value` column can now also be a logical column, which previously threw an error.
 
 # ggplate 0.3.1
 

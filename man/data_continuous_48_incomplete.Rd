@@ -5,7 +5,7 @@
 \alias{data_continuous_48_incomplete}
 \title{Continuous incomplete 48-well plate dataset}
 \format{
-A data frame with a \code{Value} and a \code{well} column.
+A data frame with a \code{Value}, a \code{well} and a \code{Status} column.
 }
 \source{
 Randomly generated.
@@ -17,5 +17,7 @@ data_continuous_48_incomplete
 A dataset containing 23 positive numeric values randomly generated using a normal distribution (\code{rnorm()}).
 Each value is assigned to a position in a 48-well plate. Therefore, not every well in the plate contains a
 value. The position 1D and the second half of the plate are \code{NA}.
+The \code{Status} column marks the wells that were not tested. These wells are only shown if the
+\code{remove_na} argument of \code{plate_plot()} is set to \code{FALSE}.
 }
 \keyword{datasets}

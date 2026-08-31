@@ -21,7 +21,9 @@ plate_plot(
   legend_n_row,
   label_size,
   silent = TRUE,
-  scale
+  scale,
+  border,
+  border_colour
 )
 }
 \arguments{
@@ -64,8 +66,10 @@ values provided to the \code{value} argument are used for the start and end poin
 
 \item{show_legend}{a logical value that specifies if the plot legend is shown. Default is \code{TRUE}.}
 
-\item{legend_n_row}{optional, a numeric value that specifies the number of rows of legends. If no value is provided,
-the automatic ggplot default is used.}
+\item{legend_n_row}{optional, a numeric value that specifies the maximum total number of rows used by the legends.
+If a legend for the \code{border} argument is shown, both legends share these rows. The number of legend columns is
+increased until both legends fit into the rows. If no value is provided, 20 rows are used, which is the number of
+rows \code{ggplot2} fits into one legend column.}
 
 \item{label_size}{optional, a numeric value that determines the text size of the well labels. The size is also affected by the
 \code{scale} argument.}
@@ -78,6 +82,16 @@ has these dimensions the scaling factor is 1.}
 \item{scale}{a numeric value that scales point sizes and labels of the plot. If not provided, the plot uses the device size
 to find the optimal scaling factor for the output, however, this might be slightly off (e.g. due to number of labels) and
 can be manually adjusted with this argument.}
+
+\item{border}{optional, a character, factor or numeric column in the \code{data} data frame that contains categories that should
+be plotted as colours of the well borders. This makes it possible to highlight individual wells. The categories are shown
+in a second legend below the legend of the \code{value} argument. Wells with a missing value (\code{NA}) keep the default black
+border and do not appear in the legend. If the column is a factor, the order of its levels determines the order of the
+legend.}
+
+\item{border_colour}{optional, a character vector that contains colours used for the borders of the wells. The colours are
+used as provided. If this argument is not supplied the \code{border_colours} scheme is used, which contains four colours that
+are visible on every fill colour of the plot.}
 }
 \value{
 A plate layout plot.
@@ -151,6 +165,17 @@ plate_plot(
   label_size = 4,
   show_legend = FALSE,
   silent = FALSE
+)
+
+# Create a 24-well plot
+# Highlight the borders of wells that did not pass the quality control
+plate_plot(
+  data = data_discrete_24,
+  position = well,
+  value = Condition,
+  border = Status,
+  plate_size = 24,
+  plate_type = "round"
 )
 
 # Create a 1536-well plot with square wells

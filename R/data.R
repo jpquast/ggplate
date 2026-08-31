@@ -14,12 +14,23 @@
 #' @source viridis R package
 "viridis_colours"
 
+#' Colour scheme for well borders
+#'
+#' A colour scheme for the borders of wells that contains 4 colours. The colours are meant to
+#' mark the status of a well (Fail, Check, OK and Not tested). They do not appear in the
+#' `protti_colours` and `viridis_colours` schemes, which ensures that borders are visible on
+#' every fill colour.
+#'
+#' @format A vector containing 4 colours
+"border_colours"
+
 #' Continuous 6-well plate dataset
 #'
 #' A dataset containing 6 positive numeric values randomly generated using a normal distribution (`rnorm()`).
 #' Each value is assigned to a position in a 6-well plate.
+#' The `Status` column marks the well with a very low signal.
 #'
-#' @format A data frame with a `Value` and a `well` column.
+#' @format A data frame with a `Value`, a `well` and a `Status` column.
 #' @source Randomly generated.
 "data_continuous_6"
 
@@ -27,8 +38,9 @@
 #'
 #' A dataset containing 12 positive numeric values randomly generated using a normal distribution (`rnorm()`).
 #' Each value is assigned to a position in a 12-well plate.
+#' The `Status` column marks wells with a low signal.
 #'
-#' @format A data frame with a `Value` and a `well` column.
+#' @format A data frame with a `Value`, a `well` and a `Status` column.
 #' @source Randomly generated.
 "data_continuous_12"
 
@@ -36,8 +48,9 @@
 #'
 #' A dataset containing 24 positive numeric values randomly generated using a normal distribution (`rnorm()`).
 #' Each value is assigned to a position in a 24-well plate.
+#' The `Status` column marks wells with a low signal.
 #'
-#' @format A data frame with a `Value` and a `well` column.
+#' @format A data frame with a `Value`, a `well` and a `Status` column.
 #' @source Randomly generated.
 "data_continuous_24"
 
@@ -45,8 +58,9 @@
 #'
 #' A dataset containing 48 positive numeric values randomly generated using a normal distribution (`rnorm()`).
 #' Each value is assigned to a position in a 48-well plate.
+#' The `Status` column marks wells with a low or a high signal.
 #'
-#' @format A data frame with a `Value` and a `well` column.
+#' @format A data frame with a `Value`, a `well` and a `Status` column.
 #' @source Randomly generated.
 "data_continuous_48"
 
@@ -55,8 +69,10 @@
 #' A dataset containing 23 positive numeric values randomly generated using a normal distribution (`rnorm()`).
 #' Each value is assigned to a position in a 48-well plate. Therefore, not every well in the plate contains a
 #' value. The position 1D and the second half of the plate are `NA`.
+#' The `Status` column marks the wells that were not tested. These wells are only shown if the
+#' `remove_na` argument of `plate_plot()` is set to `FALSE`.
 #'
-#' @format A data frame with a `Value` and a `well` column.
+#' @format A data frame with a `Value`, a `well` and a `Status` column.
 #' @source Randomly generated.
 "data_continuous_48_incomplete"
 
@@ -64,8 +80,9 @@
 #'
 #' A dataset containing 96 positive numeric values randomly generated using a normal distribution (`rnorm()`).
 #' Each value is assigned to a position in a 96-well plate.
+#' The `Status` column marks wells with a low signal.
 #'
-#' @format A data frame with a `Value` and a `well` column.
+#' @format A data frame with a `Value`, a `well` and a `Status` column.
 #' @source Randomly generated.
 "data_continuous_96"
 
@@ -73,8 +90,9 @@
 #'
 #' A dataset containing 384 positive numeric values randomly generated using a normal distribution (`rnorm()`).
 #' Each value is assigned to a position in a 384-well plate.
+#' The `Status` column marks the wells at the edge of the plate, which are prone to evaporation.
 #'
-#' @format A data frame with a `Value` and a `well` column.
+#' @format A data frame with a `Value`, a `well` and a `Status` column.
 #' @source Randomly generated.
 "data_continuous_384"
 
@@ -83,8 +101,9 @@
 #' A dataset containing 3 conditions for a drug treatment in a 6-well plate.
 #' The treatment consists of a DMSO negative control, Rapamycin and Taxol.
 #' Each treatment is assigned to a position in a 6-well plate.
+#' The `Control` column marks the wells that contain the vehicle control.
 #'
-#' @format A data frame with a `Value` and a `well` column.
+#' @format A data frame with a `Condition`, a `well` and a `Control` column.
 #' @source Theoretically possible treatment for cells.
 "data_discrete_6"
 
@@ -94,18 +113,21 @@
 #' The siRNA treatment consists of a control (siControl) and 11 siRNAs targeting mRNAs of
 #' proteins in the mTORC1 pathway.
 #' Each treatment is assigned to a position in a 24-well plate.
+#' The `Status` column marks the knockdowns that did not work as expected.
 #'
-#' @format A data frame with a `Value` and a `well` column.
+#' @format A data frame with a `Condition`, a `well` and a `Status` column.
 #' @source Theoretically possible siRNA treatment for cells.
 "data_discrete_24"
 
 #' Discrete 96-well plate dataset
 #'
 #' A dataset containing 22 conditions for a hypothetical drug treatment in a 96-well plate.
-#' The first column contains the negative control while the last column contains the positive control.
+#' The first column contains the positive control while the last column contains the negative control.
 #' Each treatment is assigned to four wells in a 96-well plate.
+#' The `Replicate` column contains the number of the replicate of each compound. The two controls
+#' have eight replicates, every other compound has four.
 #'
-#' @format A data frame with a `Value` and a `well` column.
+#' @format A data frame with a `Compound`, a `well`, a `Compound_multiline` and a `Replicate` column.
 #' @source Drugs were chosen from a standard FDA approved drug library.
 "data_discrete_96"
 
@@ -113,8 +135,9 @@
 #'
 #' A dataset containing 1536 positive numeric values randomly generated using a normal distribution (`rnorm()`).
 #' Each value is assigned to a position in a 1536-well plate. The row format uses the A-AF labeling.
+#' The `Status` column marks the wells at the edge of the plate, which are prone to evaporation.
 #'
-#' @format A data frame with a `Value` and a `well` column.
+#' @format A data frame with a `well`, a `Value` and a `Status` column.
 #' @source Randomly generated.
 "data_continuous_1536"
 
@@ -122,7 +145,8 @@
 #'
 #' A dataset containing 1536 positive numeric values randomly generated using a normal distribution (`rnorm()`).
 #' Each value is assigned to a position in a 1536-well plate. The row format uses the Ab-Hd labeling.
+#' The `Status` column marks the four columns of the plate that were not used.
 #'
-#' @format A data frame with a `Value` and a `well` column.
+#' @format A data frame with a `well`, a `Value` and a `Status` column.
 #' @source Randomly generated.
 "data_continuous_1536_Aa"

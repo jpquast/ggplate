@@ -5,7 +5,7 @@
 \alias{data_continuous_1536_Aa}
 \title{Continuous 1536-well plate dataset (Aa-Hd)}
 \format{
-A data frame with a \code{Value} and a \code{well} column.
+A data frame with a \code{well}, a \code{Value} and a \code{Status} column.
 }
 \source{
 Randomly generated.
@@ -16,5 +16,6 @@ data_continuous_1536_Aa
 \description{
 A dataset containing 1536 positive numeric values randomly generated using a normal distribution (\code{rnorm()}).
 Each value is assigned to a position in a 1536-well plate. The row format uses the Ab-Hd labeling.
+The \code{Status} column marks the four columns of the plate that were not used.
 }
 \keyword{datasets}

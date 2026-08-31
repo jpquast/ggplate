@@ -31,8 +31,10 @@
 #' @param show_legend a logical value that specifies if the plot legend is shown. Default is `TRUE`.
 #' @param label_size optional, a numeric value that determines the text size of the well labels. The size is also affected by the
 #' `scale` argument.
-#' @param legend_n_row optional, a numeric value that specifies the number of rows of legends. If no value is provided,
-#' the automatic ggplot default is used.
+#' @param legend_n_row optional, a numeric value that specifies the maximum total number of rows used by the legends.
+#' If a legend for the `border` argument is shown, both legends share these rows. The number of legend columns is
+#' increased until both legends fit into the rows. If no value is provided, 20 rows are used, which is the number of
+#' rows `ggplot2` fits into one legend column.
 #' @param silent a logical value that specifies if the function should report the size of the plotting area and the adjusted
 #' scale parameter. Default is `TRUE` meaning it will not return any message. The plot was optimized for a device size of:
 #' width = 5.572917 in and height = 3.177083 in, which was determined using the function `par("fin")`. This means if the device
@@ -40,13 +42,20 @@
 #' @param scale a numeric value that scales point sizes and labels of the plot. If not provided, the plot uses the device size
 #' to find the optimal scaling factor for the output, however, this might be slightly off (e.g. due to number of labels) and
 #' can be manually adjusted with this argument.
+#' @param border optional, a character, factor or numeric column in the `data` data frame that contains categories that should
+#' be plotted as colours of the well borders. This makes it possible to highlight individual wells. The categories are shown
+#' in a second legend below the legend of the `value` argument. Wells with a missing value (`NA`) keep the default black
+#' border and do not appear in the legend. If the column is a factor, the order of its levels determines the order of the
+#' legend.
+#' @param border_colour optional, a character vector that contains colours used for the borders of the wells. The colours are
+#' used as provided. If this argument is not supplied the `border_colours` scheme is used, which contains four colours that
+#' are visible on every fill colour of the plot.
 #'
 #' @return A plate layout plot.
 #' @importFrom graphics par
 #' @importFrom rlang .data :=
 #' @importFrom stringr str_extract
 #' @importFrom purrr map_chr
-#' @importFrom forcats fct_inorder
 #' @importFrom farver decode_colour
 #' @export
 #'
@@ -117,6 +126,17 @@
 #'   silent = FALSE
 #' )
 #'
+#' # Create a 24-well plot
+#' # Highlight the borders of wells that did not pass the quality control
+#' plate_plot(
+#'   data = data_discrete_24,
+#'   position = well,
+#'   value = Condition,
+#'   border = Status,
+#'   plate_size = 24,
+#'   plate_type = "round"
+#' )
+#'
 #' # Create a 1536-well plot with square wells
 #' # Aa-Hd row labels
 #' plate_plot(
@@ -142,7 +162,9 @@ plate_plot <- function(data,
                        legend_n_row,
                        label_size,
                        silent = TRUE,
-                       scale) {
+                       scale,
+                       border,
+                       border_colour) {
   if (!plate_size %in% c(6, 12, 24, 48, 96, 384, 1536)) {
     stop("Selected plate_size not available!")
   }
@@ -159,11 +181,22 @@ plate_plot <- function(data,
   # Remove missing values
   if (remove_na) {
     data <- tidyr::drop_na(data, {{ value }})
+
+    if (nrow(data) == 0) {
+      stop('All values in the "value" column are missing. Please set the "remove_na" argument to FALSE if you only want to show the borders of the wells!')
+    }
   }
+
+  # A value column that only contains missing values has no colours and no legend
+  value_is_empty <- all(is.na(dplyr::pull(data, {{ value }})))
 
   # Limits are only relevant for numeric values
   if (is.numeric(dplyr::pull(data, {{ value }}))) {
-    if (missing(limits)) {
+    if (value_is_empty) {
+      # the gradient has no range, its colours are not used by any well
+      min_val <- 0
+      max_val <- 1
+    } else if (missing(limits)) {
       min_val <- min(dplyr::pull(data, {{ value }}), na.rm = TRUE)
       max_val <- max(dplyr::pull(data, {{ value }}), na.rm = TRUE)
 
@@ -235,6 +268,32 @@ plate_plot <- function(data,
     fill_colours <- col_map
   }
 
+  # If a border column is provided its categories are assigned colours, default is border colours
+  if (!missing(border)) {
+    all_borders <- dplyr::pull(data, {{ border }})
+    # levels of factors are used, otherwise first-appearance order, excluding NA
+    border_lev <- if (is.factor(all_borders)) {
+      levels(all_borders)
+    } else {
+      as.character(unique(all_borders[!is.na(all_borders)]))
+    }
+
+    if (missing(border_colour)) {
+      border_colours <- "placeholder" # assign a placeholder to prevent a missing global variable warning
+      utils::data("border_colours", envir = environment()) # then overwrite it with real data
+      # use default if no colours are provided
+      border_fill_colours <- border_colours
+    } else {
+      border_fill_colours <- border_colour
+    }
+
+    if (length(border_fill_colours) < length(border_lev)) {
+      stop('There are more categories in the "border" column than provided colours. Please add more colours to the "border_colour" argument!')
+    }
+    # named mapping for non-NA categories
+    border_col_map <- stats::setNames(border_fill_colours[seq_along(border_lev)], border_lev)
+  }
+
   if (!missing(label)) {
     # label color
     # code adapted from scales::show_col
@@ -251,7 +310,12 @@ plate_plot <- function(data,
     unique() |>
     as.character() |>
     nchar() |>
-    max(na.rm = TRUE)
+    max(0, na.rm = TRUE)
+
+  # The border legend shares the legend column, therefore its labels count towards the length
+  if (!missing(border)) {
+    max_label_length <- max(max_label_length, nchar(as.character(border_lev)), na.rm = TRUE)
+  }
 
   MORELETTERS <- c(LETTERS, "AA", "AB", "AC", "AD", "AE", "AF")
   letters_Aa <- paste0(rep(LETTERS[1:8], each = 4), letters[1:4])
@@ -279,9 +343,16 @@ plate_plot <- function(data,
   }
 
   if (!is.numeric(dplyr::pull(data, {{ value }})) && !is.factor(dplyr::pull(data, {{ value }}))) {
-    # Convert character values to factors, keeping their order of appearance
+    # Convert values to factors, the levels keep their order of appearance. This also allows
+    # logical columns and columns that only contain missing values.
     data_prep <- data_prep |>
-      dplyr::mutate({{ value }} := forcats::fct_inorder({{ value }}))
+      dplyr::mutate({{ value }} := factor({{ value }}, levels = lev))
+  }
+
+  if (!missing(border)) {
+    # Convert border categories to factors, this also allows numeric columns
+    data_prep <- data_prep |>
+      dplyr::mutate({{ border }} := factor({{ border }}, levels = border_lev))
   }
 
   # determine if values are numeric
@@ -292,6 +363,30 @@ plate_plot <- function(data,
   } else {
     label_is_numeric <- TRUE
   }
+
+  # The legends of the "value" and the "border" argument share the space next to the plot.
+  # Therefore the number of legend columns is based on the total number of keys of both
+  # legends. ggplot2 fits 20 keys into one column.
+  n_value_keys <- ifelse(label_is_numeric | value_is_empty, 0, length(unique(dplyr::pull(data_prep, {{ value }}))))
+
+  n_border_keys <- ifelse(missing(border), 0, length(unique(stats::na.omit(dplyr::pull(data_prep, {{ border }})))))
+
+  # ggplot2 fits 20 keys into one legend column, the legend_n_row argument replaces this
+  # number. The number of columns is increased until both legends together fit into the rows.
+  n_legend_row <- ifelse(missing(legend_n_row), 20, legend_n_row)
+  n_legend_col <- 1
+
+  while (ceiling(n_value_keys / n_legend_col) + ceiling(n_border_keys / n_legend_col) > n_legend_row &&
+    n_legend_col < max(n_value_keys + n_border_keys, 1)) {
+    n_legend_col <- n_legend_col + 1
+  }
+
+  value_n_row <- max(ceiling(n_value_keys / n_legend_col), 1)
+  border_n_row <- max(ceiling(n_border_keys / n_legend_col), 1)
+
+  # A legend with several columns is wider, therefore the length of the labels is multiplied
+  # by the number of legend columns to scale the plot accordingly
+  max_label_length <- max_label_length * n_legend_col
 
 
   if (plate_size == 6) {
@@ -478,6 +573,9 @@ plate_plot <- function(data,
     }
   }
 
+  # A very wide legend can reduce the size of the wells below zero, they stay visible instead
+  size <- max(size, 0.5 * scale)
+
   # Update row number to be reversed
   # This depends on the n_rows variable, which depends on the plate size
   data_prep <- data_prep |>
@@ -523,7 +621,18 @@ plate_plot <- function(data,
       size = size,
       shape = shape
     ) +
-    ggplot2::geom_point(ggplot2::aes(fill = {{ value }}), size = size, shape = shape, stroke = stroke_width) +
+    {
+      if (!missing(border)) {
+        ggplot2::geom_point(
+          ggplot2::aes(fill = {{ value }}, colour = {{ border }}),
+          size = size,
+          shape = shape,
+          stroke = stroke_width
+        )
+      } else {
+        ggplot2::geom_point(ggplot2::aes(fill = {{ value }}), size = size, shape = shape, stroke = stroke_width)
+      }
+    } +
     ggplot2::coord_fixed(
       ratio = ((n_cols + 1) / n_cols) / ((n_rows + 1) / n_rows),
       xlim = c(min_x_axis, max_x_axis),
@@ -537,12 +646,18 @@ plate_plot <- function(data,
           colors = fill_colours,
           limits = c(min_val, max_val),
           na.value = na_fill,
-          guide = ggplot2::guide_colorbar(ticks.linewidth = max(0.5 * scale, 0.2))
+          guide = ggplot2::guide_colorbar(ticks.linewidth = max(0.5 * scale, 0.2), order = 1)
         )
       }
     } +
     {
       if (!is.numeric(dplyr::pull(data, {{ value }}))) ggplot2::scale_fill_manual(values = fill_colours, na.value = na_fill)
+    } +
+    {
+      # breaks keep NA out of the legend, na.value keeps the default border for NA wells
+      if (!missing(border)) {
+        ggplot2::scale_colour_manual(values = border_col_map, na.value = "black", breaks = border_lev)
+      }
     } +
     ggplot2::labs(
       title = plot_title,
@@ -577,16 +692,21 @@ plate_plot <- function(data,
     } +
     {
       if (!label_is_numeric) {
-        if (!missing(legend_n_row)) {
-          ggplot2::guides(fill = ggplot2::guide_legend(override.aes = list(size = legend_size), nrow = legend_n_row))
-        } else {
-          ggplot2::guides(fill = ggplot2::guide_legend(override.aes = list(size = legend_size)))
-        }
+        ggplot2::guides(fill = ggplot2::guide_legend(override.aes = list(size = legend_size), nrow = value_n_row, order = 1))
       }
+    } +
+    {
+      if (value_is_empty) ggplot2::guides(fill = "none")
     } +
     {
       if (label_is_numeric) {
         ggplot2::theme(legend.key.size = ggplot2::unit(max(0.25 * scale, 0.2), "in"))
+      }
+    } +
+    {
+      # the legend keys of the borders are not filled to make them look like the well borders
+      if (!missing(border)) {
+        ggplot2::guides(colour = ggplot2::guide_legend(override.aes = list(size = legend_size, fill = NA), nrow = border_n_row, order = 2))
       }
     } +
     ggplot2::theme(
