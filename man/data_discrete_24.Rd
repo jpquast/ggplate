@@ -5,7 +5,7 @@
 \alias{data_discrete_24}
 \title{Discrete 24-well plate dataset}
 \format{
-A data frame with a \code{Value} and a \code{well} column.
+A data frame with a \code{Condition}, a \code{well} and a \code{Status} column.
 }
 \source{
 Theoretically possible siRNA treatment for cells.
@@ -18,5 +18,6 @@ A dataset containing 12 conditions for an siRNA treatment in a 24-well plate.
 The siRNA treatment consists of a control (siControl) and 11 siRNAs targeting mRNAs of
 proteins in the mTORC1 pathway.
 Each treatment is assigned to a position in a 24-well plate.
+The \code{Status} column marks the knockdowns that did not work as expected.
 }
 \keyword{datasets}

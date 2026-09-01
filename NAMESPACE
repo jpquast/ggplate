@@ -2,7 +2,6 @@
 
 export(plate_plot)
 importFrom(farver,decode_colour)
-importFrom(forcats,fct_inorder)
 importFrom(graphics,par)
 importFrom(purrr,map_chr)
 importFrom(rlang,":=")

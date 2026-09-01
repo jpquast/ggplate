@@ -5,7 +5,7 @@
 \alias{data_continuous_384}
 \title{Continuous 384-well plate dataset}
 \format{
-A data frame with a \code{Value} and a \code{well} column.
+A data frame with a \code{Value}, a \code{well} and a \code{Status} column.
 }
 \source{
 Randomly generated.
@@ -16,5 +16,6 @@ data_continuous_384
 \description{
 A dataset containing 384 positive numeric values randomly generated using a normal distribution (\code{rnorm()}).
 Each value is assigned to a position in a 384-well plate.
+The \code{Status} column marks the wells at the edge of the plate, which are prone to evaporation.
 }
 \keyword{datasets}

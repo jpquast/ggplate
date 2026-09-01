@@ -4,6 +4,12 @@ library(stringr)
 
 set.seed(1234)
 
+# Possible states of a well in the quality control. The order determines the colour each state
+# receives from the "border_colours" scheme: Fail is red, Check is orange, OK is green and
+# Not tested is grey. Every dataset uses the complete vocabulary, therefore a state always has
+# the same colour, even on a plate that does not contain it.
+status_levels <- c("Fail", "Check", "OK", "Not tested")
+
 # Create example data
 
 # 6-well plate
@@ -12,9 +18,11 @@ data_continuous_6 <- data.frame(matrix(round(abs(rnorm(6)), 2), nrow = 2, ncol =
   pivot_longer(cols = -rows, names_to = "cols", values_to = "Value") |>
   mutate(
     cols = as.numeric(str_remove(cols, pattern = "V|X")),
-    well = paste0(rows, cols)
+    well = paste0(rows, cols),
+    # wells with a very low signal do not pass the quality control
+    Status = factor(ifelse(Value < 0.3, "Fail", NA), levels = status_levels)
   ) |>
-  distinct(well, Value)
+  distinct(well, Value, Status)
 
 usethis::use_data(data_continuous_6, overwrite = TRUE)
 
@@ -23,9 +31,11 @@ data_discrete_6 <- data.frame(matrix(c(rep("DMSO", 2), rep("Rapamycin", 2), rep(
   pivot_longer(cols = -rows, names_to = "cols", values_to = "Condition") |>
   mutate(
     cols = as.numeric(str_remove(cols, pattern = "V|X")),
-    well = paste0(rows, cols)
+    well = paste0(rows, cols),
+    # DMSO is the vehicle control of the experiment
+    Control = ifelse(Condition == "DMSO", "Vehicle control", NA)
   ) |>
-  distinct(well, Condition)
+  distinct(well, Condition, Control)
 
 usethis::use_data(data_discrete_6, overwrite = TRUE)
 
@@ -35,9 +45,17 @@ data_continuous_12 <- data.frame(matrix(round(abs(rnorm(12)), 2), nrow = 3, ncol
   pivot_longer(cols = -rows, names_to = "cols", values_to = "Value") |>
   mutate(
     cols = as.numeric(str_remove(cols, pattern = "V|X")),
-    well = paste0(rows, cols)
+    well = paste0(rows, cols),
+    # wells with a low signal do not pass the quality control
+    Status = factor(
+      case_when(
+        Value < 0.1 ~ "Fail",
+        Value < 0.3 ~ "Check"
+      ),
+      levels = status_levels
+    )
   ) |>
-  distinct(well, Value)
+  distinct(well, Value, Status)
 
 usethis::use_data(data_continuous_12, overwrite = TRUE)
 
@@ -47,9 +65,17 @@ data_continuous_24 <- data.frame(matrix(round(abs(rnorm(24)), 2), nrow = 4, ncol
   pivot_longer(cols = -rows, names_to = "cols", values_to = "Value") |>
   mutate(
     cols = as.numeric(str_remove(cols, pattern = "V|X")),
-    well = paste0(rows, cols)
+    well = paste0(rows, cols),
+    # wells with a low signal do not pass the quality control
+    Status = factor(
+      case_when(
+        Value < 0.1 ~ "Fail",
+        Value < 0.35 ~ "Check"
+      ),
+      levels = status_levels
+    )
   ) |>
-  distinct(well, Value)
+  distinct(well, Value, Status)
 
 usethis::use_data(data_continuous_24, overwrite = TRUE)
 
@@ -71,9 +97,17 @@ data_discrete_24 <- data.frame(matrix(c(
   pivot_longer(cols = -rows, names_to = "cols", values_to = "Condition") |>
   mutate(
     cols = as.numeric(str_remove(cols, pattern = "V|X")),
-    well = paste0(rows, cols)
+    well = paste0(rows, cols),
+    # two of the knockdowns did not work as expected
+    Status = factor(
+      case_when(
+        Condition == "siRaptor" ~ "Fail",
+        Condition == "siRagB" ~ "Check"
+      ),
+      levels = status_levels
+    )
   ) |>
-  distinct(well, Condition)
+  distinct(well, Condition, Status)
 
 usethis::use_data(data_discrete_24, overwrite = TRUE)
 
@@ -83,9 +117,18 @@ data_continuous_48 <- data.frame(matrix(round(abs(rnorm(24)), 2), nrow = 6, ncol
   pivot_longer(cols = -rows, names_to = "cols", values_to = "Value") |>
   mutate(
     cols = as.numeric(str_remove(cols, pattern = "V|X")),
-    well = paste0(rows, cols)
+    well = paste0(rows, cols),
+    # a low signal fails the quality control, a high signal passes it
+    Status = factor(
+      case_when(
+        Value < 0.1 ~ "Fail",
+        Value < 0.3 ~ "Check",
+        Value > 2 ~ "OK"
+      ),
+      levels = status_levels
+    )
   ) |>
-  distinct(well, Value)
+  distinct(well, Value, Status)
 
 usethis::use_data(data_continuous_48, overwrite = TRUE)
 
@@ -100,9 +143,11 @@ data_continuous_48_incomplete <- data.frame(matrix(c(
   pivot_longer(cols = -rows, names_to = "cols", values_to = "Value") |>
   mutate(
     cols = as.numeric(str_remove(cols, pattern = "V|X")),
-    well = paste0(rows, cols)
+    well = paste0(rows, cols),
+    # wells without a measured value were not tested
+    Status = factor(ifelse(is.na(Value), "Not tested", NA), levels = status_levels)
   ) |>
-  distinct(well, Value)
+  distinct(well, Value, Status)
 
 usethis::use_data(data_continuous_48_incomplete, overwrite = TRUE)
 
@@ -112,9 +157,17 @@ data_continuous_96 <- data.frame(matrix(round(abs(rnorm(96)), 2), nrow = 8, ncol
   pivot_longer(cols = -rows, names_to = "cols", values_to = "Value") |>
   mutate(
     cols = as.numeric(str_remove(cols, pattern = "V|X")),
-    well = paste0(rows, cols)
+    well = paste0(rows, cols),
+    # wells with a low signal do not pass the quality control
+    Status = factor(
+      case_when(
+        Value < 0.05 ~ "Fail",
+        Value < 0.15 ~ "Check"
+      ),
+      levels = status_levels
+    )
   ) |>
-  distinct(well, Value)
+  distinct(well, Value, Status)
 
 usethis::use_data(data_continuous_96, overwrite = TRUE)
 
@@ -152,8 +205,12 @@ data_discrete_96 <- data.frame(matrix(c(
     cols = as.numeric(str_remove(cols, pattern = "V|X")),
     well = paste0(rows, cols)
   ) |>
-  mutate(Compound_multiline = str_replace(Compound, pattern = " ", replacement = "\n")) %>%
-  distinct(well, Compound, Compound_multiline)
+  mutate(Compound_multiline = str_replace(Compound, pattern = " ", replacement = "\n")) |>
+  # each compound is repeated in several wells of the same plate column
+  group_by(Compound) |>
+  mutate(Replicate = as.integer(rank(match(rows, LETTERS)))) |>
+  ungroup() |>
+  distinct(well, Compound, Compound_multiline, Replicate)
 
 usethis::use_data(data_discrete_96, overwrite = TRUE)
 
@@ -163,9 +220,11 @@ data_continuous_384 <- data.frame(matrix(round(abs(rnorm(384)), 2), nrow = 16, n
   pivot_longer(cols = -rows, names_to = "cols", values_to = "Value") |>
   mutate(
     cols = as.numeric(str_remove(cols, pattern = "V|X")),
-    well = paste0(rows, cols)
+    well = paste0(rows, cols),
+    # wells at the edge of the plate are prone to evaporation
+    Status = ifelse(rows %in% c("A", "P") | cols %in% c(1, 24), "Edge effect", NA)
   ) |>
-  distinct(well, Value)
+  distinct(well, Value, Status)
 
 usethis::use_data(data_continuous_384, overwrite = TRUE)
 
@@ -177,9 +236,11 @@ data_continuous_1536 <- data.frame(matrix(round(abs(rnorm(1536)), 2), nrow = 32,
   pivot_longer(cols = -rows, names_to = "cols", values_to = "Value") |>
   mutate(
     cols = as.numeric(str_remove(cols, pattern = "V|X")),
-    well = paste0(rows, cols)
+    well = paste0(rows, cols),
+    # wells at the edge of the plate are prone to evaporation
+    Status = ifelse(rows %in% c("A", "AF") | cols %in% c(1, 48), "Edge effect", NA)
   ) |>
-  distinct(well, Value)
+  distinct(well, Value, Status)
 
 usethis::use_data(data_continuous_1536, overwrite = TRUE)
 
@@ -191,8 +252,10 @@ data_continuous_1536_Aa <- data.frame(matrix(round(abs(rnorm(1536)), 2), nrow = 
   pivot_longer(cols = -rows, names_to = "cols", values_to = "Value") |>
   mutate(
     cols = as.numeric(str_remove(cols, pattern = "V|X")),
-    well = paste0(rows, cols)
+    well = paste0(rows, cols),
+    # the last four columns of the plate were not used
+    Status = factor(ifelse(cols > 44, "Not tested", NA), levels = status_levels)
   ) |>
-  distinct(well, Value)
+  distinct(well, Value, Status)
 
 usethis::use_data(data_continuous_1536_Aa, overwrite = TRUE)

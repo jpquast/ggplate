@@ -5,7 +5,7 @@
 \alias{data_discrete_96}
 \title{Discrete 96-well plate dataset}
 \format{
-A data frame with a \code{Value} and a \code{well} column.
+A data frame with a \code{Compound}, a \code{well}, a \code{Compound_multiline} and a \code{Replicate} column.
 }
 \source{
 Drugs were chosen from a standard FDA approved drug library.
@@ -15,7 +15,9 @@ data_discrete_96
 }
 \description{
 A dataset containing 22 conditions for a hypothetical drug treatment in a 96-well plate.
-The first column contains the negative control while the last column contains the positive control.
+The first column contains the positive control while the last column contains the negative control.
 Each treatment is assigned to four wells in a 96-well plate.
+The \code{Replicate} column contains the number of the replicate of each compound. The two controls
+have eight replicates, every other compound has four.
 }
 \keyword{datasets}

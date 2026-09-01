@@ -5,7 +5,7 @@
 \alias{data_continuous_24}
 \title{Continuous 24-well plate dataset}
 \format{
-A data frame with a \code{Value} and a \code{well} column.
+A data frame with a \code{Value}, a \code{well} and a \code{Status} column.
 }
 \source{
 Randomly generated.
@@ -16,5 +16,6 @@ data_continuous_24
 \description{
 A dataset containing 24 positive numeric values randomly generated using a normal distribution (\code{rnorm()}).
 Each value is assigned to a position in a 24-well plate.
+The \code{Status} column marks wells with a low signal.
 }
 \keyword{datasets}

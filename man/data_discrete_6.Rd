@@ -5,7 +5,7 @@
 \alias{data_discrete_6}
 \title{Discrete 6-well plate dataset}
 \format{
-A data frame with a \code{Value} and a \code{well} column.
+A data frame with a \code{Condition}, a \code{well} and a \code{Control} column.
 }
 \source{
 Theoretically possible treatment for cells.
@@ -17,5 +17,6 @@ data_discrete_6
 A dataset containing 3 conditions for a drug treatment in a 6-well plate.
 The treatment consists of a DMSO negative control, Rapamycin and Taxol.
 Each treatment is assigned to a position in a 6-well plate.
+The \code{Control} column marks the wells that contain the vehicle control.
 }
 \keyword{datasets}
