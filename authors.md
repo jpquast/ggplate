@@ -8,16 +8,17 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/jpquast/ggplate/blob/v0.4.0/DESCRIPTION)
+[`inst/CITATION`](https://github.com/jpquast/ggplate/blob/main/inst/CITATION)
 
-Quast J (2026). *ggplate: Create Layout Plots of Biological Culture
-Plates and Microplates*. R package version 0.4.0,
-<https://github.com/jpquast/ggplate>.
+Quast JP (2026). ggplate: Create Layout Plots of Biological Culture
+Plates and Microplates. R package version 0.4.0.
+doi:10.5281/zenodo.22228623
 
     @Manual{,
-      title = {ggplate: Create Layout Plots of Biological Culture Plates and Microplates},
+      title = {{ggplate}: Create Layout Plots of Biological Culture Plates and Microplates},
       author = {Jan-Philipp Quast},
       year = {2026},
       note = {R package version 0.4.0},
+      doi = {10.5281/zenodo.22228623},
       url = {https://github.com/jpquast/ggplate},
     }

@@ -16,6 +16,19 @@ Currently the package supports the following plate sizes:
   - A-AF row labels
   - Aa-Hd row labels
 
+## Citation
+
+The **ggplate** package is archived on Zenodo, which provides a DOI that
+can be used to cite it:
+
+Jan-Philipp Quast. ggplate: Create Layout Plots of Biological Culture
+Plates and Microplates. *Zenodo*, 2026,
+<https://doi.org/10.5281/zenodo.22228623>
+
+Please make sure to cite **ggplate** if you used it to create figures
+for your publication. The citation of the version you are using can
+always be retrieved with `citation("ggplate")`.
+
 ## Installation
 
 **ggplate** is implemented as an R package.
