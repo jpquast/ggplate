@@ -1,0 +1,16 @@
+citHeader("To cite ggplate in publications use:")
+
+bibentry(
+  bibtype  = "Manual",
+  title    = "{ggplate}: Create Layout Plots of Biological Culture Plates and Microplates",
+  author   = person(given = "Jan-Philipp", family = "Quast"),
+  year     = "2026",
+  note     = paste("R package version", meta$Version),
+  doi      = "10.5281/zenodo.22228623",
+  url      = "https://github.com/jpquast/ggplate",
+  textVersion = paste0(
+    "Quast JP (2026). ggplate: Create Layout Plots of Biological Culture Plates ",
+    "and Microplates. R package version ", meta$Version,
+    ". doi:10.5281/zenodo.22228623"
+  )
+)
