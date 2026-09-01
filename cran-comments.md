@@ -1,16 +1,19 @@
 ## Submission 
 
-* Fixed a bug that was introduced with the last version. Row labels were `NA` when no complete dataset was provided.
+* `plate_plot()` received the new `border` argument, which colours the borders of wells.
+* The `value` argument now supports factors.
 
 ## Test environments
-* macOS-latest (on GitHub actions), R 4.5.2
-* windows-latest (on GitHub actions), R 4.5.2
-* ubuntu-20.04 (on GitHub actions), R 4.5.2
-* ubuntu-20.04 (on GitHub actions), r-devel
+* macOS-latest (on GitHub actions), r-release
+* windows-latest (on GitHub actions), r-release
+* windows-latest (on GitHub actions), r-oldrel-4
+* ubuntu-latest (on GitHub actions), r-devel
+* ubuntu-latest (on GitHub actions), r-release
+* ubuntu-latest (on GitHub actions), r-oldrel-1 to r-oldrel-4
 * windows-ix86+x86_64 (win-builder), r-devel
-* fedora-clang-devel (R-hub), r-devel
-* windows-x86_64-devel (R-hub), r-devel
-* Ubuntu Linux 20.04.1 LTS (R-hub), r-release
+* aarch64-apple-darwin23 (mac-builder), r-release
+* aarch64-apple-darwin23 (mac-builder), r-devel
+* macOS 26.6 (local), R 4.6.1
 
 ## R CMD check results
 
