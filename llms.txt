@@ -76,17 +76,20 @@ data(data_continuous_96)
 
 # Check the structure of the dataset
 str(data_continuous_96)
-#> Classes 'tbl_df', 'tbl' and 'data.frame':    96 obs. of  2 variables:
-#>  $ Value: num  1.19 0.88 0.17 0.85 0.78 0.23 1.95 0.4 0.88 0.26 ...
-#>  $ well : chr  "A1" "A2" "A3" "A4" ...
+#> tibble [96 × 3] (S3: tbl_df/tbl/data.frame)
+#>  $ Value : num [1:96] 1.19 0.88 0.17 0.85 0.78 0.23 1.95 0.4 0.88 0.26 ...
+#>  $ well  : chr [1:96] "A1" "A2" "A3" "A4" ...
+#>  $ Status: Factor w/ 4 levels "Fail","Check",..: NA NA NA NA NA NA NA NA NA NA ...
 ```
 
 When calling the [`str()`](https://rdrr.io/r/utils/str.html) function
 you can see that the data frame of a continuous 96-well plate dataset
-only contains two columns. The `Value` column contains values associated
+contains three columns. The `Value` column contains values associated
 with each of the plate wells, while the `well` column contains the
 corresponding well positions using a combination of **alphabetic row
-names** and **numeric column names**.
+names** and **numeric column names**. The `Status` column contains a
+category for some of the wells, which we will use later to colour the
+borders of these wells.
 
 You can use this example data frame to create a 96-well plate layout
 plot using the
@@ -178,9 +181,10 @@ data(data_continuous_384)
 
 # Check the structure of the dataset
 str(data_continuous_384)
-#> tibble [384 × 2] (S3: tbl_df/tbl/data.frame)
-#>  $ Value: num [1:384] 1.98 0.7 0.61 0.12 0.27 0.67 0.47 0.37 0.04 0.65 ...
-#>  $ well : chr [1:384] "A1" "A2" "A3" "A4" ...
+#> tibble [384 × 3] (S3: tbl_df/tbl/data.frame)
+#>  $ Value : num [1:384] 1.98 0.7 0.61 0.12 0.27 0.67 0.47 0.37 0.04 0.65 ...
+#>  $ well  : chr [1:384] "A1" "A2" "A3" "A4" ...
+#>  $ Status: chr [1:384] "Edge effect" "Edge effect" "Edge effect" "Edge effect" ...
 
 # Create a 384-well plot with adjusted legend limits
 plate_plot(
@@ -251,9 +255,10 @@ data(data_continuous_48_incomplete)
 
 # Check the structure of the dataset
 str(data_continuous_48_incomplete)
-#> tibble [48 × 2] (S3: tbl_df/tbl/data.frame)
-#>  $ Value: num [1:48] 1.14 0.46 0.72 0.17 NA NA NA NA 1.37 0.37 ...
-#>  $ well : chr [1:48] "A1" "A2" "A3" "A4" ...
+#> tibble [48 × 3] (S3: tbl_df/tbl/data.frame)
+#>  $ Value : num [1:48] 1.14 0.46 0.72 0.17 NA NA NA NA 1.37 0.37 ...
+#>  $ well  : chr [1:48] "A1" "A2" "A3" "A4" ...
+#>  $ Status: Factor w/ 4 levels "Fail","Check",..: NA NA NA NA 4 4 4 4 NA NA ...
 
 # Create a 48-well plot with only the partial plate filled
 plate_plot(
@@ -287,6 +292,106 @@ plate_plot(
 
 ![](reference/figures/README-standard_plot_48_empty_wells_keep_na-1.png)
 
+### Well Borders
+
+In addition to the fill colour of a well you can also colour its border.
+This makes it possible to highlight individual wells, for example those
+that did not pass a quality control. The `border` argument takes the
+name of a column that contains categories. Wells that contain `NA` in
+this column keep their default black border and are not shown in the
+legend.
+
+The `Status` column of the 96-well dataset marks wells with a low
+signal. Its categories are shown in a second legend below the legend of
+the `value` argument.
+
+``` r
+
+# Create a 96-well plot with coloured well borders
+plate_plot(
+  data = data_continuous_96,
+  position = well,
+  value = Value,
+  border = Status,
+  plate_size = 96,
+  plate_type = "round"
+)
+```
+
+![](reference/figures/README-well_borders-1.png)
+
+The border colours are taken from the `border_colours` scheme, which
+contains four colours that are not part of the colour schemes used for
+the fill of the wells. You can provide your own colours to the
+`border_colour` argument. This is also necessary if your column contains
+more categories than the four colours of the default scheme.
+
+The `Replicate` column of the discrete 96-well dataset contains the
+number of the replicate of each compound. Since the two controls have
+eight replicates, eight colours have to be provided to the
+`border_colour` argument.
+
+*Note: Both legends together need more vertical space than the plate
+itself. For this example the height of the graphics device was therefore
+increased.*
+
+``` r
+
+# Load a dataset of discrete values for a 96-well plate
+data(data_discrete_96)
+
+# Create a 96-well plot with your own border colours
+plate_plot(
+  data = data_discrete_96,
+  position = well,
+  value = Compound,
+  border = Replicate,
+  border_colour = c(
+    "red",
+    "blue",
+    "green",
+    "orange",
+    "purple",
+    "brown",
+    "magenta",
+    "turquoise"
+  ),
+  plate_size = 96,
+  plate_type = "round"
+)
+```
+
+![](reference/figures/README-well_borders_colour-1.png)
+
+If you are only interested in the borders of the wells, you can provide
+a column that does not contain any values to the `value` argument. In
+this case no legend is shown for the `value` argument. Since every well
+contains `NA`, the `remove_na` argument has to be set to `FALSE` in
+order to not remove all of them. The `na_fill` argument determines the
+colour of the wells, which is white in the example below.
+
+``` r
+
+# Create a copy of the dataset with a column that does not contain any values
+data_discrete_96_no_value <- data_discrete_96
+data_discrete_96_no_value$new_value <- NA
+
+# Create a 96-well plot that only shows the borders of the wells
+plate_plot(
+  data = data_discrete_96_no_value,
+  position = well,
+  value = new_value,
+  border = Compound,
+  border_colour = protti_colours,
+  plate_size = 96,
+  plate_type = "round",
+  remove_na = FALSE,
+  na_fill = "white"
+)
+```
+
+![](reference/figures/README-well_borders_only-1.png)
+
 ## Plot Customisation
 
 You can further customise your plot in various ways. Lets take a
@@ -309,9 +414,10 @@ data(data_discrete_6)
 
 # Check the structure of the dataset
 str(data_discrete_6)
-#> tibble [6 × 2] (S3: tbl_df/tbl/data.frame)
+#> tibble [6 × 3] (S3: tbl_df/tbl/data.frame)
 #>  $ Condition: chr [1:6] "DMSO" "Rapamycin" "Taxol" "DMSO" ...
 #>  $ well     : chr [1:6] "A1" "A2" "A3" "B1" ...
+#>  $ Control  : chr [1:6] "Vehicle control" NA NA "Vehicle control" ...
 
 # Create a 6-well plot with new title
 plate_plot(
@@ -394,9 +500,10 @@ data(data_discrete_24)
 
 # Check the structure of the dataset
 str(data_discrete_24)
-#> tibble [24 × 2] (S3: tbl_df/tbl/data.frame)
+#> tibble [24 × 3] (S3: tbl_df/tbl/data.frame)
 #>  $ Condition: chr [1:24] "siControl" "siRaptor" "siRagB" "siRagD" ...
 #>  $ well     : chr [1:24] "A1" "A2" "A3" "A4" ...
+#>  $ Status   : Factor w/ 4 levels "Fail","Check",..: NA 1 2 NA NA NA NA 1 2 NA ...
 
 # Create a 24-well plot
 plate_plot(
@@ -479,10 +586,11 @@ data(data_discrete_96)
 
 # Check the structure of the dataset
 str(data_discrete_96)
-#> tibble [96 × 3] (S3: tbl_df/tbl/data.frame)
+#> tibble [96 × 4] (S3: tbl_df/tbl/data.frame)
 #>  $ Compound          : chr [1:96] "Positive Control" "Axitinib" "Gefitinib (ZD1839)" "Rapamycin (Sirolimus)" ...
 #>  $ well              : chr [1:96] "A1" "A2" "A3" "A4" ...
 #>  $ Compound_multiline: chr [1:96] "Positive\nControl" "Axitinib" "Gefitinib\n(ZD1839)" "Rapamycin\n(Sirolimus)" ...
+#>  $ Replicate         : int [1:96] 1 1 1 1 1 1 1 1 1 1 ...
 
 # Create a 96-well plot
 plate_plot(
@@ -556,6 +664,8 @@ dev.off()
 
 ## All functions
 
+- [`border_colours`](https://jpquast.github.io/ggplate/reference/border_colours.md)
+  : Colour scheme for well borders
 - [`data_continuous_12`](https://jpquast.github.io/ggplate/reference/data_continuous_12.md)
   : Continuous 12-well plate dataset
 - [`data_continuous_1536`](https://jpquast.github.io/ggplate/reference/data_continuous_1536.md)

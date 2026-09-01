@@ -24,7 +24,9 @@ plate_plot(
   legend_n_row,
   label_size,
   silent = TRUE,
-  scale
+  scale,
+  border,
+  border_colour
 )
 ```
 
@@ -43,9 +45,11 @@ plate_plot(
 
 - value:
 
-  a character or numeric column in the `data` data frame that contains
-  values that should be plotted as colours on the plate layout. Can be
-  the same column as `label`.
+  a character, factor or numeric column in the `data` data frame that
+  contains values that should be plotted as colours on the plate layout.
+  Can be the same column as `label`. If the column is a factor, the
+  order of its levels determines the order of the legend and every level
+  is assigned a colour, even if it is not present in the data.
 
 - label:
 
@@ -106,9 +110,12 @@ plate_plot(
 
 - legend_n_row:
 
-  optional, a numeric value that specifies the number of rows of
-  legends. If no value is provided, the automatic ggplot default is
-  used.
+  optional, a numeric value that specifies the maximum total number of
+  rows used by the legends. If a legend for the `border` argument is
+  shown, both legends share these rows. The number of legend columns is
+  increased until both legends fit into the rows. If no value is
+  provided, 20 rows are used, which is the number of rows `ggplot2` fits
+  into one legend column.
 
 - label_size:
 
@@ -130,6 +137,24 @@ plate_plot(
   provided, the plot uses the device size to find the optimal scaling
   factor for the output, however, this might be slightly off (e.g. due
   to number of labels) and can be manually adjusted with this argument.
+
+- border:
+
+  optional, a character, factor or numeric column in the `data` data
+  frame that contains categories that should be plotted as colours of
+  the well borders. This makes it possible to highlight individual
+  wells. The categories are shown in a second legend below the legend of
+  the `value` argument. Wells with a missing value (`NA`) keep the
+  default black border and do not appear in the legend. If the column is
+  a factor, the order of its levels determines the order of the legend.
+
+- border_colour:
+
+  optional, a character vector that contains colours used for the
+  borders of the wells. The colours are used as provided. If this
+  argument is not supplied the `border_colours` scheme is used, which
+  contains four colours that are visible on every fill colour of the
+  plot.
 
 ## Value
 
@@ -216,6 +241,18 @@ plate_plot(
 )
 #> width: 6.667 height: 6.667
 #> scaling factor: 1.196
+
+
+# Create a 24-well plot
+# Highlight the borders of wells that did not pass the quality control
+plate_plot(
+  data = data_discrete_24,
+  position = well,
+  value = Condition,
+  border = Status,
+  plate_size = 24,
+  plate_type = "round"
+)
 
 
 # Create a 1536-well plot with square wells

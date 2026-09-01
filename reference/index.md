@@ -2,6 +2,8 @@
 
 ## All functions
 
+- [`border_colours`](https://jpquast.github.io/ggplate/reference/border_colours.md)
+  : Colour scheme for well borders
 - [`data_continuous_12`](https://jpquast.github.io/ggplate/reference/data_continuous_12.md)
   : Continuous 12-well plate dataset
 - [`data_continuous_1536`](https://jpquast.github.io/ggplate/reference/data_continuous_1536.md)
