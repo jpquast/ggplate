@@ -1,0 +1,22 @@
+{
+  "upload_type": "software",
+  "title": "ggplate: Create Layout Plots of Biological Culture Plates and Microplates",
+  "description": "Enables users to create simple plots of biological culture plates as well as microplates. Both continuous and discrete values can be plotted onto the plate layout.",
+  "creators": [
+    {
+      "name": "Quast, Jan-Philipp",
+      "orcid": "0000-0003-2713-778X"
+    }
+  ],
+  "license": "mit-license",
+  "access_right": "open",
+  "keywords": [
+    "R",
+    "CRAN",
+    "microplate",
+    "culture plate",
+    "plate layout",
+    "data visualization",
+    "ggplot2"
+  ]
+}

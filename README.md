@@ -10,6 +10,7 @@ status](https://www.r-pkg.org/badges/version/ggplate)](https://CRAN.R-project.or
 [![R-CMD-check](https://github.com/jpquast/ggplate/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/jpquast/ggplate/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/jpquast/ggplate/graph/badge.svg)](https://app.codecov.io/gh/jpquast/ggplate)
+[![DOI:10.5281/zenodo.22228623](http://img.shields.io/badge/DOI-10.5281/zenodo.22228623-5680C1.svg)](https://doi.org/10.5281/zenodo.22228623)
 <!-- badges: end -->
 
 The goal of the **ggplate** package is to enable users to create simple
@@ -27,6 +28,19 @@ Currently the package supports the following plate sizes:
 - 1536-well plate
   - A-AF row labels
   - Aa-Hd row labels
+
+## Citation
+
+The **ggplate** package is archived on Zenodo, which provides a DOI that
+can be used to cite it:
+
+Jan-Philipp Quast. ggplate: Create Layout Plots of Biological Culture
+Plates and Microplates. *Zenodo*, 2026,
+<https://doi.org/10.5281/zenodo.22228623>
+
+Please make sure to cite **ggplate** if you used it to create figures
+for your publication. The citation of the version you are using can
+always be retrieved with `citation("ggplate")`.
 
 ## Installation
 

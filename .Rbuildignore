@@ -12,3 +12,5 @@
 ^CRAN-SUBMISSION$
 Rplots\.pdf$
 (^|/)\.smbdelete
+^\.zenodo\.json$
+
